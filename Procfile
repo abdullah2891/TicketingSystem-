@@ -1,1 +1,1 @@
-web: guinicorn Tickets.wsgi --log-file -
+web: gunicorn tickets.wsgi --log-file -
