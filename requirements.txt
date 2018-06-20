@@ -1,9 +1,10 @@
-
 certifi==2018.4.16
 Django==1.11.3
+django-auth==0.1.9
 djangorestframework==3.6.3
 gunicorn==19.8.1
 pipenv==2018.5.18
 pytz==2017.2
+six==1.11.0
 virtualenv==16.0.0
 virtualenv-clone==0.3.0
