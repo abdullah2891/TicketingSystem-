@@ -28,6 +28,10 @@ DEBUG = True
 ALLOWED_HOSTS = ['*']
 
 
+
+
+
+
 # Application definition
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': (
@@ -85,14 +89,23 @@ WSGI_APPLICATION = 'ticket_viewer.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/1.11/ref/settings/#databases
 
+#os env 
+user = os.environ.get('user')
+password = os.environ.get('password')
+name    = os.environ.get('name')
+port    = os.environ.get('port')
+host    = os.environ.get('host')
+
+
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'dch4aik2k2ef69',
-        'USER': 'rzqchefrthksfh',
-        'PASSWORD': '8e3d31fb397f7d0cf235007b630ceb304e15b17faac21347e4fb3157b5a18388',
-        'HOST': 'ec2-174-129-192-200.compute-1.amazonaws.com',
-        'PORT': '5432',
+        'NAME': name,
+        'USER': user,
+        'PASSWORD': password,
+        'HOST': host,
+        'PORT': port,
     }
 }
 
