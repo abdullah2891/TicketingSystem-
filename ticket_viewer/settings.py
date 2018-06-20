@@ -87,12 +87,8 @@ WSGI_APPLICATION = 'ticket_viewer.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'dch4aik2k2ef69',
-        'USER': 'rzqchefrthksfh',
-        'PASSWORD': '8e3d31fb397f7d0cf235007b630ceb304e15b17faac21347e4fb3157b5a18388',
-        'HOST': 'ec2-174-129-192-200.compute-1.amazonaws.com',
-        'PORT': '5432',
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
 
