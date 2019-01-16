@@ -5,5 +5,5 @@ from django.http import HttpResponse
 
 
 def Index(request):
-    template = loader.get_template('frontend/index.html')
+    template = loader.get_template('frontend/dist/index.html')
     return HttpResponse(template.render({}, request))

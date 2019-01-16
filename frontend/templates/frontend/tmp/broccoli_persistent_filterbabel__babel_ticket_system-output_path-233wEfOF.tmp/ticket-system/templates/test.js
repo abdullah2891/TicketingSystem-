@@ -1,0 +1,3 @@
+define("ticket-system/templates/test", ["exports"], function (exports) {
+  exports["default"] = Ember.HTMLBars.template({ "id": "4pOJwapV", "block": "{\"statements\":[[\"append\",[\"unknown\",[\"outlet\"]],false],[\"text\",\"\\n\"],[\"open-element\",\"h1\",[]],[\"flush-element\"],[\"text\",\"\\nsdfkkdshfjdkshfkhfks\\n\"],[\"close-element\"]],\"locals\":[],\"named\":[],\"yields\":[],\"blocks\":[],\"hasPartials\":false}", "meta": { "moduleName": "ticket-system/templates/test.hbs" } });
+});

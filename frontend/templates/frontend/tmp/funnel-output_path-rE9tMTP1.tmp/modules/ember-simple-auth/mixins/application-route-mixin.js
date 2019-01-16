@@ -1,0 +1,1 @@
+/Users/abdullahrahmn/Desktop/old-projects/TicketingSystem-/frontend/templates/frontend/tmp/funnel-input_base_path-ooRmQecg.tmp/mixins/application-route-mixin.js

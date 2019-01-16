@@ -26,6 +26,7 @@ SECRET_KEY = 'mt0h4fi8g9kar4m--2fr9bf%kz$+d(sf0&=70#hsk00lxg^lbb'
 DEBUG = True
 
 ALLOWED_HOSTS = ['*']
+LOGIN_REDIRECT_URL = '/'
 
 
 
@@ -143,4 +144,12 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 
-STATIC_URL = '/static/'
+STATIC_URL = '/assets/'
+
+
+# Add these new lines
+STATICFILES_DIRS = (
+    os.path.join(BASE_DIR, 'frontend/templates/frontend/dist/assets'),
+)
+
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')

@@ -6,7 +6,7 @@ from .views import Index
 
 
 urlpatterns  = {
-    url(r'', Index, name='Index')
+    url(r'^$', Index, name='Index'),
 }
 
 

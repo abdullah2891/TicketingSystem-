@@ -1,0 +1,1 @@
+/Users/abdullahrahmn/Desktop/old-projects/TicketingSystem-/frontend/templates/frontend/tmp/broccoli_merge_trees-input_base_path-kLusdu26.tmp/0/modules/ember-data/setup-container.js

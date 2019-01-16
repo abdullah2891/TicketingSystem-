@@ -1,0 +1,11 @@
+
+<ul class="list-group">
+    {{#each model as |project|}}
+    
+                {{log project}}
+                <li class="list-group-item">
+                    {{project-component name= project.Project project_id = project.id  }}
+                </li>
+    {{/each}}
+
+</ul>

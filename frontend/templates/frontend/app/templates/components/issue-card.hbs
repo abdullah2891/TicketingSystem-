@@ -1,0 +1,17 @@
+
+    <ul class="list-group issue">
+        <li class="list-group-item">{{post.title}}
+
+            <span class="glyphicon glyphicon-ok-sign update-button"  {{action "updateIssue" post.id}}></span>
+            <span class="glyphicon glyphicon-remove-sign update-button"  {{action "deleteIssue" post.id}}></span>        
+        </li>
+        {{#if (compare_string post.status 'closed' 'not_equal')}}
+            <li class="list-group-item">{{post.description}}</li>
+            <li class="list-group-item">{{post.status}}</li>
+        {{/if}}
+    </ul>
+    
+    
+    
+
+    
