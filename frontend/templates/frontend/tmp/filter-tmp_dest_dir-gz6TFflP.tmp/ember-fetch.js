@@ -1,1 +1,0 @@
-/Users/abdullahrahmn/Desktop/old-projects/TicketingSystem-/frontend/templates/frontend/tmp/filter-tmp_cache_dir-Uk3fTYLR.tmp/0

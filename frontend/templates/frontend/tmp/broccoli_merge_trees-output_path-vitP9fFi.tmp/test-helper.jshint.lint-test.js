@@ -1,1 +1,0 @@
-/Users/abdullahrahmn/Desktop/old-projects/TicketingSystem-/frontend/templates/frontend/tmp/broccoli_merge_trees-input_base_path-hyCHzCKF.tmp/test-helper.jshint.lint-test.js
