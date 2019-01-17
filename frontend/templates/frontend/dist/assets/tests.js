@@ -54,6 +54,15 @@ define('ticket-system/tests/authorizers/token.jshint.lint-test', ['exports'], fu
     assert.ok(true, 'authorizers/token.js should pass jshint.');
   });
 });
+define('ticket-system/tests/components/dashboard-view.jshint.lint-test', ['exports'], function (exports) {
+  'use strict';
+
+  QUnit.module('JSHint | components/dashboard-view.js');
+  QUnit.test('should pass jshint', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'components/dashboard-view.js should pass jshint.');
+  });
+});
 define('ticket-system/tests/components/issue-card.jshint.lint-test', ['exports'], function (exports) {
   'use strict';
 
@@ -61,6 +70,15 @@ define('ticket-system/tests/components/issue-card.jshint.lint-test', ['exports']
   QUnit.test('should pass jshint', function (assert) {
     assert.expect(1);
     assert.ok(false, 'components/issue-card.js should pass jshint.\ncomponents/issue-card.js: line 26, col 19, Missing semicolon.\n\n1 error');
+  });
+});
+define('ticket-system/tests/components/issue-list.jshint.lint-test', ['exports'], function (exports) {
+  'use strict';
+
+  QUnit.module('JSHint | components/issue-list.js');
+  QUnit.test('should pass jshint', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'components/issue-list.js should pass jshint.');
   });
 });
 define('ticket-system/tests/components/my-modal.jshint.lint-test', ['exports'], function (exports) {
@@ -88,6 +106,15 @@ define('ticket-system/tests/components/project-component.jshint.lint-test', ['ex
   QUnit.test('should pass jshint', function (assert) {
     assert.expect(1);
     assert.ok(true, 'components/project-component.js should pass jshint.');
+  });
+});
+define('ticket-system/tests/components/project-list.jshint.lint-test', ['exports'], function (exports) {
+  'use strict';
+
+  QUnit.module('JSHint | components/project-list.js');
+  QUnit.test('should pass jshint', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'components/project-list.js should pass jshint.');
   });
 });
 define('ticket-system/tests/components/show-alert.jshint.lint-test', ['exports'], function (exports) {
@@ -251,6 +278,44 @@ define('ticket-system/tests/helpers/start-app.jshint.lint-test', ['exports'], fu
     assert.ok(true, 'helpers/start-app.js should pass jshint.');
   });
 });
+define('ticket-system/tests/integration/components/dashboard-view-test', ['exports', 'ember-qunit'], function (exports, _emberQunit) {
+
+  (0, _emberQunit.moduleForComponent)('dashboard-view', 'Integration | Component | dashboard view', {
+    integration: true
+  });
+
+  (0, _emberQunit.test)('it renders', function (assert) {
+
+    // Set any properties with this.set('myProperty', 'value');
+    // Handle any actions with this.on('myAction', function(val) { ... });
+
+    this.render(Ember.HTMLBars.template({
+      'id': 'oESsc6Yk',
+      'block': '{"statements":[["append",["unknown",["dashboard-view"]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
+      'meta': {}
+    }));
+
+    assert.equal(this.$().text().trim(), '');
+
+    // Template block usage:
+    this.render(Ember.HTMLBars.template({
+      'id': 'cu8i5k6x',
+      'block': '{"statements":[["text","\\n"],["block",["dashboard-view"],null,null,0],["text","  "]],"locals":[],"named":[],"yields":[],"blocks":[{"statements":[["text","      template block text\\n"]],"locals":[]}],"hasPartials":false}',
+      'meta': {}
+    }));
+
+    assert.equal(this.$().text().trim(), 'template block text');
+  });
+});
+define('ticket-system/tests/integration/components/dashboard-view-test.jshint.lint-test', ['exports'], function (exports) {
+  'use strict';
+
+  QUnit.module('JSHint | integration/components/dashboard-view-test.js');
+  QUnit.test('should pass jshint', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'integration/components/dashboard-view-test.js should pass jshint.');
+  });
+});
 define('ticket-system/tests/integration/components/issue-card-test', ['exports', 'ember-qunit'], function (exports, _emberQunit) {
 
   (0, _emberQunit.moduleForComponent)('issue-card', 'Integration | Component | issue card', {
@@ -287,6 +352,44 @@ define('ticket-system/tests/integration/components/issue-card-test.jshint.lint-t
   QUnit.test('should pass jshint', function (assert) {
     assert.expect(1);
     assert.ok(true, 'integration/components/issue-card-test.js should pass jshint.');
+  });
+});
+define('ticket-system/tests/integration/components/issue-list-test', ['exports', 'ember-qunit'], function (exports, _emberQunit) {
+
+  (0, _emberQunit.moduleForComponent)('issue-list', 'Integration | Component | issue list', {
+    integration: true
+  });
+
+  (0, _emberQunit.test)('it renders', function (assert) {
+
+    // Set any properties with this.set('myProperty', 'value');
+    // Handle any actions with this.on('myAction', function(val) { ... });
+
+    this.render(Ember.HTMLBars.template({
+      'id': 'fRoyP2jl',
+      'block': '{"statements":[["append",["unknown",["issue-list"]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
+      'meta': {}
+    }));
+
+    assert.equal(this.$().text().trim(), '');
+
+    // Template block usage:
+    this.render(Ember.HTMLBars.template({
+      'id': '0/qIr98B',
+      'block': '{"statements":[["text","\\n"],["block",["issue-list"],null,null,0],["text","  "]],"locals":[],"named":[],"yields":[],"blocks":[{"statements":[["text","      template block text\\n"]],"locals":[]}],"hasPartials":false}',
+      'meta': {}
+    }));
+
+    assert.equal(this.$().text().trim(), 'template block text');
+  });
+});
+define('ticket-system/tests/integration/components/issue-list-test.jshint.lint-test', ['exports'], function (exports) {
+  'use strict';
+
+  QUnit.module('JSHint | integration/components/issue-list-test.js');
+  QUnit.test('should pass jshint', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'integration/components/issue-list-test.js should pass jshint.');
   });
 });
 define('ticket-system/tests/integration/components/my-modal-test', ['exports', 'ember-qunit'], function (exports, _emberQunit) {
@@ -401,6 +504,44 @@ define('ticket-system/tests/integration/components/project-component-test.jshint
   QUnit.test('should pass jshint', function (assert) {
     assert.expect(1);
     assert.ok(true, 'integration/components/project-component-test.js should pass jshint.');
+  });
+});
+define('ticket-system/tests/integration/components/project-list-test', ['exports', 'ember-qunit'], function (exports, _emberQunit) {
+
+  (0, _emberQunit.moduleForComponent)('project-list', 'Integration | Component | project list', {
+    integration: true
+  });
+
+  (0, _emberQunit.test)('it renders', function (assert) {
+
+    // Set any properties with this.set('myProperty', 'value');
+    // Handle any actions with this.on('myAction', function(val) { ... });
+
+    this.render(Ember.HTMLBars.template({
+      'id': 'ezDMETyT',
+      'block': '{"statements":[["append",["unknown",["project-list"]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
+      'meta': {}
+    }));
+
+    assert.equal(this.$().text().trim(), '');
+
+    // Template block usage:
+    this.render(Ember.HTMLBars.template({
+      'id': 'z69N41Eo',
+      'block': '{"statements":[["text","\\n"],["block",["project-list"],null,null,0],["text","  "]],"locals":[],"named":[],"yields":[],"blocks":[{"statements":[["text","      template block text\\n"]],"locals":[]}],"hasPartials":false}',
+      'meta': {}
+    }));
+
+    assert.equal(this.$().text().trim(), 'template block text');
+  });
+});
+define('ticket-system/tests/integration/components/project-list-test.jshint.lint-test', ['exports'], function (exports) {
+  'use strict';
+
+  QUnit.module('JSHint | integration/components/project-list-test.js');
+  QUnit.test('should pass jshint', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'integration/components/project-list-test.js should pass jshint.');
   });
 });
 define('ticket-system/tests/integration/components/show-alert-test', ['exports', 'ember-qunit'], function (exports, _emberQunit) {
@@ -539,7 +680,7 @@ define('ticket-system/tests/routes/issues.jshint.lint-test', ['exports'], functi
   QUnit.module('JSHint | routes/issues.js');
   QUnit.test('should pass jshint', function (assert) {
     assert.expect(1);
-    assert.ok(false, 'routes/issues.js should pass jshint.\nroutes/issues.js: line 2, col 8, \'AuthenticatedRouteMixin\' is defined but never used.\n\n1 error');
+    assert.ok(true, 'routes/issues.js should pass jshint.');
   });
 });
 define('ticket-system/tests/routes/login.jshint.lint-test', ['exports'], function (exports) {
@@ -584,7 +725,25 @@ define('ticket-system/tests/serializers/application.jshint.lint-test', ['exports
   QUnit.module('JSHint | serializers/application.js');
   QUnit.test('should pass jshint', function (assert) {
     assert.expect(1);
-    assert.ok(false, 'serializers/application.js should pass jshint.\nserializers/application.js: line 19, col 26, \'options\' is defined but never used.\nserializers/application.js: line 19, col 15, \'snapshot\' is defined but never used.\n\n2 errors');
+    assert.ok(false, 'serializers/application.js should pass jshint.\nserializers/application.js: line 5, col 26, \'options\' is defined but never used.\nserializers/application.js: line 5, col 15, \'snapshot\' is defined but never used.\n\n2 errors');
+  });
+});
+define('ticket-system/tests/serializers/issue.jshint.lint-test', ['exports'], function (exports) {
+  'use strict';
+
+  QUnit.module('JSHint | serializers/issue.js');
+  QUnit.test('should pass jshint', function (assert) {
+    assert.expect(1);
+    assert.ok(false, 'serializers/issue.js should pass jshint.\nserializers/issue.js: line 8, col 38, Missing semicolon.\n\n1 error');
+  });
+});
+define('ticket-system/tests/serializers/project.jshint.lint-test', ['exports'], function (exports) {
+  'use strict';
+
+  QUnit.module('JSHint | serializers/project.js');
+  QUnit.test('should pass jshint', function (assert) {
+    assert.expect(1);
+    assert.ok(false, 'serializers/project.js should pass jshint.\nserializers/project.js: line 8, col 38, Missing semicolon.\n\n1 error');
   });
 });
 define('ticket-system/tests/serializers/test.jshint.lint-test', ['exports'], function (exports) {
@@ -931,6 +1090,56 @@ define('ticket-system/tests/unit/serializers/application-test.jshint.lint-test',
   QUnit.test('should pass jshint', function (assert) {
     assert.expect(1);
     assert.ok(true, 'unit/serializers/application-test.js should pass jshint.');
+  });
+});
+define('ticket-system/tests/unit/serializers/issue-test', ['exports', 'ember-qunit'], function (exports, _emberQunit) {
+
+  (0, _emberQunit.moduleForModel)('issue', 'Unit | Serializer | issue', {
+    // Specify the other units that are required for this test.
+    needs: ['serializer:issue']
+  });
+
+  // Replace this with your real tests.
+  (0, _emberQunit.test)('it serializes records', function (assert) {
+    var record = this.subject();
+
+    var serializedRecord = record.serialize();
+
+    assert.ok(serializedRecord);
+  });
+});
+define('ticket-system/tests/unit/serializers/issue-test.jshint.lint-test', ['exports'], function (exports) {
+  'use strict';
+
+  QUnit.module('JSHint | unit/serializers/issue-test.js');
+  QUnit.test('should pass jshint', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'unit/serializers/issue-test.js should pass jshint.');
+  });
+});
+define('ticket-system/tests/unit/serializers/project-test', ['exports', 'ember-qunit'], function (exports, _emberQunit) {
+
+  (0, _emberQunit.moduleForModel)('project', 'Unit | Serializer | project', {
+    // Specify the other units that are required for this test.
+    needs: ['serializer:project']
+  });
+
+  // Replace this with your real tests.
+  (0, _emberQunit.test)('it serializes records', function (assert) {
+    var record = this.subject();
+
+    var serializedRecord = record.serialize();
+
+    assert.ok(serializedRecord);
+  });
+});
+define('ticket-system/tests/unit/serializers/project-test.jshint.lint-test', ['exports'], function (exports) {
+  'use strict';
+
+  QUnit.module('JSHint | unit/serializers/project-test.js');
+  QUnit.test('should pass jshint', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'unit/serializers/project-test.js should pass jshint.');
   });
 });
 define('ticket-system/tests/unit/serializers/test-test', ['exports', 'ember-qunit'], function (exports, _emberQunit) {

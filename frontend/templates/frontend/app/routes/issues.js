@@ -1,12 +1,13 @@
 import Ember from 'ember';
-import AuthenticatedRouteMixin from 'ember-simple-auth/mixins/authenticated-route-mixin';
-
-
+const {RSVP} = Ember;
 
 export default Ember.Route.extend( {
     model(){
-        var issue = this.get('store').findAll('issue');
-        console.log(issue);
-        return issue;
-    }
+	return RSVP.hash({
+		projects: this.get('store').findAll('project',{reload: true}),
+		issues: this.get('store').findAll('issue',{reload: true})
+	});
+    },
+
+
 });

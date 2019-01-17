@@ -47,6 +47,17 @@ define('ticket-system/authorizers/token', ['exports', 'ember-simple-auth-token/a
   exports['default'] = _emberSimpleAuthTokenAuthorizersToken['default'].extend({});
 });
 // app/authorizers/devise.js
+define('ticket-system/components/dashboard-view', ['exports', 'ember'], function (exports, _ember) {
+	exports['default'] = _ember['default'].Component.extend({
+		actions: {
+			setProject: function setProject(project) {
+				if (project.get('issues')) {
+					this.set('selected_issues', project.get('issues'));
+				}
+			}
+		}
+	});
+});
 define('ticket-system/components/issue-card', ['exports', 'ember'], function (exports, _ember) {
     exports['default'] = _ember['default'].Component.extend({
         store: _ember['default'].inject.service(),
@@ -86,6 +97,9 @@ define('ticket-system/components/issue-card', ['exports', 'ember'], function (ex
         }
     });
 });
+define('ticket-system/components/issue-list', ['exports', 'ember'], function (exports, _ember) {
+  exports['default'] = _ember['default'].Component.extend({});
+});
 define('ticket-system/components/my-modal', ['exports', 'ember'], function (exports, _ember) {
   exports['default'] = _ember['default'].Component.extend({
     show: (function () {
@@ -115,6 +129,16 @@ define('ticket-system/components/project-component', ['exports', 'ember'], funct
             }
         }
     });
+});
+define('ticket-system/components/project-list', ['exports', 'ember'], function (exports, _ember) {
+	exports['default'] = _ember['default'].Component.extend({
+		actions: {
+			setProject: function setProject(project) {
+				this.sendAction('setProject', project);
+			}
+
+		}
+	});
 });
 define('ticket-system/components/show-alert', ['exports', 'ember'], function (exports, _ember) {
     exports['default'] = _ember['default'].Component.extend({
@@ -430,13 +454,18 @@ define('ticket-system/models/issue', ['exports', 'ember-data'], function (export
         owner: _emberData['default'].attr(),
         status: _emberData['default'].attr(),
         title: _emberData['default'].attr(),
-        projects: _emberData['default'].attr()
+        projects: _emberData['default'].belongsTo('project')
     });
 });
 define('ticket-system/models/project', ['exports', 'ember-data'], function (exports, _emberData) {
-    exports['default'] = _emberData['default'].Model.extend({
-        Project: _emberData['default'].attr()
-    });
+	exports['default'] = _emberData['default'].Model.extend({
+		date_created: _emberData['default'].attr('string'),
+		date_modified: _emberData['default'].attr('string'),
+		owner: _emberData['default'].attr('string'),
+		projects: _emberData['default'].attr('string'),
+
+		issues: _emberData['default'].hasMany('issue')
+	});
 });
 define('ticket-system/models/test', ['exports', 'ember-data'], function (exports, _emberData) {
 	exports['default'] = _emberData['default'].Model.extend({
@@ -474,14 +503,17 @@ define('ticket-system/routes/index', ['exports', 'ember'], function (exports, _e
         }
     });
 });
-define('ticket-system/routes/issues', ['exports', 'ember', 'ember-simple-auth/mixins/authenticated-route-mixin'], function (exports, _ember, _emberSimpleAuthMixinsAuthenticatedRouteMixin) {
-    exports['default'] = _ember['default'].Route.extend({
-        model: function model() {
-            var issue = this.get('store').findAll('issue');
-            console.log(issue);
-            return issue;
-        }
-    });
+define('ticket-system/routes/issues', ['exports', 'ember'], function (exports, _ember) {
+	var RSVP = _ember['default'].RSVP;
+	exports['default'] = _ember['default'].Route.extend({
+		model: function model() {
+			return RSVP.hash({
+				projects: this.get('store').findAll('project', { reload: true }),
+				issues: this.get('store').findAll('issue', { reload: true })
+			});
+		}
+
+	});
 });
 define('ticket-system/routes/login', ['exports', 'ember'], function (exports, _ember) {
   exports['default'] = _ember['default'].Route.extend({});
@@ -501,20 +533,7 @@ define('ticket-system/routes/test', ['exports', 'ember'], function (exports, _em
   exports['default'] = _ember['default'].Route.extend({});
 });
 define("ticket-system/serializers/application", ["exports", "ember-data"], function (exports, _emberData) {
-    exports["default"] = _emberData["default"].JSONAPISerializer.extend({
-
-        normalizeResponse: function normalizeResponse(store, type, payload) {
-            console.log(payload);
-            var modifiedPayload = payload instanceof Array ? payload.map(function (object) {
-                return {
-                    "id": object.id,
-                    "type": type.modelName,
-                    "attributes": object
-                };
-            }) : { "id": payload.id, "type": type.modelName, "attributes": payload };
-
-            return { "data": modifiedPayload };
-        },
+    exports["default"] = _emberData["default"].RESTSerializer.extend({
 
         serialize: function serialize(snapshot, options) {
             var json = this._super.apply(this, arguments);
@@ -525,6 +544,28 @@ define("ticket-system/serializers/application", ["exports", "ember-data"], funct
         }
 
     });
+});
+define('ticket-system/serializers/issue', ['exports', 'ticket-system/serializers/application'], function (exports, _ticketSystemSerializersApplication) {
+	exports['default'] = _ticketSystemSerializersApplication['default'].extend({
+		normalizeResponse: function normalizeResponse(store, primaryModelClass, payload, id, requestType) {
+			var modified_payload = {
+				'issue': payload
+			};
+			console.log(modified_payload);
+			return this._super(store, primaryModelClass, modified_payload, id, requestType);
+		}
+	});
+});
+define('ticket-system/serializers/project', ['exports', 'ticket-system/serializers/application'], function (exports, _ticketSystemSerializersApplication) {
+	exports['default'] = _ticketSystemSerializersApplication['default'].extend({
+		normalizeResponse: function normalizeResponse(store, primaryModelClass, payload, id, requestType) {
+			var modified_payload = {
+				'project': payload
+			};
+			console.log(modified_payload);
+			return this._super(store, primaryModelClass, modified_payload, id, requestType);
+		}
+	});
 });
 define('ticket-system/serializers/test', ['exports', 'ember-data'], function (exports, _emberData) {
 	exports['default'] = _emberData['default'].RESTSerializer.extend({
@@ -568,8 +609,14 @@ define('ticket-system/session-stores/application', ['exports', 'ember-simple-aut
 define("ticket-system/templates/application", ["exports"], function (exports) {
   exports["default"] = Ember.HTMLBars.template({ "id": "psK0Ernf", "block": "{\"statements\":[[\"append\",[\"unknown\",[\"outlet\"]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"blocks\":[],\"hasPartials\":false}", "meta": { "moduleName": "ticket-system/templates/application.hbs" } });
 });
+define("ticket-system/templates/components/dashboard-view", ["exports"], function (exports) {
+  exports["default"] = Ember.HTMLBars.template({ "id": "WD8hHglD", "block": "{\"statements\":[[\"open-element\",\"div\",[]],[\"static-attr\",\"class\",\"row\"],[\"flush-element\"],[\"text\",\"\\n\\t\"],[\"open-element\",\"div\",[]],[\"static-attr\",\"class\",\"col-md-3\"],[\"flush-element\"],[\"text\",\"\\n\\t\\t\"],[\"append\",[\"helper\",[\"project-list\"],null,[[\"projects\",\"setProject\"],[[\"get\",[\"model\",\"projects\"]],[\"helper\",[\"action\"],[[\"get\",[null]],\"setProject\"],null]]]],false],[\"text\",\"\\t\\n\\t\"],[\"close-element\"],[\"text\",\"\\n\\n\\t\"],[\"open-element\",\"div\",[]],[\"static-attr\",\"class\",\"col-md-9\"],[\"flush-element\"],[\"text\",\"\\n\\t\\t\"],[\"append\",[\"helper\",[\"issue-list\"],null,[[\"issues\"],[[\"get\",[\"selected_issues\"]]]]],false],[\"text\",\"\\n\\t\"],[\"close-element\"],[\"text\",\"\\n\\n\"],[\"close-element\"],[\"text\",\"\\n\"]],\"locals\":[],\"named\":[],\"yields\":[],\"blocks\":[],\"hasPartials\":false}", "meta": { "moduleName": "ticket-system/templates/components/dashboard-view.hbs" } });
+});
 define("ticket-system/templates/components/issue-card", ["exports"], function (exports) {
   exports["default"] = Ember.HTMLBars.template({ "id": "634hTBfL", "block": "{\"statements\":[[\"text\",\"\\n    \"],[\"open-element\",\"ul\",[]],[\"static-attr\",\"class\",\"list-group issue\"],[\"flush-element\"],[\"text\",\"\\n        \"],[\"open-element\",\"li\",[]],[\"static-attr\",\"class\",\"list-group-item\"],[\"flush-element\"],[\"append\",[\"unknown\",[\"post\",\"title\"]],false],[\"text\",\"\\n\\n            \"],[\"open-element\",\"span\",[]],[\"static-attr\",\"class\",\"glyphicon glyphicon-ok-sign update-button\"],[\"modifier\",[\"action\"],[[\"get\",[null]],\"updateIssue\",[\"get\",[\"post\",\"id\"]]]],[\"flush-element\"],[\"close-element\"],[\"text\",\"\\n            \"],[\"open-element\",\"span\",[]],[\"static-attr\",\"class\",\"glyphicon glyphicon-remove-sign update-button\"],[\"modifier\",[\"action\"],[[\"get\",[null]],\"deleteIssue\",[\"get\",[\"post\",\"id\"]]]],[\"flush-element\"],[\"close-element\"],[\"text\",\"        \\n        \"],[\"close-element\"],[\"text\",\"\\n\"],[\"block\",[\"if\"],[[\"helper\",[\"compare_string\"],[[\"get\",[\"post\",\"status\"]],\"closed\",\"not_equal\"],null]],null,0],[\"text\",\"    \"],[\"close-element\"],[\"text\",\"\\n    \\n    \\n    \\n\\n    \\n\"]],\"locals\":[],\"named\":[],\"yields\":[],\"blocks\":[{\"statements\":[[\"text\",\"            \"],[\"open-element\",\"li\",[]],[\"static-attr\",\"class\",\"list-group-item\"],[\"flush-element\"],[\"append\",[\"unknown\",[\"post\",\"description\"]],false],[\"close-element\"],[\"text\",\"\\n            \"],[\"open-element\",\"li\",[]],[\"static-attr\",\"class\",\"list-group-item\"],[\"flush-element\"],[\"append\",[\"unknown\",[\"post\",\"status\"]],false],[\"close-element\"],[\"text\",\"\\n\"]],\"locals\":[]}],\"hasPartials\":false}", "meta": { "moduleName": "ticket-system/templates/components/issue-card.hbs" } });
+});
+define("ticket-system/templates/components/issue-list", ["exports"], function (exports) {
+  exports["default"] = Ember.HTMLBars.template({ "id": "gwhcqA8P", "block": "{\"statements\":[[\"open-element\",\"div\",[]],[\"static-attr\",\"class\",\"dashboard row\"],[\"flush-element\"],[\"text\",\"\\n        \"],[\"open-element\",\"div\",[]],[\"static-attr\",\"class\",\"col-sm-4 column\"],[\"flush-element\"],[\"text\",\"\\n            \\n            \"],[\"open-element\",\"ul\",[]],[\"static-attr\",\"class\",\"list-group\"],[\"flush-element\"],[\"text\",\"\\n\"],[\"block\",[\"each\"],[[\"get\",[\"issues\"]]],null,5],[\"text\",\"    \\n            \"],[\"close-element\"],[\"text\",\"\\n        \"],[\"close-element\"],[\"text\",\"\\n        \"],[\"open-element\",\"div\",[]],[\"static-attr\",\"class\",\"col-sm-4 column\"],[\"flush-element\"],[\"text\",\"\\n\"],[\"block\",[\"each\"],[[\"get\",[\"issues\"]]],null,3],[\"text\",\"            \\n        \"],[\"close-element\"],[\"text\",\"\\n        \"],[\"open-element\",\"div\",[]],[\"static-attr\",\"class\",\"col-sm-4 column\"],[\"flush-element\"],[\"text\",\"\\n\"],[\"block\",[\"each\"],[[\"get\",[\"issues\"]]],null,1],[\"text\",\"            \\n        \"],[\"close-element\"],[\"text\",\"\\n    \"],[\"close-element\"],[\"text\",\"\\n\"]],\"locals\":[],\"named\":[],\"yields\":[],\"blocks\":[{\"statements\":[[\"text\",\"                            \"],[\"open-element\",\"li\",[]],[\"static-attr\",\"class\",\"list-group-item\"],[\"flush-element\"],[\"text\",\"\\n                                \"],[\"append\",[\"helper\",[\"issue-card\"],null,[[\"post\"],[[\"get\",[\"post\"]]]]],false],[\"text\",\"\\n                            \"],[\"close-element\"],[\"text\",\"\\n\"]],\"locals\":[]},{\"statements\":[[\"block\",[\"if\"],[[\"helper\",[\"compare-string\"],[[\"get\",[\"post\",\"status\"]],\"closed\"],null]],null,0],[\"text\",\"                \\n\"]],\"locals\":[\"post\"]},{\"statements\":[[\"text\",\"                            \"],[\"open-element\",\"li\",[]],[\"static-attr\",\"class\",\"list-group-item\"],[\"flush-element\"],[\"text\",\"\\n                                \"],[\"append\",[\"helper\",[\"issue-card\"],null,[[\"post\"],[[\"get\",[\"post\"]]]]],false],[\"text\",\"\\n                            \"],[\"close-element\"],[\"text\",\"\\n\"]],\"locals\":[]},{\"statements\":[[\"block\",[\"if\"],[[\"helper\",[\"compare-string\"],[[\"get\",[\"post\",\"status\"]],\"working\"],null]],null,2],[\"text\",\"                \\n\"]],\"locals\":[\"post\"]},{\"statements\":[[\"text\",\"                            \"],[\"open-element\",\"li\",[]],[\"static-attr\",\"class\",\"list-group-item\"],[\"flush-element\"],[\"text\",\"\\n                                \"],[\"append\",[\"helper\",[\"issue-card\"],null,[[\"post\"],[[\"get\",[\"post\"]]]]],false],[\"text\",\"\\n                            \"],[\"close-element\"],[\"text\",\"\\n\"]],\"locals\":[]},{\"statements\":[[\"text\",\"                        \\n\"],[\"block\",[\"if\"],[[\"helper\",[\"compare-string\"],[[\"get\",[\"post\",\"status\"]],\"open\"],null]],null,4],[\"text\",\"                \\n\"]],\"locals\":[\"post\"]}],\"hasPartials\":false}", "meta": { "moduleName": "ticket-system/templates/components/issue-list.hbs" } });
 });
 define("ticket-system/templates/components/my-modal", ["exports"], function (exports) {
   exports["default"] = Ember.HTMLBars.template({ "id": "al11RglF", "block": "{\"statements\":[[\"open-element\",\"div\",[]],[\"static-attr\",\"class\",\"modal fade\"],[\"flush-element\"],[\"text\",\"\\n  \"],[\"open-element\",\"div\",[]],[\"static-attr\",\"class\",\"modal-dialog\"],[\"flush-element\"],[\"text\",\"\\n    \"],[\"open-element\",\"div\",[]],[\"static-attr\",\"class\",\"modal-content\"],[\"flush-element\"],[\"text\",\"\\n      \"],[\"open-element\",\"div\",[]],[\"static-attr\",\"class\",\"modal-header\"],[\"flush-element\"],[\"text\",\"\\n        \"],[\"open-element\",\"button\",[]],[\"static-attr\",\"type\",\"button\"],[\"static-attr\",\"class\",\"close\"],[\"static-attr\",\"data-dismiss\",\"modal\"],[\"static-attr\",\"aria-hidden\",\"true\"],[\"flush-element\"],[\"text\",\"×\"],[\"close-element\"],[\"text\",\"\\n        \"],[\"open-element\",\"h4\",[]],[\"static-attr\",\"class\",\"modal-title\"],[\"flush-element\"],[\"append\",[\"unknown\",[\"title\"]],false],[\"close-element\"],[\"text\",\"\\n      \"],[\"close-element\"],[\"text\",\"\\n      \"],[\"open-element\",\"div\",[]],[\"static-attr\",\"class\",\"modal-body\"],[\"flush-element\"],[\"text\",\"\\n        \"],[\"yield\",\"default\"],[\"text\",\"\\n      \"],[\"close-element\"],[\"text\",\"\\n      \"],[\"open-element\",\"div\",[]],[\"static-attr\",\"class\",\"modal-footer\"],[\"flush-element\"],[\"text\",\"\\n        \"],[\"open-element\",\"button\",[]],[\"static-attr\",\"type\",\"button\"],[\"static-attr\",\"class\",\"btn btn-default\"],[\"static-attr\",\"data-dismiss\",\"modal\"],[\"flush-element\"],[\"text\",\"Close\"],[\"close-element\"],[\"text\",\"\\n        \"],[\"open-element\",\"button\",[]],[\"static-attr\",\"type\",\"button\"],[\"static-attr\",\"class\",\"btn btn-primary\"],[\"modifier\",[\"action\"],[[\"get\",[null]],\"ok\"]],[\"flush-element\"],[\"text\",\"OK\"],[\"close-element\"],[\"text\",\"\\n      \"],[\"close-element\"],[\"text\",\"\\n    \"],[\"close-element\"],[\"text\",\"\\n  \"],[\"close-element\"],[\"text\",\"\\n\"],[\"close-element\"]],\"locals\":[],\"named\":[],\"yields\":[\"default\"],\"blocks\":[],\"hasPartials\":false}", "meta": { "moduleName": "ticket-system/templates/components/my-modal.hbs" } });
@@ -579,6 +626,9 @@ define("ticket-system/templates/components/nav-bar", ["exports"], function (expo
 });
 define("ticket-system/templates/components/project-component", ["exports"], function (exports) {
   exports["default"] = Ember.HTMLBars.template({ "id": "HGaBWEFK", "block": "{\"statements\":[[\"text\",\"\\n\\n\"],[\"append\",[\"unknown\",[\"name\"]],false],[\"text\",\"\\n\"],[\"open-element\",\"span\",[]],[\"static-attr\",\"class\",\"glyphicon glyphicon-menu-right update-button\"],[\"modifier\",[\"action\"],[[\"get\",[null]],\"jumpToIssue\",[\"get\",[\"project_id\"]]]],[\"flush-element\"],[\"close-element\"]],\"locals\":[],\"named\":[],\"yields\":[],\"blocks\":[],\"hasPartials\":false}", "meta": { "moduleName": "ticket-system/templates/components/project-component.hbs" } });
+});
+define("ticket-system/templates/components/project-list", ["exports"], function (exports) {
+  exports["default"] = Ember.HTMLBars.template({ "id": "Vba+6X0I", "block": "{\"statements\":[[\"open-element\",\"ul\",[]],[\"static-attr\",\"class\",\"list-group\"],[\"flush-element\"],[\"text\",\"\\n\"],[\"block\",[\"each\"],[[\"get\",[\"projects\"]]],null,0],[\"close-element\"],[\"text\",\"\\n\"]],\"locals\":[],\"named\":[],\"yields\":[],\"blocks\":[{\"statements\":[[\"append\",[\"helper\",[\"log\"],[[\"get\",[\"project\",\"issues\",\"length\"]]],null],false],[\"text\",\"\\n\\t  \"],[\"open-element\",\"li\",[]],[\"static-attr\",\"class\",\"list-group-item\"],[\"modifier\",[\"action\"],[[\"get\",[null]],\"setProject\",[\"get\",[\"project\"]]]],[\"flush-element\"],[\"append\",[\"unknown\",[\"project\",\"projects\"]],false],[\"close-element\"],[\"text\",\"\\n\"]],\"locals\":[\"project\"]}],\"hasPartials\":false}", "meta": { "moduleName": "ticket-system/templates/components/project-list.hbs" } });
 });
 define("ticket-system/templates/components/show-alert", ["exports"], function (exports) {
   exports["default"] = Ember.HTMLBars.template({ "id": "c6Id1CSV", "block": "{\"statements\":[[\"open-element\",\"div\",[]],[\"static-attr\",\"class\",\"modal fade\"],[\"flush-element\"],[\"text\",\"\\n  \"],[\"open-element\",\"div\",[]],[\"static-attr\",\"class\",\"modal-dialog\"],[\"flush-element\"],[\"text\",\"\\n    \"],[\"open-element\",\"div\",[]],[\"static-attr\",\"class\",\"modal-content\"],[\"flush-element\"],[\"text\",\"\\n      \"],[\"open-element\",\"div\",[]],[\"static-attr\",\"class\",\"modal-header\"],[\"flush-element\"],[\"text\",\"\\n        \"],[\"open-element\",\"button\",[]],[\"static-attr\",\"type\",\"button\"],[\"static-attr\",\"class\",\"close\"],[\"static-attr\",\"data-dismiss\",\"modal\"],[\"static-attr\",\"aria-hidden\",\"true\"],[\"flush-element\"],[\"text\",\"×\"],[\"close-element\"],[\"text\",\"\\n        \"],[\"open-element\",\"h4\",[]],[\"static-attr\",\"class\",\"modal-title\"],[\"flush-element\"],[\"append\",[\"unknown\",[\"title\"]],false],[\"close-element\"],[\"text\",\"\\n      \"],[\"close-element\"],[\"text\",\"\\n      \"],[\"open-element\",\"div\",[]],[\"static-attr\",\"class\",\"modal-body\"],[\"flush-element\"],[\"text\",\"\\n       \"],[\"append\",[\"helper\",[\"submit-issue\"],null,[[\"issue\",\"post\",\"submit\"],[[\"get\",[\"issue\"]],[\"get\",[\"pos\"]],[\"helper\",[\"action\"],[[\"get\",[null]],\"submit\"],null]]]],false],[\"text\",\"       \\n      \"],[\"close-element\"],[\"text\",\"\\n      \\n    \"],[\"close-element\"],[\"text\",\"\\n  \"],[\"close-element\"],[\"text\",\"\\n\"],[\"close-element\"]],\"locals\":[],\"named\":[],\"yields\":[],\"blocks\":[],\"hasPartials\":false}", "meta": { "moduleName": "ticket-system/templates/components/show-alert.hbs" } });
@@ -590,7 +640,7 @@ define("ticket-system/templates/index", ["exports"], function (exports) {
   exports["default"] = Ember.HTMLBars.template({ "id": "EBH7cuco", "block": "{\"statements\":[[\"append\",[\"unknown\",[\"outlet\"]],false],[\"text\",\"\\n\"]],\"locals\":[],\"named\":[],\"yields\":[],\"blocks\":[],\"hasPartials\":false}", "meta": { "moduleName": "ticket-system/templates/index.hbs" } });
 });
 define("ticket-system/templates/issues", ["exports"], function (exports) {
-  exports["default"] = Ember.HTMLBars.template({ "id": "lcSiO+A+", "block": "{\"statements\":[[\"open-element\",\"div\",[]],[\"static-attr\",\"class\",\"container-fluid \"],[\"flush-element\"],[\"text\",\"\\n    \\n    \"],[\"append\",[\"unknown\",[\"nav-bar\"]],false],[\"text\",\"\\n    \\n    \"],[\"open-element\",\"div\",[]],[\"static-attr\",\"class\",\"dashboard row\"],[\"flush-element\"],[\"text\",\"\\n        \"],[\"open-element\",\"div\",[]],[\"static-attr\",\"class\",\"col-sm-4 column\"],[\"flush-element\"],[\"text\",\"\\n            \\n            \"],[\"open-element\",\"ul\",[]],[\"static-attr\",\"class\",\"list-group\"],[\"flush-element\"],[\"text\",\"\\n\"],[\"block\",[\"each\"],[[\"get\",[\"model\"]]],null,5],[\"text\",\"    \\n            \"],[\"close-element\"],[\"text\",\"\\n        \"],[\"close-element\"],[\"text\",\"\\n        \"],[\"open-element\",\"div\",[]],[\"static-attr\",\"class\",\"col-sm-4 column\"],[\"flush-element\"],[\"text\",\"\\n\"],[\"block\",[\"each\"],[[\"get\",[\"model\"]]],null,3],[\"text\",\"            \\n        \"],[\"close-element\"],[\"text\",\"\\n        \"],[\"open-element\",\"div\",[]],[\"static-attr\",\"class\",\"col-sm-4 column\"],[\"flush-element\"],[\"text\",\"\\n\"],[\"block\",[\"each\"],[[\"get\",[\"model\"]]],null,1],[\"text\",\"            \\n        \"],[\"close-element\"],[\"text\",\"\\n    \"],[\"close-element\"],[\"text\",\"\\n    \\n\\n\"],[\"text\",\"    \\n    \\n\"],[\"close-element\"],[\"text\",\"\\n\"],[\"text\",\"\\n\\n\"],[\"text\",\"\\n    \\n\\n\\n\"]],\"locals\":[],\"named\":[],\"yields\":[],\"blocks\":[{\"statements\":[[\"text\",\"                            \"],[\"open-element\",\"li\",[]],[\"static-attr\",\"class\",\"list-group-item\"],[\"flush-element\"],[\"text\",\"\\n                                \"],[\"append\",[\"helper\",[\"issue-card\"],null,[[\"post\"],[[\"get\",[\"post\"]]]]],false],[\"text\",\"\\n                            \"],[\"close-element\"],[\"text\",\"\\n\"]],\"locals\":[]},{\"statements\":[[\"block\",[\"if\"],[[\"helper\",[\"compare-string\"],[[\"get\",[\"post\",\"status\"]],\"closed\"],null]],null,0],[\"text\",\"                \\n\"]],\"locals\":[\"post\"]},{\"statements\":[[\"text\",\"                            \"],[\"open-element\",\"li\",[]],[\"static-attr\",\"class\",\"list-group-item\"],[\"flush-element\"],[\"text\",\"\\n                                \"],[\"append\",[\"helper\",[\"issue-card\"],null,[[\"post\"],[[\"get\",[\"post\"]]]]],false],[\"text\",\"\\n                            \"],[\"close-element\"],[\"text\",\"\\n\"]],\"locals\":[]},{\"statements\":[[\"block\",[\"if\"],[[\"helper\",[\"compare-string\"],[[\"get\",[\"post\",\"status\"]],\"working\"],null]],null,2],[\"text\",\"                \\n\"]],\"locals\":[\"post\"]},{\"statements\":[[\"text\",\"                            \"],[\"open-element\",\"li\",[]],[\"static-attr\",\"class\",\"list-group-item\"],[\"flush-element\"],[\"text\",\"\\n                                \"],[\"append\",[\"helper\",[\"issue-card\"],null,[[\"post\"],[[\"get\",[\"post\"]]]]],false],[\"text\",\"\\n                            \"],[\"close-element\"],[\"text\",\"\\n\"]],\"locals\":[]},{\"statements\":[[\"text\",\"                        \\n\"],[\"block\",[\"if\"],[[\"helper\",[\"compare-string\"],[[\"get\",[\"post\",\"status\"]],\"open\"],null]],null,4],[\"text\",\"                \\n\"]],\"locals\":[\"post\"]}],\"hasPartials\":false}", "meta": { "moduleName": "ticket-system/templates/issues.hbs" } });
+  exports["default"] = Ember.HTMLBars.template({ "id": "2H2trTCK", "block": "{\"statements\":[[\"open-element\",\"div\",[]],[\"static-attr\",\"class\",\"container-fluid \"],[\"flush-element\"],[\"text\",\"\\n    \\n    \"],[\"append\",[\"unknown\",[\"nav-bar\"]],false],[\"text\",\"\\n   \\n    \"],[\"append\",[\"helper\",[\"dashboard-view\"],null,[[\"model\"],[[\"get\",[\"model\"]]]]],false],[\"text\",\" \\n       \\n\\n\"],[\"text\",\"    \\n    \\n\"],[\"close-element\"],[\"text\",\"\\n\"],[\"append\",[\"helper\",[\"log\"],[\"model\",[\"get\",[\"model\"]]],null],false],[\"text\",\"\\n\\n\"],[\"text\",\"\\n    \\n\\n\\n\"]],\"locals\":[],\"named\":[],\"yields\":[],\"blocks\":[],\"hasPartials\":false}", "meta": { "moduleName": "ticket-system/templates/issues.hbs" } });
 });
 define("ticket-system/templates/login", ["exports"], function (exports) {
   exports["default"] = Ember.HTMLBars.template({ "id": "q4v7LBs3", "block": "{\"statements\":[[\"append\",[\"unknown\",[\"login-page\"]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"blocks\":[],\"hasPartials\":false}", "meta": { "moduleName": "ticket-system/templates/login.hbs" } });
@@ -640,7 +690,7 @@ catch(err) {
 /* jshint ignore:start */
 
 if (!runningTests) {
-  require("ticket-system/app")["default"].create({"name":"ticket-system","version":"0.0.0+d2629aef"});
+  require("ticket-system/app")["default"].create({"name":"ticket-system","version":"0.0.0+47d874c0"});
 }
 
 /* jshint ignore:end */

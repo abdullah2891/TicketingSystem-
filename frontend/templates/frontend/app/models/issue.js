@@ -5,5 +5,5 @@ export default DS.Model.extend({
     owner  : DS.attr(),
     status : DS.attr(),
     title : DS.attr(), 
-    projects : DS.attr()
+    projects : DS.belongsTo('project')
 });

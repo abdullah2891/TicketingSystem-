@@ -1,0 +1,6 @@
+<ul class="list-group">
+	{{#each projects as |project|}}
+{{log  project.issues.length}}
+	  <li {{action "setProject" project}}  class="list-group-item">{{project.projects}}</li>
+	{{/each}}
+</ul>

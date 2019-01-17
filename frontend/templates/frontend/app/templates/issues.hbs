@@ -1,47 +1,11 @@
 <div class="container-fluid ">
     
     {{nav-bar}}
-    
-    <div class="dashboard row">
-        <div class="col-sm-4 column">
-            
-            <ul class="list-group">
-                {{#each model as |post|}}
-                        
-                        {{#if (compare-string post.status 'open') }}
-                            <li class="list-group-item">
-                                {{issue-card post = post}}
-                            </li>
-                        {{/if}}
-                
-                {{/each}}
-    
-            </ul>
-        </div>
-        <div class="col-sm-4 column">
-            {{#each model as |post|}}
-                        {{#if (compare-string post.status 'working') }}
-                            <li class="list-group-item">
-                                {{issue-card post = post}}
-                            </li>
-                        {{/if}}
-                
-            {{/each}}
-            
-        </div>
-        <div class="col-sm-4 column">
-            {{#each model as |post|}}
-                        {{#if (compare-string post.status 'closed') }}
-                            <li class="list-group-item">
-                                {{issue-card post = post}}
-                            </li>
-                        {{/if}}
-                
-            {{/each}}
-            
-        </div>
-    </div>
-    
+   
+    {{dashboard-view
+	model=model
+    }} 
+       
 
     {{!--submit fom --}}
     {{!--<div class="dashboard row">--}}
@@ -51,7 +15,7 @@
     
 </div>
 {{!--<div class="container-fluid">--}}
-
+{{log 'model' model}}
 
     {{!--<div class="row">--}}
     {{!--  <div class="col-xs-12 col-sm-6 col-md-8">.col-xs-12 .col-sm-6 .col-md-8</div>--}}

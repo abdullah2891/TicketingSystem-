@@ -1,20 +1,6 @@
 import DS from 'ember-data';
 
-export default DS.JSONAPISerializer.extend({
-    
-    normalizeResponse(store, type, payload){
-        console.log(payload);
-        let modifiedPayload =  payload instanceof Array ? 
-            payload.map(function(object){
-                return {
-                    "id" :  object.id, 
-                    "type" : type.modelName, 
-                    "attributes" : object
-                };
-            }): {"id" :  payload.id, "type" : type.modelName, "attributes" : payload};
-        
-        return {"data" :  modifiedPayload };
-    },
+export default DS.RESTSerializer.extend({
     
     serialize(snapshot , options){
         let json = this._super(...arguments); 
