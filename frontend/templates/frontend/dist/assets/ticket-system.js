@@ -534,7 +534,6 @@ define('ticket-system/routes/test', ['exports', 'ember'], function (exports, _em
 });
 define("ticket-system/serializers/application", ["exports", "ember-data"], function (exports, _emberData) {
     exports["default"] = _emberData["default"].RESTSerializer.extend({
-
         serialize: function serialize(snapshot, options) {
             var json = this._super.apply(this, arguments);
             console.log(" updating and put serialize ");

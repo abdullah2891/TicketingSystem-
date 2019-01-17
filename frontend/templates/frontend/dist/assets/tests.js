@@ -725,7 +725,7 @@ define('ticket-system/tests/serializers/application.jshint.lint-test', ['exports
   QUnit.module('JSHint | serializers/application.js');
   QUnit.test('should pass jshint', function (assert) {
     assert.expect(1);
-    assert.ok(false, 'serializers/application.js should pass jshint.\nserializers/application.js: line 5, col 26, \'options\' is defined but never used.\nserializers/application.js: line 5, col 15, \'snapshot\' is defined but never used.\n\n2 errors');
+    assert.ok(false, 'serializers/application.js should pass jshint.\nserializers/application.js: line 4, col 26, \'options\' is defined but never used.\nserializers/application.js: line 4, col 15, \'snapshot\' is defined but never used.\n\n2 errors');
   });
 });
 define('ticket-system/tests/serializers/issue.jshint.lint-test', ['exports'], function (exports) {
