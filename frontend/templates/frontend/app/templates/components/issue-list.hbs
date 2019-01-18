@@ -1,39 +1,21 @@
-<div class="dashboard row">
-        <div class="col-sm-4 column">
-            
-            <ul class="list-group">
-                {{#each issues as |post|}}
-                        
-                        {{#if (compare-string post.status 'open') }}
-                            <li class="list-group-item">
-                                {{issue-card post = post}}
-                            </li>
-                        {{/if}}
-                
-                {{/each}}
-    
-            </ul>
-        </div>
-        <div class="col-sm-4 column">
-            {{#each issues as |post|}}
-                        {{#if (compare-string post.status 'working') }}
-                            <li class="list-group-item">
-                                {{issue-card post = post}}
-                            </li>
-                        {{/if}}
-                
-            {{/each}}
-            
-        </div>
-        <div class="col-sm-4 column">
-            {{#each issues as |post|}}
-                        {{#if (compare-string post.status 'closed') }}
-                            <li class="list-group-item">
-                                {{issue-card post = post}}
-                            </li>
-                        {{/if}}
-                
-            {{/each}}
-            
-        </div>
-    </div>
+{{#if issues}}
+	{{paper-input 
+		class="flex-30" 
+		label="Name" 
+		placeholder="Issues" 
+		value=name 
+		onChange=null
+	}}
+{{/if}}
+
+{{#paper-list}}
+  {{#each issues as |issue|}}
+    {{#paper-item class="md-3-line"}}
+      <div class="md-list-item-text">
+        <h3>{{issue.title}}</h3>
+        <h4>{{issue.description}}</h4>
+      </div>
+      {{paper-divider}}
+    {{/paper-item}}
+  {{/each}}
+{{/paper-list}}

@@ -1,6 +1,18 @@
-<ul class="list-group">
-	{{#each projects as |project|}}
-{{log  project.issues.length}}
-	  <li {{action "setProject" project}}  class="list-group-item">{{project.projects}}</li>
-	{{/each}}
-</ul>
+{{paper-input 
+	class="flex-30" 
+	label="Name" 
+	placeholder="Projects" 
+	value=name 
+	onChange=null
+}}
+
+{{#each projects as |project|}}
+    {{#paper-item class="md-3-line project-tile"}}
+      <div {{action "setProject" project}} class="md-list-item-text">
+        <h3>{{project.projects}}</h3>
+        <h4>{{project.date_modified}}</h4>
+      </div>
+      {{paper-divider}}
+    {{/paper-item}}
+  {{/each}}
+

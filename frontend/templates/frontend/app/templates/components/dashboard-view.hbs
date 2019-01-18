@@ -1,15 +1,13 @@
-<div class="row">
-	<div class="col-md-3">
-		{{project-list
-			projects= model.projects
-			setProject = (action 'setProject')
-		}}	
-	</div>
-
-	<div class="col-md-9">
-		{{issue-list
-			issues = selected_issues
-		 }}
-	</div>
-
+<div class="layout-row flex">
+  <div class="flex-20 ">
+	  {{project-list
+		projects= model.projects
+		setProject = (action 'setProject')
+	}}
+  </div>
+  <div class="flex-80">
+	{{issue-list
+		issues = selected_issues
+	 }}
+  </div>
 </div>
