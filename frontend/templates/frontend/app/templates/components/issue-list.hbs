@@ -1,11 +1,13 @@
 {{#if issues}}
-	{{paper-input 
-		class="flex-30" 
-		label="Name" 
-		placeholder="Issues" 
-		value=name 
-		onChange=null
-	}}
+	<form {{action 'submitIssue' on="submit"}}>
+		{{paper-input 
+			class="flex-30" 
+			label="Issue" 
+			placeholder="Issues" 
+			value=issue 
+			onChange=(action (mut issue))
+		}}
+	</form>
 {{/if}}
 
 {{#paper-list}}

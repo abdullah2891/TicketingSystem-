@@ -1,16 +1,22 @@
-{{paper-input 
-	class="flex-30" 
-	label="Name" 
-	placeholder="Projects" 
-	value=name 
-	onChange=null
-}}
+<form {{action 'submitProject' on="submit"}}>
+	{{paper-input 
+		class="flex-30" 
+		label="Add Project"
+		placeholder="Projects" 
+		value= project
+		onChange=(action (mut project))
+	}}
+</form>
 
 {{#each projects as |project|}}
     {{#paper-item class="md-3-line project-tile"}}
       <div {{action "setProject" project}} class="md-list-item-text">
         <h3>{{project.projects}}</h3>
         <h4>{{project.date_modified}}</h4>
+	  {{#paper-button onClick=(action "deleteProject" project)}}
+		D
+	  {{/paper-button}}
+
       </div>
       {{paper-divider}}
     {{/paper-item}}
