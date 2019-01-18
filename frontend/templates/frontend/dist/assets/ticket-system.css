@@ -1,20 +1,7 @@
-body{
-    background-color : #5050FF;
-    background: -webkit-linear-gradient(left, #5A5AFF , #A0A0FF); /* For Safari 5.1 to 6.0 */
-      background: -o-linear-gradient(right, #5A5AFF, #A0A0FF); /* For Opera 11.1 to 12.0 */
-      background: -moz-linear-gradient(right, #5A5AFF, #A0A0FF); /* For Firefox 3.6 to 15 */
-      background: linear-gradient(to right, #5A5AFF , #A0A0FF); /* Standard syntax */
-}
-
-
-
-.list-group-item{
-    border : none;
-}
-
 .list-group-item .update-button{
     float: right;
     cursor: pointer;
+    border-style: solid !important;
 }
 
 .dashboard .list-group-item {
