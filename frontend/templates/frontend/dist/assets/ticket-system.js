@@ -1,10 +1,6 @@
 "use strict";
 
-/* jshint ignore:start */
 
-
-
-/* jshint ignore:end */
 
 define("ticket-system/adapters/application", ["exports", "ember-data"], function (exports, _emberData) {
     exports["default"] = _emberData["default"].RESTAdapter.extend({
@@ -47,16 +43,57 @@ define('ticket-system/authorizers/token', ['exports', 'ember-simple-auth-token/a
   exports['default'] = _emberSimpleAuthTokenAuthorizersToken['default'].extend({});
 });
 // app/authorizers/devise.js
+define('ticket-system/components/basic-dropdown', ['exports', 'ember-basic-dropdown/components/basic-dropdown'], function (exports, _emberBasicDropdownComponentsBasicDropdown) {
+  Object.defineProperty(exports, 'default', {
+    enumerable: true,
+    get: function get() {
+      return _emberBasicDropdownComponentsBasicDropdown['default'];
+    }
+  });
+});
+define('ticket-system/components/basic-dropdown/content-element', ['exports', 'ember-basic-dropdown/components/basic-dropdown/content-element'], function (exports, _emberBasicDropdownComponentsBasicDropdownContentElement) {
+  Object.defineProperty(exports, 'default', {
+    enumerable: true,
+    get: function get() {
+      return _emberBasicDropdownComponentsBasicDropdownContentElement['default'];
+    }
+  });
+});
+define('ticket-system/components/basic-dropdown/content', ['exports', 'ember-basic-dropdown/components/basic-dropdown/content'], function (exports, _emberBasicDropdownComponentsBasicDropdownContent) {
+  Object.defineProperty(exports, 'default', {
+    enumerable: true,
+    get: function get() {
+      return _emberBasicDropdownComponentsBasicDropdownContent['default'];
+    }
+  });
+});
+define('ticket-system/components/basic-dropdown/trigger', ['exports', 'ember-basic-dropdown/components/basic-dropdown/trigger'], function (exports, _emberBasicDropdownComponentsBasicDropdownTrigger) {
+  Object.defineProperty(exports, 'default', {
+    enumerable: true,
+    get: function get() {
+      return _emberBasicDropdownComponentsBasicDropdownTrigger['default'];
+    }
+  });
+});
 define('ticket-system/components/dashboard-view', ['exports', 'ember'], function (exports, _ember) {
 	exports['default'] = _ember['default'].Component.extend({
 		actions: {
 			setProject: function setProject(project) {
 				if (project.get('issues')) {
 					this.set('selected_issues', project.get('issues'));
+					this.set('select_project_id', project.get('id'));
 				}
 			}
 		}
 	});
+});
+define('ticket-system/components/ember-wormhole', ['exports', 'ember-wormhole/components/ember-wormhole'], function (exports, _emberWormholeComponentsEmberWormhole) {
+  Object.defineProperty(exports, 'default', {
+    enumerable: true,
+    get: function get() {
+      return _emberWormholeComponentsEmberWormhole['default'];
+    }
+  });
 });
 define('ticket-system/components/issue-card', ['exports', 'ember'], function (exports, _ember) {
     exports['default'] = _ember['default'].Component.extend({
@@ -98,7 +135,30 @@ define('ticket-system/components/issue-card', ['exports', 'ember'], function (ex
     });
 });
 define('ticket-system/components/issue-list', ['exports', 'ember'], function (exports, _ember) {
-  exports['default'] = _ember['default'].Component.extend({});
+	var inject = _ember['default'].inject;
+	exports['default'] = _ember['default'].Component.extend({
+		store: inject.service(),
+		init: function init() {
+			this._super.apply(this, arguments);
+			this.set('newIssue', this.get('store').createRecord('issue', {
+				status: 'open'
+			}));
+		},
+		actions: {
+			submitIssue: function submitIssue() {
+				var issue = this.get('issue');
+
+				if (!issue) {
+					return false;
+				}
+				this.set('newIssue.title', issue);
+				this.set('newIssue.description', issue);
+				this.get('issues').pushObject(this.get('newIssue'));
+
+				this.get('newIssue').save().then(console.log)['catch'](console.warn);
+			}
+		}
+	});
 });
 define('ticket-system/components/my-modal', ['exports', 'ember'], function (exports, _ember) {
   exports['default'] = _ember['default'].Component.extend({
@@ -117,6 +177,570 @@ define('ticket-system/components/nav-bar', ['exports', 'ember'], function (expor
         }
     });
 });
+define('ticket-system/components/paper-autocomplete-content', ['exports', 'ember-paper/components/paper-autocomplete-content'], function (exports, _emberPaperComponentsPaperAutocompleteContent) {
+  exports['default'] = _emberPaperComponentsPaperAutocompleteContent['default'];
+});
+define('ticket-system/components/paper-autocomplete-dropdown', ['exports', 'ember-paper/components/paper-autocomplete-dropdown'], function (exports, _emberPaperComponentsPaperAutocompleteDropdown) {
+  exports['default'] = _emberPaperComponentsPaperAutocompleteDropdown['default'];
+});
+define('ticket-system/components/paper-autocomplete-highlight', ['exports', 'ember-paper/components/paper-autocomplete-highlight'], function (exports, _emberPaperComponentsPaperAutocompleteHighlight) {
+  Object.defineProperty(exports, 'default', {
+    enumerable: true,
+    get: function get() {
+      return _emberPaperComponentsPaperAutocompleteHighlight['default'];
+    }
+  });
+});
+define('ticket-system/components/paper-autocomplete-options', ['exports', 'ember-paper/components/paper-autocomplete-options'], function (exports, _emberPaperComponentsPaperAutocompleteOptions) {
+  Object.defineProperty(exports, 'default', {
+    enumerable: true,
+    get: function get() {
+      return _emberPaperComponentsPaperAutocompleteOptions['default'];
+    }
+  });
+});
+define('ticket-system/components/paper-autocomplete-trigger-container', ['exports', 'ember-paper/components/paper-autocomplete-trigger-container'], function (exports, _emberPaperComponentsPaperAutocompleteTriggerContainer) {
+  exports['default'] = _emberPaperComponentsPaperAutocompleteTriggerContainer['default'];
+});
+define('ticket-system/components/paper-autocomplete-trigger', ['exports', 'ember-paper/components/paper-autocomplete-trigger'], function (exports, _emberPaperComponentsPaperAutocompleteTrigger) {
+  exports['default'] = _emberPaperComponentsPaperAutocompleteTrigger['default'];
+});
+define('ticket-system/components/paper-autocomplete', ['exports', 'ember-paper/components/paper-autocomplete'], function (exports, _emberPaperComponentsPaperAutocomplete) {
+  Object.defineProperty(exports, 'default', {
+    enumerable: true,
+    get: function get() {
+      return _emberPaperComponentsPaperAutocomplete['default'];
+    }
+  });
+});
+define('ticket-system/components/paper-backdrop', ['exports', 'ember-paper/components/paper-backdrop'], function (exports, _emberPaperComponentsPaperBackdrop) {
+  exports['default'] = _emberPaperComponentsPaperBackdrop['default'];
+});
+define('ticket-system/components/paper-button', ['exports', 'ember-paper/components/paper-button'], function (exports, _emberPaperComponentsPaperButton) {
+  exports['default'] = _emberPaperComponentsPaperButton['default'];
+});
+define('ticket-system/components/paper-card-actions', ['exports', 'ember-paper/components/paper-card-actions'], function (exports, _emberPaperComponentsPaperCardActions) {
+  exports['default'] = _emberPaperComponentsPaperCardActions['default'];
+});
+define('ticket-system/components/paper-card-avatar', ['exports', 'ember-paper/components/paper-card-avatar'], function (exports, _emberPaperComponentsPaperCardAvatar) {
+  exports['default'] = _emberPaperComponentsPaperCardAvatar['default'];
+});
+define('ticket-system/components/paper-card-content', ['exports', 'ember-paper/components/paper-card-content'], function (exports, _emberPaperComponentsPaperCardContent) {
+  exports['default'] = _emberPaperComponentsPaperCardContent['default'];
+});
+define('ticket-system/components/paper-card-header-headline', ['exports', 'ember-paper/components/paper-card-header-headline'], function (exports, _emberPaperComponentsPaperCardHeaderHeadline) {
+  exports['default'] = _emberPaperComponentsPaperCardHeaderHeadline['default'];
+});
+define('ticket-system/components/paper-card-header-subhead', ['exports', 'ember-paper/components/paper-card-header-subhead'], function (exports, _emberPaperComponentsPaperCardHeaderSubhead) {
+  exports['default'] = _emberPaperComponentsPaperCardHeaderSubhead['default'];
+});
+define('ticket-system/components/paper-card-header-text', ['exports', 'ember-paper/components/paper-card-header-text'], function (exports, _emberPaperComponentsPaperCardHeaderText) {
+  exports['default'] = _emberPaperComponentsPaperCardHeaderText['default'];
+});
+define('ticket-system/components/paper-card-header-title', ['exports', 'ember-paper/components/paper-card-header-title'], function (exports, _emberPaperComponentsPaperCardHeaderTitle) {
+  exports['default'] = _emberPaperComponentsPaperCardHeaderTitle['default'];
+});
+define('ticket-system/components/paper-card-header', ['exports', 'ember-paper/components/paper-card-header'], function (exports, _emberPaperComponentsPaperCardHeader) {
+  exports['default'] = _emberPaperComponentsPaperCardHeader['default'];
+});
+define('ticket-system/components/paper-card-icon-actions', ['exports', 'ember-paper/components/paper-card-icon-actions'], function (exports, _emberPaperComponentsPaperCardIconActions) {
+  exports['default'] = _emberPaperComponentsPaperCardIconActions['default'];
+});
+define('ticket-system/components/paper-card-image', ['exports', 'ember-paper/components/paper-card-image'], function (exports, _emberPaperComponentsPaperCardImage) {
+  exports['default'] = _emberPaperComponentsPaperCardImage['default'];
+});
+define('ticket-system/components/paper-card-media', ['exports', 'ember-paper/components/paper-card-media'], function (exports, _emberPaperComponentsPaperCardMedia) {
+  exports['default'] = _emberPaperComponentsPaperCardMedia['default'];
+});
+define('ticket-system/components/paper-card-title-media', ['exports', 'ember-paper/components/paper-card-title-media'], function (exports, _emberPaperComponentsPaperCardTitleMedia) {
+  exports['default'] = _emberPaperComponentsPaperCardTitleMedia['default'];
+});
+define('ticket-system/components/paper-card-title-text', ['exports', 'ember-paper/components/paper-card-title-text'], function (exports, _emberPaperComponentsPaperCardTitleText) {
+  exports['default'] = _emberPaperComponentsPaperCardTitleText['default'];
+});
+define('ticket-system/components/paper-card-title', ['exports', 'ember-paper/components/paper-card-title'], function (exports, _emberPaperComponentsPaperCardTitle) {
+  exports['default'] = _emberPaperComponentsPaperCardTitle['default'];
+});
+define('ticket-system/components/paper-card', ['exports', 'ember-paper/components/paper-card'], function (exports, _emberPaperComponentsPaperCard) {
+  exports['default'] = _emberPaperComponentsPaperCard['default'];
+});
+define('ticket-system/components/paper-checkbox', ['exports', 'ember-paper/components/paper-checkbox'], function (exports, _emberPaperComponentsPaperCheckbox) {
+  exports['default'] = _emberPaperComponentsPaperCheckbox['default'];
+});
+define('ticket-system/components/paper-chips', ['exports', 'ember-paper/components/paper-chips'], function (exports, _emberPaperComponentsPaperChips) {
+  exports['default'] = _emberPaperComponentsPaperChips['default'];
+});
+define('ticket-system/components/paper-contact-chips', ['exports', 'ember-paper/components/paper-contact-chips'], function (exports, _emberPaperComponentsPaperContactChips) {
+  exports['default'] = _emberPaperComponentsPaperContactChips['default'];
+});
+define('ticket-system/components/paper-content', ['exports', 'ember-paper/components/paper-content'], function (exports, _emberPaperComponentsPaperContent) {
+  exports['default'] = _emberPaperComponentsPaperContent['default'];
+});
+define('ticket-system/components/paper-dialog-actions', ['exports', 'ember-paper/components/paper-dialog-actions'], function (exports, _emberPaperComponentsPaperDialogActions) {
+  Object.defineProperty(exports, 'default', {
+    enumerable: true,
+    get: function get() {
+      return _emberPaperComponentsPaperDialogActions['default'];
+    }
+  });
+});
+define('ticket-system/components/paper-dialog-container', ['exports', 'ember-paper/components/paper-dialog-container'], function (exports, _emberPaperComponentsPaperDialogContainer) {
+  Object.defineProperty(exports, 'default', {
+    enumerable: true,
+    get: function get() {
+      return _emberPaperComponentsPaperDialogContainer['default'];
+    }
+  });
+});
+define('ticket-system/components/paper-dialog-content', ['exports', 'ember-paper/components/paper-dialog-content'], function (exports, _emberPaperComponentsPaperDialogContent) {
+  Object.defineProperty(exports, 'default', {
+    enumerable: true,
+    get: function get() {
+      return _emberPaperComponentsPaperDialogContent['default'];
+    }
+  });
+});
+define('ticket-system/components/paper-dialog-inner', ['exports', 'ember-paper/components/paper-dialog-inner'], function (exports, _emberPaperComponentsPaperDialogInner) {
+  Object.defineProperty(exports, 'default', {
+    enumerable: true,
+    get: function get() {
+      return _emberPaperComponentsPaperDialogInner['default'];
+    }
+  });
+});
+define('ticket-system/components/paper-dialog', ['exports', 'ember-paper/components/paper-dialog'], function (exports, _emberPaperComponentsPaperDialog) {
+  Object.defineProperty(exports, 'default', {
+    enumerable: true,
+    get: function get() {
+      return _emberPaperComponentsPaperDialog['default'];
+    }
+  });
+});
+define('ticket-system/components/paper-divider', ['exports', 'ember-paper/components/paper-divider'], function (exports, _emberPaperComponentsPaperDivider) {
+  exports['default'] = _emberPaperComponentsPaperDivider['default'];
+});
+define('ticket-system/components/paper-form', ['exports', 'ember-paper/components/paper-form'], function (exports, _emberPaperComponentsPaperForm) {
+  exports['default'] = _emberPaperComponentsPaperForm['default'];
+});
+define('ticket-system/components/paper-grid-list', ['exports', 'ember-paper/components/paper-grid-list'], function (exports, _emberPaperComponentsPaperGridList) {
+  Object.defineProperty(exports, 'default', {
+    enumerable: true,
+    get: function get() {
+      return _emberPaperComponentsPaperGridList['default'];
+    }
+  });
+});
+define('ticket-system/components/paper-grid-tile-footer', ['exports', 'ember-paper/components/paper-grid-tile-footer'], function (exports, _emberPaperComponentsPaperGridTileFooter) {
+  Object.defineProperty(exports, 'default', {
+    enumerable: true,
+    get: function get() {
+      return _emberPaperComponentsPaperGridTileFooter['default'];
+    }
+  });
+});
+define('ticket-system/components/paper-grid-tile', ['exports', 'ember-paper/components/paper-grid-tile'], function (exports, _emberPaperComponentsPaperGridTile) {
+  Object.defineProperty(exports, 'default', {
+    enumerable: true,
+    get: function get() {
+      return _emberPaperComponentsPaperGridTile['default'];
+    }
+  });
+});
+define('ticket-system/components/paper-icon', ['exports', 'ember-paper/components/paper-icon'], function (exports, _emberPaperComponentsPaperIcon) {
+  exports['default'] = _emberPaperComponentsPaperIcon['default'];
+});
+define('ticket-system/components/paper-ink-bar', ['exports', 'ember-paper/components/paper-ink-bar'], function (exports, _emberPaperComponentsPaperInkBar) {
+  Object.defineProperty(exports, 'default', {
+    enumerable: true,
+    get: function get() {
+      return _emberPaperComponentsPaperInkBar['default'];
+    }
+  });
+});
+define('ticket-system/components/paper-input', ['exports', 'ember-paper/components/paper-input'], function (exports, _emberPaperComponentsPaperInput) {
+  exports['default'] = _emberPaperComponentsPaperInput['default'];
+});
+define('ticket-system/components/paper-item', ['exports', 'ember-paper/components/paper-item'], function (exports, _emberPaperComponentsPaperItem) {
+  exports['default'] = _emberPaperComponentsPaperItem['default'];
+});
+define('ticket-system/components/paper-list', ['exports', 'ember-paper/components/paper-list'], function (exports, _emberPaperComponentsPaperList) {
+  exports['default'] = _emberPaperComponentsPaperList['default'];
+});
+define('ticket-system/components/paper-menu-content-inner', ['exports', 'ember-paper/components/paper-menu-content-inner'], function (exports, _emberPaperComponentsPaperMenuContentInner) {
+  Object.defineProperty(exports, 'default', {
+    enumerable: true,
+    get: function get() {
+      return _emberPaperComponentsPaperMenuContentInner['default'];
+    }
+  });
+});
+define('ticket-system/components/paper-menu-content', ['exports', 'ember-paper/components/paper-menu-content'], function (exports, _emberPaperComponentsPaperMenuContent) {
+  Object.defineProperty(exports, 'default', {
+    enumerable: true,
+    get: function get() {
+      return _emberPaperComponentsPaperMenuContent['default'];
+    }
+  });
+});
+define('ticket-system/components/paper-menu-item', ['exports', 'ember-paper/components/paper-menu-item'], function (exports, _emberPaperComponentsPaperMenuItem) {
+  Object.defineProperty(exports, 'default', {
+    enumerable: true,
+    get: function get() {
+      return _emberPaperComponentsPaperMenuItem['default'];
+    }
+  });
+});
+define('ticket-system/components/paper-menu', ['exports', 'ember-paper/components/paper-menu'], function (exports, _emberPaperComponentsPaperMenu) {
+  Object.defineProperty(exports, 'default', {
+    enumerable: true,
+    get: function get() {
+      return _emberPaperComponentsPaperMenu['default'];
+    }
+  });
+});
+define('ticket-system/components/paper-optgroup', ['exports', 'ember-paper/components/paper-optgroup'], function (exports, _emberPaperComponentsPaperOptgroup) {
+  Object.defineProperty(exports, 'default', {
+    enumerable: true,
+    get: function get() {
+      return _emberPaperComponentsPaperOptgroup['default'];
+    }
+  });
+});
+define('ticket-system/components/paper-option', ['exports', 'ember-paper/components/paper-option'], function (exports, _emberPaperComponentsPaperOption) {
+  exports['default'] = _emberPaperComponentsPaperOption['default'];
+});
+define('ticket-system/components/paper-progress-circular', ['exports', 'ember-paper/components/paper-progress-circular'], function (exports, _emberPaperComponentsPaperProgressCircular) {
+  Object.defineProperty(exports, 'default', {
+    enumerable: true,
+    get: function get() {
+      return _emberPaperComponentsPaperProgressCircular['default'];
+    }
+  });
+});
+define('ticket-system/components/paper-progress-linear', ['exports', 'ember-paper/components/paper-progress-linear'], function (exports, _emberPaperComponentsPaperProgressLinear) {
+  Object.defineProperty(exports, 'default', {
+    enumerable: true,
+    get: function get() {
+      return _emberPaperComponentsPaperProgressLinear['default'];
+    }
+  });
+});
+define('ticket-system/components/paper-radio-group-label', ['exports', 'ember-paper/components/paper-radio-group-label'], function (exports, _emberPaperComponentsPaperRadioGroupLabel) {
+  Object.defineProperty(exports, 'default', {
+    enumerable: true,
+    get: function get() {
+      return _emberPaperComponentsPaperRadioGroupLabel['default'];
+    }
+  });
+});
+define('ticket-system/components/paper-radio-group', ['exports', 'ember-paper/components/paper-radio-group'], function (exports, _emberPaperComponentsPaperRadioGroup) {
+  Object.defineProperty(exports, 'default', {
+    enumerable: true,
+    get: function get() {
+      return _emberPaperComponentsPaperRadioGroup['default'];
+    }
+  });
+});
+define('ticket-system/components/paper-radio-proxiable', ['exports', 'ember-paper/components/paper-radio-proxiable'], function (exports, _emberPaperComponentsPaperRadioProxiable) {
+  Object.defineProperty(exports, 'default', {
+    enumerable: true,
+    get: function get() {
+      return _emberPaperComponentsPaperRadioProxiable['default'];
+    }
+  });
+});
+define('ticket-system/components/paper-radio', ['exports', 'ember-paper/components/paper-radio'], function (exports, _emberPaperComponentsPaperRadio) {
+  Object.defineProperty(exports, 'default', {
+    enumerable: true,
+    get: function get() {
+      return _emberPaperComponentsPaperRadio['default'];
+    }
+  });
+});
+define('ticket-system/components/paper-reset-button', ['exports', 'ember-paper/components/paper-reset-button'], function (exports, _emberPaperComponentsPaperResetButton) {
+  Object.defineProperty(exports, 'default', {
+    enumerable: true,
+    get: function get() {
+      return _emberPaperComponentsPaperResetButton['default'];
+    }
+  });
+});
+define('ticket-system/components/paper-select-content', ['exports', 'ember-paper/components/paper-select-content'], function (exports, _emberPaperComponentsPaperSelectContent) {
+  Object.defineProperty(exports, 'default', {
+    enumerable: true,
+    get: function get() {
+      return _emberPaperComponentsPaperSelectContent['default'];
+    }
+  });
+});
+define('ticket-system/components/paper-select-header', ['exports', 'ember-paper/components/paper-select-header'], function (exports, _emberPaperComponentsPaperSelectHeader) {
+  Object.defineProperty(exports, 'default', {
+    enumerable: true,
+    get: function get() {
+      return _emberPaperComponentsPaperSelectHeader['default'];
+    }
+  });
+});
+define('ticket-system/components/paper-select-menu-inner', ['exports', 'ember-paper/components/paper-select-menu-inner'], function (exports, _emberPaperComponentsPaperSelectMenuInner) {
+  Object.defineProperty(exports, 'default', {
+    enumerable: true,
+    get: function get() {
+      return _emberPaperComponentsPaperSelectMenuInner['default'];
+    }
+  });
+});
+define('ticket-system/components/paper-select-menu-trigger', ['exports', 'ember-paper/components/paper-select-menu-trigger'], function (exports, _emberPaperComponentsPaperSelectMenuTrigger) {
+  exports['default'] = _emberPaperComponentsPaperSelectMenuTrigger['default'];
+});
+define('ticket-system/components/paper-select-menu', ['exports', 'ember-paper/components/paper-select-menu'], function (exports, _emberPaperComponentsPaperSelectMenu) {
+  Object.defineProperty(exports, 'default', {
+    enumerable: true,
+    get: function get() {
+      return _emberPaperComponentsPaperSelectMenu['default'];
+    }
+  });
+});
+define('ticket-system/components/paper-select-options', ['exports', 'ember-paper/components/paper-select-options'], function (exports, _emberPaperComponentsPaperSelectOptions) {
+  Object.defineProperty(exports, 'default', {
+    enumerable: true,
+    get: function get() {
+      return _emberPaperComponentsPaperSelectOptions['default'];
+    }
+  });
+});
+define('ticket-system/components/paper-select-search', ['exports', 'ember-paper/components/paper-select-search'], function (exports, _emberPaperComponentsPaperSelectSearch) {
+  Object.defineProperty(exports, 'default', {
+    enumerable: true,
+    get: function get() {
+      return _emberPaperComponentsPaperSelectSearch['default'];
+    }
+  });
+});
+define('ticket-system/components/paper-select-trigger', ['exports', 'ember-paper/components/paper-select-trigger'], function (exports, _emberPaperComponentsPaperSelectTrigger) {
+  Object.defineProperty(exports, 'default', {
+    enumerable: true,
+    get: function get() {
+      return _emberPaperComponentsPaperSelectTrigger['default'];
+    }
+  });
+});
+define('ticket-system/components/paper-select', ['exports', 'ember-paper/components/paper-select'], function (exports, _emberPaperComponentsPaperSelect) {
+  exports['default'] = _emberPaperComponentsPaperSelect['default'];
+});
+define('ticket-system/components/paper-sidenav-container', ['exports', 'ember-paper/components/paper-sidenav-container'], function (exports, _emberPaperComponentsPaperSidenavContainer) {
+  Object.defineProperty(exports, 'default', {
+    enumerable: true,
+    get: function get() {
+      return _emberPaperComponentsPaperSidenavContainer['default'];
+    }
+  });
+});
+define('ticket-system/components/paper-sidenav-inner', ['exports', 'ember-paper/components/paper-sidenav-inner'], function (exports, _emberPaperComponentsPaperSidenavInner) {
+  exports['default'] = _emberPaperComponentsPaperSidenavInner['default'];
+});
+define('ticket-system/components/paper-sidenav-toggle', ['exports', 'ember-paper/components/paper-sidenav-toggle'], function (exports, _emberPaperComponentsPaperSidenavToggle) {
+  exports['default'] = _emberPaperComponentsPaperSidenavToggle['default'];
+});
+define('ticket-system/components/paper-sidenav', ['exports', 'ember-paper/components/paper-sidenav'], function (exports, _emberPaperComponentsPaperSidenav) {
+  exports['default'] = _emberPaperComponentsPaperSidenav['default'];
+});
+define('ticket-system/components/paper-slider', ['exports', 'ember-paper/components/paper-slider'], function (exports, _emberPaperComponentsPaperSlider) {
+  exports['default'] = _emberPaperComponentsPaperSlider['default'];
+});
+define('ticket-system/components/paper-snackbar-text', ['exports', 'ember-paper/components/paper-snackbar-text'], function (exports, _emberPaperComponentsPaperSnackbarText) {
+  Object.defineProperty(exports, 'default', {
+    enumerable: true,
+    get: function get() {
+      return _emberPaperComponentsPaperSnackbarText['default'];
+    }
+  });
+});
+define('ticket-system/components/paper-speed-dial-actions-action', ['exports', 'ember-paper/components/paper-speed-dial-actions-action'], function (exports, _emberPaperComponentsPaperSpeedDialActionsAction) {
+  Object.defineProperty(exports, 'default', {
+    enumerable: true,
+    get: function get() {
+      return _emberPaperComponentsPaperSpeedDialActionsAction['default'];
+    }
+  });
+});
+define('ticket-system/components/paper-speed-dial-actions', ['exports', 'ember-paper/components/paper-speed-dial-actions'], function (exports, _emberPaperComponentsPaperSpeedDialActions) {
+  Object.defineProperty(exports, 'default', {
+    enumerable: true,
+    get: function get() {
+      return _emberPaperComponentsPaperSpeedDialActions['default'];
+    }
+  });
+});
+define('ticket-system/components/paper-speed-dial-trigger', ['exports', 'ember-paper/components/paper-speed-dial-trigger'], function (exports, _emberPaperComponentsPaperSpeedDialTrigger) {
+  Object.defineProperty(exports, 'default', {
+    enumerable: true,
+    get: function get() {
+      return _emberPaperComponentsPaperSpeedDialTrigger['default'];
+    }
+  });
+});
+define('ticket-system/components/paper-speed-dial', ['exports', 'ember-paper/components/paper-speed-dial'], function (exports, _emberPaperComponentsPaperSpeedDial) {
+  Object.defineProperty(exports, 'default', {
+    enumerable: true,
+    get: function get() {
+      return _emberPaperComponentsPaperSpeedDial['default'];
+    }
+  });
+});
+define('ticket-system/components/paper-subheader', ['exports', 'ember-paper/components/paper-subheader'], function (exports, _emberPaperComponentsPaperSubheader) {
+  exports['default'] = _emberPaperComponentsPaperSubheader['default'];
+});
+define('ticket-system/components/paper-switch', ['exports', 'ember-paper/components/paper-switch'], function (exports, _emberPaperComponentsPaperSwitch) {
+  exports['default'] = _emberPaperComponentsPaperSwitch['default'];
+});
+define('ticket-system/components/paper-tab', ['exports', 'ember-paper/components/paper-tab'], function (exports, _emberPaperComponentsPaperTab) {
+  Object.defineProperty(exports, 'default', {
+    enumerable: true,
+    get: function get() {
+      return _emberPaperComponentsPaperTab['default'];
+    }
+  });
+});
+define('ticket-system/components/paper-tabs', ['exports', 'ember-paper/components/paper-tabs'], function (exports, _emberPaperComponentsPaperTabs) {
+  Object.defineProperty(exports, 'default', {
+    enumerable: true,
+    get: function get() {
+      return _emberPaperComponentsPaperTabs['default'];
+    }
+  });
+});
+define('ticket-system/components/paper-toast-inner', ['exports', 'ember-paper/components/paper-toast-inner'], function (exports, _emberPaperComponentsPaperToastInner) {
+  Object.defineProperty(exports, 'default', {
+    enumerable: true,
+    get: function get() {
+      return _emberPaperComponentsPaperToastInner['default'];
+    }
+  });
+});
+define('ticket-system/components/paper-toast-text', ['exports', 'ember-paper/components/paper-toast-text'], function (exports, _emberPaperComponentsPaperToastText) {
+  Object.defineProperty(exports, 'default', {
+    enumerable: true,
+    get: function get() {
+      return _emberPaperComponentsPaperToastText['default'];
+    }
+  });
+});
+define('ticket-system/components/paper-toast', ['exports', 'ember-paper/components/paper-toast'], function (exports, _emberPaperComponentsPaperToast) {
+  Object.defineProperty(exports, 'default', {
+    enumerable: true,
+    get: function get() {
+      return _emberPaperComponentsPaperToast['default'];
+    }
+  });
+});
+define('ticket-system/components/paper-toaster', ['exports', 'ember-paper/components/paper-toaster'], function (exports, _emberPaperComponentsPaperToaster) {
+  Object.defineProperty(exports, 'default', {
+    enumerable: true,
+    get: function get() {
+      return _emberPaperComponentsPaperToaster['default'];
+    }
+  });
+});
+define('ticket-system/components/paper-toolbar-tools', ['exports', 'ember-paper/components/paper-toolbar-tools'], function (exports, _emberPaperComponentsPaperToolbarTools) {
+  exports['default'] = _emberPaperComponentsPaperToolbarTools['default'];
+});
+define('ticket-system/components/paper-toolbar', ['exports', 'ember-paper/components/paper-toolbar'], function (exports, _emberPaperComponentsPaperToolbar) {
+  exports['default'] = _emberPaperComponentsPaperToolbar['default'];
+});
+define('ticket-system/components/paper-tooltip-inner', ['exports', 'ember-paper/components/paper-tooltip-inner'], function (exports, _emberPaperComponentsPaperTooltipInner) {
+  Object.defineProperty(exports, 'default', {
+    enumerable: true,
+    get: function get() {
+      return _emberPaperComponentsPaperTooltipInner['default'];
+    }
+  });
+});
+define('ticket-system/components/paper-tooltip', ['exports', 'ember-paper/components/paper-tooltip'], function (exports, _emberPaperComponentsPaperTooltip) {
+  Object.defineProperty(exports, 'default', {
+    enumerable: true,
+    get: function get() {
+      return _emberPaperComponentsPaperTooltip['default'];
+    }
+  });
+});
+define('ticket-system/components/paper-virtual-repeat-scroller', ['exports', 'ember-paper/components/paper-virtual-repeat-scroller'], function (exports, _emberPaperComponentsPaperVirtualRepeatScroller) {
+  exports['default'] = _emberPaperComponentsPaperVirtualRepeatScroller['default'];
+});
+define('ticket-system/components/paper-virtual-repeat', ['exports', 'ember-paper/components/paper-virtual-repeat'], function (exports, _emberPaperComponentsPaperVirtualRepeat) {
+  exports['default'] = _emberPaperComponentsPaperVirtualRepeat['default'];
+});
+define('ticket-system/components/power-select-multiple', ['exports', 'ember-power-select/components/power-select-multiple'], function (exports, _emberPowerSelectComponentsPowerSelectMultiple) {
+  Object.defineProperty(exports, 'default', {
+    enumerable: true,
+    get: function get() {
+      return _emberPowerSelectComponentsPowerSelectMultiple['default'];
+    }
+  });
+});
+define('ticket-system/components/power-select-multiple/trigger', ['exports', 'ember-power-select/components/power-select-multiple/trigger'], function (exports, _emberPowerSelectComponentsPowerSelectMultipleTrigger) {
+  Object.defineProperty(exports, 'default', {
+    enumerable: true,
+    get: function get() {
+      return _emberPowerSelectComponentsPowerSelectMultipleTrigger['default'];
+    }
+  });
+});
+define('ticket-system/components/power-select', ['exports', 'ember-power-select/components/power-select'], function (exports, _emberPowerSelectComponentsPowerSelect) {
+  Object.defineProperty(exports, 'default', {
+    enumerable: true,
+    get: function get() {
+      return _emberPowerSelectComponentsPowerSelect['default'];
+    }
+  });
+});
+define('ticket-system/components/power-select/before-options', ['exports', 'ember-power-select/components/power-select/before-options'], function (exports, _emberPowerSelectComponentsPowerSelectBeforeOptions) {
+  Object.defineProperty(exports, 'default', {
+    enumerable: true,
+    get: function get() {
+      return _emberPowerSelectComponentsPowerSelectBeforeOptions['default'];
+    }
+  });
+});
+define('ticket-system/components/power-select/options', ['exports', 'ember-power-select/components/power-select/options'], function (exports, _emberPowerSelectComponentsPowerSelectOptions) {
+  Object.defineProperty(exports, 'default', {
+    enumerable: true,
+    get: function get() {
+      return _emberPowerSelectComponentsPowerSelectOptions['default'];
+    }
+  });
+});
+define('ticket-system/components/power-select/placeholder', ['exports', 'ember-power-select/components/power-select/placeholder'], function (exports, _emberPowerSelectComponentsPowerSelectPlaceholder) {
+  Object.defineProperty(exports, 'default', {
+    enumerable: true,
+    get: function get() {
+      return _emberPowerSelectComponentsPowerSelectPlaceholder['default'];
+    }
+  });
+});
+define('ticket-system/components/power-select/power-select-group', ['exports', 'ember-power-select/components/power-select/power-select-group'], function (exports, _emberPowerSelectComponentsPowerSelectPowerSelectGroup) {
+  Object.defineProperty(exports, 'default', {
+    enumerable: true,
+    get: function get() {
+      return _emberPowerSelectComponentsPowerSelectPowerSelectGroup['default'];
+    }
+  });
+});
+define('ticket-system/components/power-select/search-message', ['exports', 'ember-power-select/components/power-select/search-message'], function (exports, _emberPowerSelectComponentsPowerSelectSearchMessage) {
+  Object.defineProperty(exports, 'default', {
+    enumerable: true,
+    get: function get() {
+      return _emberPowerSelectComponentsPowerSelectSearchMessage['default'];
+    }
+  });
+});
+define('ticket-system/components/power-select/trigger', ['exports', 'ember-power-select/components/power-select/trigger'], function (exports, _emberPowerSelectComponentsPowerSelectTrigger) {
+  Object.defineProperty(exports, 'default', {
+    enumerable: true,
+    get: function get() {
+      return _emberPowerSelectComponentsPowerSelectTrigger['default'];
+    }
+  });
+});
 define('ticket-system/components/project-component', ['exports', 'ember'], function (exports, _ember) {
     exports['default'] = _ember['default'].Component.extend({
 
@@ -131,12 +755,32 @@ define('ticket-system/components/project-component', ['exports', 'ember'], funct
     });
 });
 define('ticket-system/components/project-list', ['exports', 'ember'], function (exports, _ember) {
+	var inject = _ember['default'].inject;
 	exports['default'] = _ember['default'].Component.extend({
+		store: inject.service(),
+		init: function init() {
+			this._super.apply(this, arguments);
+			this.set('newProject', this.get('store').createRecord('project', {
+				status: 'open'
+			}));
+		},
 		actions: {
 			setProject: function setProject(project) {
 				this.sendAction('setProject', project);
-			}
+			},
+			submitProject: function submitProject() {
+				var project = this.get('project');
+				if (!project) {
+					return false;
+				}
+				this.set('newProject.projects', project);
 
+				this.get('newProject').save().then(console.log)['catch'](console.error);
+			},
+			deleteProject: function deleteProject(project) {
+				project.deleteRecord();
+				project.save();
+			}
 		}
 	});
 });
@@ -195,6 +839,50 @@ define('ticket-system/components/submit-issue', ['exports', 'ember'], function (
         }
     });
 });
+define('ticket-system/components/transition-group', ['exports', 'ember-css-transitions/components/transition-group'], function (exports, _emberCssTransitionsComponentsTransitionGroup) {
+  Object.defineProperty(exports, 'default', {
+    enumerable: true,
+    get: function get() {
+      return _emberCssTransitionsComponentsTransitionGroup['default'];
+    }
+  });
+});
+define('ticket-system/components/virtual-each', ['exports', 'virtual-each/components/virtual-each/component'], function (exports, _virtualEachComponentsVirtualEachComponent) {
+  Object.defineProperty(exports, 'default', {
+    enumerable: true,
+    get: function get() {
+      return _virtualEachComponentsVirtualEachComponent['default'];
+    }
+  });
+});
+define('ticket-system/helpers/-paper-underscore', ['exports', 'ember-paper/helpers/underscore'], function (exports, _emberPaperHelpersUnderscore) {
+  Object.defineProperty(exports, 'default', {
+    enumerable: true,
+    get: function get() {
+      return _emberPaperHelpersUnderscore['default'];
+    }
+  });
+  Object.defineProperty(exports, 'underscore', {
+    enumerable: true,
+    get: function get() {
+      return _emberPaperHelpersUnderscore.underscore;
+    }
+  });
+});
+define('ticket-system/helpers/and', ['exports', 'ember-truth-helpers/helpers/and'], function (exports, _emberTruthHelpersHelpersAnd) {
+  Object.defineProperty(exports, 'default', {
+    enumerable: true,
+    get: function get() {
+      return _emberTruthHelpersHelpersAnd['default'];
+    }
+  });
+  Object.defineProperty(exports, 'and', {
+    enumerable: true,
+    get: function get() {
+      return _emberTruthHelpersHelpersAnd.and;
+    }
+  });
+});
 define('ticket-system/helpers/app-version', ['exports', 'ember', 'ticket-system/config/environment', 'ember-cli-app-version/utils/regexp'], function (exports, _ember, _ticketSystemConfigEnvironment, _emberCliAppVersionUtilsRegexp) {
   exports.appVersion = appVersion;
   var version = _ticketSystemConfigEnvironment['default'].APP.version;
@@ -215,6 +903,14 @@ define('ticket-system/helpers/app-version', ['exports', 'ember', 'ticket-system/
 
   exports['default'] = _ember['default'].Helper.helper(appVersion);
 });
+define('ticket-system/helpers/cancel-all', ['exports', 'ember-concurrency/helpers/cancel-all'], function (exports, _emberConcurrencyHelpersCancelAll) {
+  Object.defineProperty(exports, 'default', {
+    enumerable: true,
+    get: function get() {
+      return _emberConcurrencyHelpersCancelAll['default'];
+    }
+  });
+});
 define('ticket-system/helpers/compare-string', ['exports', 'ember'], function (exports, _ember) {
     exports.compareString = compareString;
 
@@ -227,11 +923,231 @@ define('ticket-system/helpers/compare-string', ['exports', 'ember'], function (e
 
     exports['default'] = _ember['default'].Helper.helper(compareString);
 });
+define('ticket-system/helpers/ember-power-select-is-group', ['exports', 'ember-power-select/helpers/ember-power-select-is-group'], function (exports, _emberPowerSelectHelpersEmberPowerSelectIsGroup) {
+  Object.defineProperty(exports, 'default', {
+    enumerable: true,
+    get: function get() {
+      return _emberPowerSelectHelpersEmberPowerSelectIsGroup['default'];
+    }
+  });
+  Object.defineProperty(exports, 'emberPowerSelectIsGroup', {
+    enumerable: true,
+    get: function get() {
+      return _emberPowerSelectHelpersEmberPowerSelectIsGroup.emberPowerSelectIsGroup;
+    }
+  });
+});
+define('ticket-system/helpers/ember-power-select-is-selected', ['exports', 'ember-power-select/helpers/ember-power-select-is-selected'], function (exports, _emberPowerSelectHelpersEmberPowerSelectIsSelected) {
+  Object.defineProperty(exports, 'default', {
+    enumerable: true,
+    get: function get() {
+      return _emberPowerSelectHelpersEmberPowerSelectIsSelected['default'];
+    }
+  });
+  Object.defineProperty(exports, 'emberPowerSelectIsSelected', {
+    enumerable: true,
+    get: function get() {
+      return _emberPowerSelectHelpersEmberPowerSelectIsSelected.emberPowerSelectIsSelected;
+    }
+  });
+});
+define('ticket-system/helpers/ember-power-select-true-string-if-present', ['exports', 'ember-power-select/helpers/ember-power-select-true-string-if-present'], function (exports, _emberPowerSelectHelpersEmberPowerSelectTrueStringIfPresent) {
+  Object.defineProperty(exports, 'default', {
+    enumerable: true,
+    get: function get() {
+      return _emberPowerSelectHelpersEmberPowerSelectTrueStringIfPresent['default'];
+    }
+  });
+  Object.defineProperty(exports, 'emberPowerSelectTrueStringIfPresent', {
+    enumerable: true,
+    get: function get() {
+      return _emberPowerSelectHelpersEmberPowerSelectTrueStringIfPresent.emberPowerSelectTrueStringIfPresent;
+    }
+  });
+});
+define('ticket-system/helpers/eq', ['exports', 'ember-truth-helpers/helpers/equal'], function (exports, _emberTruthHelpersHelpersEqual) {
+  Object.defineProperty(exports, 'default', {
+    enumerable: true,
+    get: function get() {
+      return _emberTruthHelpersHelpersEqual['default'];
+    }
+  });
+  Object.defineProperty(exports, 'equal', {
+    enumerable: true,
+    get: function get() {
+      return _emberTruthHelpersHelpersEqual.equal;
+    }
+  });
+});
+define('ticket-system/helpers/gt', ['exports', 'ember-truth-helpers/helpers/gt'], function (exports, _emberTruthHelpersHelpersGt) {
+  Object.defineProperty(exports, 'default', {
+    enumerable: true,
+    get: function get() {
+      return _emberTruthHelpersHelpersGt['default'];
+    }
+  });
+  Object.defineProperty(exports, 'gt', {
+    enumerable: true,
+    get: function get() {
+      return _emberTruthHelpersHelpersGt.gt;
+    }
+  });
+});
+define('ticket-system/helpers/gte', ['exports', 'ember-truth-helpers/helpers/gte'], function (exports, _emberTruthHelpersHelpersGte) {
+  Object.defineProperty(exports, 'default', {
+    enumerable: true,
+    get: function get() {
+      return _emberTruthHelpersHelpersGte['default'];
+    }
+  });
+  Object.defineProperty(exports, 'gte', {
+    enumerable: true,
+    get: function get() {
+      return _emberTruthHelpersHelpersGte.gte;
+    }
+  });
+});
+define('ticket-system/helpers/is-array', ['exports', 'ember-truth-helpers/helpers/is-array'], function (exports, _emberTruthHelpersHelpersIsArray) {
+  Object.defineProperty(exports, 'default', {
+    enumerable: true,
+    get: function get() {
+      return _emberTruthHelpersHelpersIsArray['default'];
+    }
+  });
+  Object.defineProperty(exports, 'isArray', {
+    enumerable: true,
+    get: function get() {
+      return _emberTruthHelpersHelpersIsArray.isArray;
+    }
+  });
+});
+define('ticket-system/helpers/is-empty', ['exports', 'ember-truth-helpers/helpers/is-empty'], function (exports, _emberTruthHelpersHelpersIsEmpty) {
+  Object.defineProperty(exports, 'default', {
+    enumerable: true,
+    get: function get() {
+      return _emberTruthHelpersHelpersIsEmpty['default'];
+    }
+  });
+});
+define('ticket-system/helpers/is-equal', ['exports', 'ember-truth-helpers/helpers/is-equal'], function (exports, _emberTruthHelpersHelpersIsEqual) {
+  Object.defineProperty(exports, 'default', {
+    enumerable: true,
+    get: function get() {
+      return _emberTruthHelpersHelpersIsEqual['default'];
+    }
+  });
+  Object.defineProperty(exports, 'isEqual', {
+    enumerable: true,
+    get: function get() {
+      return _emberTruthHelpersHelpersIsEqual.isEqual;
+    }
+  });
+});
+define('ticket-system/helpers/lt', ['exports', 'ember-truth-helpers/helpers/lt'], function (exports, _emberTruthHelpersHelpersLt) {
+  Object.defineProperty(exports, 'default', {
+    enumerable: true,
+    get: function get() {
+      return _emberTruthHelpersHelpersLt['default'];
+    }
+  });
+  Object.defineProperty(exports, 'lt', {
+    enumerable: true,
+    get: function get() {
+      return _emberTruthHelpersHelpersLt.lt;
+    }
+  });
+});
+define('ticket-system/helpers/lte', ['exports', 'ember-truth-helpers/helpers/lte'], function (exports, _emberTruthHelpersHelpersLte) {
+  Object.defineProperty(exports, 'default', {
+    enumerable: true,
+    get: function get() {
+      return _emberTruthHelpersHelpersLte['default'];
+    }
+  });
+  Object.defineProperty(exports, 'lte', {
+    enumerable: true,
+    get: function get() {
+      return _emberTruthHelpersHelpersLte.lte;
+    }
+  });
+});
+define('ticket-system/helpers/not-eq', ['exports', 'ember-truth-helpers/helpers/not-equal'], function (exports, _emberTruthHelpersHelpersNotEqual) {
+  Object.defineProperty(exports, 'default', {
+    enumerable: true,
+    get: function get() {
+      return _emberTruthHelpersHelpersNotEqual['default'];
+    }
+  });
+  Object.defineProperty(exports, 'notEq', {
+    enumerable: true,
+    get: function get() {
+      return _emberTruthHelpersHelpersNotEqual.notEq;
+    }
+  });
+});
+define('ticket-system/helpers/not', ['exports', 'ember-truth-helpers/helpers/not'], function (exports, _emberTruthHelpersHelpersNot) {
+  Object.defineProperty(exports, 'default', {
+    enumerable: true,
+    get: function get() {
+      return _emberTruthHelpersHelpersNot['default'];
+    }
+  });
+  Object.defineProperty(exports, 'not', {
+    enumerable: true,
+    get: function get() {
+      return _emberTruthHelpersHelpersNot.not;
+    }
+  });
+});
+define('ticket-system/helpers/or', ['exports', 'ember-truth-helpers/helpers/or'], function (exports, _emberTruthHelpersHelpersOr) {
+  Object.defineProperty(exports, 'default', {
+    enumerable: true,
+    get: function get() {
+      return _emberTruthHelpersHelpersOr['default'];
+    }
+  });
+  Object.defineProperty(exports, 'or', {
+    enumerable: true,
+    get: function get() {
+      return _emberTruthHelpersHelpersOr.or;
+    }
+  });
+});
+define('ticket-system/helpers/perform', ['exports', 'ember-concurrency/helpers/perform'], function (exports, _emberConcurrencyHelpersPerform) {
+  Object.defineProperty(exports, 'default', {
+    enumerable: true,
+    get: function get() {
+      return _emberConcurrencyHelpersPerform['default'];
+    }
+  });
+});
 define('ticket-system/helpers/pluralize', ['exports', 'ember-inflector/lib/helpers/pluralize'], function (exports, _emberInflectorLibHelpersPluralize) {
   exports['default'] = _emberInflectorLibHelpersPluralize['default'];
 });
 define('ticket-system/helpers/singularize', ['exports', 'ember-inflector/lib/helpers/singularize'], function (exports, _emberInflectorLibHelpersSingularize) {
   exports['default'] = _emberInflectorLibHelpersSingularize['default'];
+});
+define('ticket-system/helpers/task', ['exports', 'ember-concurrency/helpers/task'], function (exports, _emberConcurrencyHelpersTask) {
+  Object.defineProperty(exports, 'default', {
+    enumerable: true,
+    get: function get() {
+      return _emberConcurrencyHelpersTask['default'];
+    }
+  });
+});
+define('ticket-system/helpers/xor', ['exports', 'ember-truth-helpers/helpers/xor'], function (exports, _emberTruthHelpersHelpersXor) {
+  Object.defineProperty(exports, 'default', {
+    enumerable: true,
+    get: function get() {
+      return _emberTruthHelpersHelpersXor['default'];
+    }
+  });
+  Object.defineProperty(exports, 'xor', {
+    enumerable: true,
+    get: function get() {
+      return _emberTruthHelpersHelpersXor.xor;
+    }
+  });
 });
 define('ticket-system/initializers/app-version', ['exports', 'ember-cli-app-version/initializer-factory', 'ticket-system/config/environment'], function (exports, _emberCliAppVersionInitializerFactory, _ticketSystemConfigEnvironment) {
   var _config$APP = _ticketSystemConfigEnvironment['default'].APP;
@@ -267,6 +1183,14 @@ define('ticket-system/initializers/data-adapter', ['exports'], function (exports
     before: 'store',
     initialize: function initialize() {}
   };
+});
+define('ticket-system/initializers/ember-concurrency', ['exports', 'ember-concurrency/initializers/ember-concurrency'], function (exports, _emberConcurrencyInitializersEmberConcurrency) {
+  Object.defineProperty(exports, 'default', {
+    enumerable: true,
+    get: function get() {
+      return _emberConcurrencyInitializersEmberConcurrency['default'];
+    }
+  });
 });
 define('ticket-system/initializers/ember-data', ['exports', 'ember-data/setup-container', 'ember-data'], function (exports, _emberDataSetupContainer, _emberData) {
 
@@ -448,6 +1372,22 @@ define('ticket-system/instance-initializers/ember-simple-auth', ['exports', 'emb
     }
   };
 });
+define('ticket-system/mixins/default-attrs', ['exports', 'virtual-each/mixins/default-attrs'], function (exports, _virtualEachMixinsDefaultAttrs) {
+  Object.defineProperty(exports, 'default', {
+    enumerable: true,
+    get: function get() {
+      return _virtualEachMixinsDefaultAttrs['default'];
+    }
+  });
+});
+define('ticket-system/mixins/transition-mixin', ['exports', 'ember-css-transitions/mixins/transition-mixin'], function (exports, _emberCssTransitionsMixinsTransitionMixin) {
+  Object.defineProperty(exports, 'default', {
+    enumerable: true,
+    get: function get() {
+      return _emberCssTransitionsMixinsTransitionMixin['default'];
+    }
+  });
+});
 define('ticket-system/models/issue', ['exports', 'ember-data'], function (exports, _emberData) {
     exports['default'] = _emberData['default'].Model.extend({
         description: _emberData['default'].attr(),
@@ -532,17 +1472,12 @@ define('ticket-system/routes/submit', ['exports', 'ember'], function (exports, _
 define('ticket-system/routes/test', ['exports', 'ember'], function (exports, _ember) {
   exports['default'] = _ember['default'].Route.extend({});
 });
-define("ticket-system/serializers/application", ["exports", "ember-data"], function (exports, _emberData) {
-    exports["default"] = _emberData["default"].RESTSerializer.extend({
-        serialize: function serialize(snapshot, options) {
-            var json = this._super.apply(this, arguments);
-            console.log(" updating and put serialize ");
-            console.log(json);
-
-            return json.data.attributes;
-        }
-
-    });
+define('ticket-system/serializers/application', ['exports', 'ember-data', 'ember'], function (exports, _emberData, _ember) {
+	exports['default'] = _emberData['default'].RESTSerializer.extend({
+		serializeIntoHash: function serializeIntoHash(hash, type, record, options) {
+			_ember['default'].assign(hash, this.serialize(record, options));
+		}
+	});
 });
 define('ticket-system/serializers/issue', ['exports', 'ticket-system/serializers/application'], function (exports, _ticketSystemSerializersApplication) {
 	exports['default'] = _ticketSystemSerializersApplication['default'].extend({
@@ -596,11 +1531,184 @@ define('ticket-system/services/ajax', ['exports', 'ember-ajax/services/ajax'], f
     }
   });
 });
+define('ticket-system/services/constants', ['exports', '@ember/service', '@ember/object'], function (exports, _emberService, _emberObject) {
+  exports['default'] = _emberService['default'].extend({
+
+    sniffer: (0, _emberService.inject)('sniffer'),
+
+    webkit: (0, _emberObject.computed)(function () {
+      return (/webkit/i.test(this.get('sniffer.vendorPrefix'))
+      );
+    }),
+
+    vendorProperty: function vendorProperty(name) {
+      return this.get('webkit') ? '-webkit-' + name.charAt(0) + name.substring(1) : name;
+    },
+
+    CSS: (0, _emberObject.computed)('webkit', function () {
+      var webkit = this.get('webkit');
+      return {
+        /* Constants */
+        TRANSITIONEND: 'transitionend' + (webkit ? ' webkitTransitionEnd' : ''),
+        ANIMATIONEND: 'animationend' + (webkit ? ' webkitAnimationEnd' : ''),
+
+        TRANSFORM: this.vendorProperty('transform'),
+        TRANSFORM_ORIGIN: this.vendorProperty('transformOrigin'),
+        TRANSITION: this.vendorProperty('transition'),
+        TRANSITION_DURATION: this.vendorProperty('transitionDuration'),
+        ANIMATION_PLAY_STATE: this.vendorProperty('animationPlayState'),
+        ANIMATION_DURATION: this.vendorProperty('animationDuration'),
+        ANIMATION_NAME: this.vendorProperty('animationName'),
+        ANIMATION_TIMING: this.vendorProperty('animationTimingFunction'),
+        ANIMATION_DIRECTION: this.vendorProperty('animationDirection')
+      };
+    }),
+
+    KEYCODE: _emberObject['default'].create({
+      ENTER: 13,
+      ESCAPE: 27,
+      SPACE: 32,
+      LEFT_ARROW: 37,
+      UP_ARROW: 38,
+      RIGHT_ARROW: 39,
+      DOWN_ARROW: 40,
+      TAB: 9
+    }),
+
+    // eslint-disable-next-line ember/avoid-leaking-state-in-ember-objects
+    MEDIA: {
+      'xs': '(max-width: 599px)',
+      'gt-xs': '(min-width: 600px)',
+      'sm': '(min-width: 600px) and (max-width: 959px)',
+      'gt-sm': '(min-width: 960px)',
+      'md': '(min-width: 960px) and (max-width: 1279px)',
+      'gt-md': '(min-width: 1280px)',
+      'lg': '(min-width: 1280px) and (max-width: 1919px)',
+      'gt-lg': '(min-width: 1920px)',
+      'xl': '(min-width: 1920px)',
+      'print': 'print'
+    },
+
+    // eslint-disable-next-line ember/avoid-leaking-state-in-ember-objects
+    MEDIA_PRIORITY: ['xl', 'gt-lg', 'lg', 'gt-md', 'md', 'gt-sm', 'sm', 'gt-xs', 'xs', 'print']
+  });
+});
 define('ticket-system/services/cookies', ['exports', 'ember-cookies/services/cookies'], function (exports, _emberCookiesServicesCookies) {
   exports['default'] = _emberCookiesServicesCookies['default'];
 });
+define('ticket-system/services/paper-sidenav', ['exports', 'ember-paper/services/paper-sidenav'], function (exports, _emberPaperServicesPaperSidenav) {
+  Object.defineProperty(exports, 'default', {
+    enumerable: true,
+    get: function get() {
+      return _emberPaperServicesPaperSidenav['default'];
+    }
+  });
+});
+define('ticket-system/services/paper-theme', ['exports', 'ember-paper/services/paper-theme'], function (exports, _emberPaperServicesPaperTheme) {
+  Object.defineProperty(exports, 'default', {
+    enumerable: true,
+    get: function get() {
+      return _emberPaperServicesPaperTheme['default'];
+    }
+  });
+});
+define('ticket-system/services/paper-toaster', ['exports', 'ember-paper/services/paper-toaster'], function (exports, _emberPaperServicesPaperToaster) {
+  Object.defineProperty(exports, 'default', {
+    enumerable: true,
+    get: function get() {
+      return _emberPaperServicesPaperToaster['default'];
+    }
+  });
+});
 define('ticket-system/services/session', ['exports', 'ember-simple-auth/services/session'], function (exports, _emberSimpleAuthServicesSession) {
   exports['default'] = _emberSimpleAuthServicesSession['default'];
+});
+define('ticket-system/services/sniffer', ['exports', '@ember/service', '@ember/object'], function (exports, _emberService, _emberObject) {
+
+  var isString = function isString(value) {
+    return typeof value === 'string';
+  };
+
+  var lowercase = function lowercase(string) {
+    return isString(string) ? string.toLowerCase() : string;
+  };
+
+  var toInt = function toInt(str) {
+    return parseInt(str, 10);
+  };
+
+  exports['default'] = _emberService['default'].extend({
+    vendorPrefix: '',
+    transitions: false,
+    animations: false,
+    _document: null,
+    _window: null,
+
+    android: (0, _emberObject.computed)('', function () {
+      return toInt((/android (\d+)/.exec(lowercase((this.get('_window').navigator || {}).userAgent)) || [])[1]);
+    }),
+
+    init: function init() {
+      this._super.apply(this, arguments);
+      if (typeof FastBoot !== 'undefined') {
+        return;
+      }
+
+      var _document = document;
+      var _window = window;
+
+      this.setProperties({
+        _document: _document,
+        _window: _window
+      });
+
+      var bodyStyle = _document.body && _document.body.style;
+      var vendorPrefix = undefined,
+          match = undefined;
+      var vendorRegex = /^(Moz|webkit|ms)(?=[A-Z])/;
+
+      var transitions = false;
+      var animations = false;
+
+      if (bodyStyle) {
+        for (var prop in bodyStyle) {
+          match = vendorRegex.exec(prop);
+          if (match) {
+            vendorPrefix = match[0];
+            vendorPrefix = vendorPrefix.substr(0, 1).toUpperCase() + vendorPrefix.substr(1);
+            break;
+          }
+        }
+
+        if (!vendorPrefix) {
+          vendorPrefix = 'WebkitOpacity' in bodyStyle && 'webkit';
+        }
+
+        transitions = !!('transition' in bodyStyle || vendorPrefix + 'Transition' in bodyStyle);
+        animations = !!('animation' in bodyStyle || vendorPrefix + 'Animation' in bodyStyle);
+
+        if (this.get('android') && (!transitions || !animations)) {
+          transitions = isString(bodyStyle.webkitTransition);
+          animations = isString(bodyStyle.webkitAnimation);
+        }
+      }
+
+      this.set('transitions', transitions);
+      this.set('animations', animations);
+
+      this.set('vendorPrefix', vendorPrefix);
+    }
+
+  });
+});
+/* globals FastBoot */
+define('ticket-system/services/text-measurer', ['exports', 'ember-text-measurer/services/text-measurer'], function (exports, _emberTextMeasurerServicesTextMeasurer) {
+  Object.defineProperty(exports, 'default', {
+    enumerable: true,
+    get: function get() {
+      return _emberTextMeasurerServicesTextMeasurer['default'];
+    }
+  });
 });
 define('ticket-system/session-stores/application', ['exports', 'ember-simple-auth/session-stores/adaptive'], function (exports, _emberSimpleAuthSessionStoresAdaptive) {
   exports['default'] = _emberSimpleAuthSessionStoresAdaptive['default'].extend();
@@ -609,25 +1717,25 @@ define("ticket-system/templates/application", ["exports"], function (exports) {
   exports["default"] = Ember.HTMLBars.template({ "id": "psK0Ernf", "block": "{\"statements\":[[\"append\",[\"unknown\",[\"outlet\"]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"blocks\":[],\"hasPartials\":false}", "meta": { "moduleName": "ticket-system/templates/application.hbs" } });
 });
 define("ticket-system/templates/components/dashboard-view", ["exports"], function (exports) {
-  exports["default"] = Ember.HTMLBars.template({ "id": "WD8hHglD", "block": "{\"statements\":[[\"open-element\",\"div\",[]],[\"static-attr\",\"class\",\"row\"],[\"flush-element\"],[\"text\",\"\\n\\t\"],[\"open-element\",\"div\",[]],[\"static-attr\",\"class\",\"col-md-3\"],[\"flush-element\"],[\"text\",\"\\n\\t\\t\"],[\"append\",[\"helper\",[\"project-list\"],null,[[\"projects\",\"setProject\"],[[\"get\",[\"model\",\"projects\"]],[\"helper\",[\"action\"],[[\"get\",[null]],\"setProject\"],null]]]],false],[\"text\",\"\\t\\n\\t\"],[\"close-element\"],[\"text\",\"\\n\\n\\t\"],[\"open-element\",\"div\",[]],[\"static-attr\",\"class\",\"col-md-9\"],[\"flush-element\"],[\"text\",\"\\n\\t\\t\"],[\"append\",[\"helper\",[\"issue-list\"],null,[[\"issues\"],[[\"get\",[\"selected_issues\"]]]]],false],[\"text\",\"\\n\\t\"],[\"close-element\"],[\"text\",\"\\n\\n\"],[\"close-element\"],[\"text\",\"\\n\"]],\"locals\":[],\"named\":[],\"yields\":[],\"blocks\":[],\"hasPartials\":false}", "meta": { "moduleName": "ticket-system/templates/components/dashboard-view.hbs" } });
+  exports["default"] = Ember.HTMLBars.template({ "id": "svYMqrEp", "block": "{\"statements\":[[\"open-element\",\"div\",[]],[\"static-attr\",\"class\",\"layout-row flex\"],[\"flush-element\"],[\"text\",\"\\n  \"],[\"open-element\",\"div\",[]],[\"static-attr\",\"class\",\"flex-20 project-bg \"],[\"flush-element\"],[\"text\",\"\\n\\t  \"],[\"append\",[\"helper\",[\"project-list\"],null,[[\"projects\",\"setProject\"],[[\"get\",[\"model\",\"projects\"]],[\"helper\",[\"action\"],[[\"get\",[null]],\"setProject\"],null]]]],false],[\"text\",\"\\n  \"],[\"close-element\"],[\"text\",\"\\n  \"],[\"open-element\",\"div\",[]],[\"static-attr\",\"class\",\"flex-80\"],[\"flush-element\"],[\"text\",\"\\n\\t\"],[\"append\",[\"helper\",[\"issue-list\"],null,[[\"issues\",\"projectId\"],[[\"get\",[\"selected_issues\"]],[\"get\",[\"select_project_id\"]]]]],false],[\"text\",\"\\n  \"],[\"close-element\"],[\"text\",\"\\n\"],[\"close-element\"],[\"text\",\"\\n\"]],\"locals\":[],\"named\":[],\"yields\":[],\"blocks\":[],\"hasPartials\":false}", "meta": { "moduleName": "ticket-system/templates/components/dashboard-view.hbs" } });
 });
 define("ticket-system/templates/components/issue-card", ["exports"], function (exports) {
   exports["default"] = Ember.HTMLBars.template({ "id": "634hTBfL", "block": "{\"statements\":[[\"text\",\"\\n    \"],[\"open-element\",\"ul\",[]],[\"static-attr\",\"class\",\"list-group issue\"],[\"flush-element\"],[\"text\",\"\\n        \"],[\"open-element\",\"li\",[]],[\"static-attr\",\"class\",\"list-group-item\"],[\"flush-element\"],[\"append\",[\"unknown\",[\"post\",\"title\"]],false],[\"text\",\"\\n\\n            \"],[\"open-element\",\"span\",[]],[\"static-attr\",\"class\",\"glyphicon glyphicon-ok-sign update-button\"],[\"modifier\",[\"action\"],[[\"get\",[null]],\"updateIssue\",[\"get\",[\"post\",\"id\"]]]],[\"flush-element\"],[\"close-element\"],[\"text\",\"\\n            \"],[\"open-element\",\"span\",[]],[\"static-attr\",\"class\",\"glyphicon glyphicon-remove-sign update-button\"],[\"modifier\",[\"action\"],[[\"get\",[null]],\"deleteIssue\",[\"get\",[\"post\",\"id\"]]]],[\"flush-element\"],[\"close-element\"],[\"text\",\"        \\n        \"],[\"close-element\"],[\"text\",\"\\n\"],[\"block\",[\"if\"],[[\"helper\",[\"compare_string\"],[[\"get\",[\"post\",\"status\"]],\"closed\",\"not_equal\"],null]],null,0],[\"text\",\"    \"],[\"close-element\"],[\"text\",\"\\n    \\n    \\n    \\n\\n    \\n\"]],\"locals\":[],\"named\":[],\"yields\":[],\"blocks\":[{\"statements\":[[\"text\",\"            \"],[\"open-element\",\"li\",[]],[\"static-attr\",\"class\",\"list-group-item\"],[\"flush-element\"],[\"append\",[\"unknown\",[\"post\",\"description\"]],false],[\"close-element\"],[\"text\",\"\\n            \"],[\"open-element\",\"li\",[]],[\"static-attr\",\"class\",\"list-group-item\"],[\"flush-element\"],[\"append\",[\"unknown\",[\"post\",\"status\"]],false],[\"close-element\"],[\"text\",\"\\n\"]],\"locals\":[]}],\"hasPartials\":false}", "meta": { "moduleName": "ticket-system/templates/components/issue-card.hbs" } });
 });
 define("ticket-system/templates/components/issue-list", ["exports"], function (exports) {
-  exports["default"] = Ember.HTMLBars.template({ "id": "gwhcqA8P", "block": "{\"statements\":[[\"open-element\",\"div\",[]],[\"static-attr\",\"class\",\"dashboard row\"],[\"flush-element\"],[\"text\",\"\\n        \"],[\"open-element\",\"div\",[]],[\"static-attr\",\"class\",\"col-sm-4 column\"],[\"flush-element\"],[\"text\",\"\\n            \\n            \"],[\"open-element\",\"ul\",[]],[\"static-attr\",\"class\",\"list-group\"],[\"flush-element\"],[\"text\",\"\\n\"],[\"block\",[\"each\"],[[\"get\",[\"issues\"]]],null,5],[\"text\",\"    \\n            \"],[\"close-element\"],[\"text\",\"\\n        \"],[\"close-element\"],[\"text\",\"\\n        \"],[\"open-element\",\"div\",[]],[\"static-attr\",\"class\",\"col-sm-4 column\"],[\"flush-element\"],[\"text\",\"\\n\"],[\"block\",[\"each\"],[[\"get\",[\"issues\"]]],null,3],[\"text\",\"            \\n        \"],[\"close-element\"],[\"text\",\"\\n        \"],[\"open-element\",\"div\",[]],[\"static-attr\",\"class\",\"col-sm-4 column\"],[\"flush-element\"],[\"text\",\"\\n\"],[\"block\",[\"each\"],[[\"get\",[\"issues\"]]],null,1],[\"text\",\"            \\n        \"],[\"close-element\"],[\"text\",\"\\n    \"],[\"close-element\"],[\"text\",\"\\n\"]],\"locals\":[],\"named\":[],\"yields\":[],\"blocks\":[{\"statements\":[[\"text\",\"                            \"],[\"open-element\",\"li\",[]],[\"static-attr\",\"class\",\"list-group-item\"],[\"flush-element\"],[\"text\",\"\\n                                \"],[\"append\",[\"helper\",[\"issue-card\"],null,[[\"post\"],[[\"get\",[\"post\"]]]]],false],[\"text\",\"\\n                            \"],[\"close-element\"],[\"text\",\"\\n\"]],\"locals\":[]},{\"statements\":[[\"block\",[\"if\"],[[\"helper\",[\"compare-string\"],[[\"get\",[\"post\",\"status\"]],\"closed\"],null]],null,0],[\"text\",\"                \\n\"]],\"locals\":[\"post\"]},{\"statements\":[[\"text\",\"                            \"],[\"open-element\",\"li\",[]],[\"static-attr\",\"class\",\"list-group-item\"],[\"flush-element\"],[\"text\",\"\\n                                \"],[\"append\",[\"helper\",[\"issue-card\"],null,[[\"post\"],[[\"get\",[\"post\"]]]]],false],[\"text\",\"\\n                            \"],[\"close-element\"],[\"text\",\"\\n\"]],\"locals\":[]},{\"statements\":[[\"block\",[\"if\"],[[\"helper\",[\"compare-string\"],[[\"get\",[\"post\",\"status\"]],\"working\"],null]],null,2],[\"text\",\"                \\n\"]],\"locals\":[\"post\"]},{\"statements\":[[\"text\",\"                            \"],[\"open-element\",\"li\",[]],[\"static-attr\",\"class\",\"list-group-item\"],[\"flush-element\"],[\"text\",\"\\n                                \"],[\"append\",[\"helper\",[\"issue-card\"],null,[[\"post\"],[[\"get\",[\"post\"]]]]],false],[\"text\",\"\\n                            \"],[\"close-element\"],[\"text\",\"\\n\"]],\"locals\":[]},{\"statements\":[[\"text\",\"                        \\n\"],[\"block\",[\"if\"],[[\"helper\",[\"compare-string\"],[[\"get\",[\"post\",\"status\"]],\"open\"],null]],null,4],[\"text\",\"                \\n\"]],\"locals\":[\"post\"]}],\"hasPartials\":false}", "meta": { "moduleName": "ticket-system/templates/components/issue-list.hbs" } });
+  exports["default"] = Ember.HTMLBars.template({ "id": "DKkkF+RP", "block": "{\"statements\":[[\"block\",[\"if\"],[[\"get\",[\"projectId\"]]],null,3],[\"text\",\"\\n\"],[\"block\",[\"paper-list\"],null,null,2]],\"locals\":[],\"named\":[],\"yields\":[],\"blocks\":[{\"statements\":[[\"text\",\"      \"],[\"open-element\",\"div\",[]],[\"static-attr\",\"class\",\"md-list-item-text\"],[\"flush-element\"],[\"text\",\"\\n        \"],[\"open-element\",\"h3\",[]],[\"flush-element\"],[\"append\",[\"unknown\",[\"issue\",\"title\"]],false],[\"close-element\"],[\"text\",\"\\n        \"],[\"open-element\",\"h4\",[]],[\"flush-element\"],[\"append\",[\"unknown\",[\"issue\",\"description\"]],false],[\"close-element\"],[\"text\",\"\\n      \"],[\"close-element\"],[\"text\",\"\\n      \"],[\"append\",[\"unknown\",[\"paper-divider\"]],false],[\"text\",\"\\n\"]],\"locals\":[]},{\"statements\":[[\"block\",[\"paper-item\"],null,[[\"class\"],[\"md-3-line\"]],0]],\"locals\":[\"issue\"]},{\"statements\":[[\"block\",[\"each\"],[[\"get\",[\"issues\"]]],null,1]],\"locals\":[]},{\"statements\":[[\"text\",\"\\t\"],[\"open-element\",\"form\",[]],[\"modifier\",[\"action\"],[[\"get\",[null]],\"submitIssue\"],[[\"on\"],[\"submit\"]]],[\"flush-element\"],[\"text\",\"\\n\\t\\t\"],[\"append\",[\"helper\",[\"paper-input\"],null,[[\"class\",\"label\",\"placeholder\",\"value\",\"onChange\"],[\"flex-30\",\"Issue\",\"Issues\",[\"get\",[\"issue\"]],[\"helper\",[\"action\"],[[\"get\",[null]],[\"helper\",[\"mut\"],[[\"get\",[\"issue\"]]],null]],null]]]],false],[\"text\",\"\\n\\t\"],[\"close-element\"],[\"text\",\"\\n\"]],\"locals\":[]}],\"hasPartials\":false}", "meta": { "moduleName": "ticket-system/templates/components/issue-list.hbs" } });
 });
 define("ticket-system/templates/components/my-modal", ["exports"], function (exports) {
   exports["default"] = Ember.HTMLBars.template({ "id": "al11RglF", "block": "{\"statements\":[[\"open-element\",\"div\",[]],[\"static-attr\",\"class\",\"modal fade\"],[\"flush-element\"],[\"text\",\"\\n  \"],[\"open-element\",\"div\",[]],[\"static-attr\",\"class\",\"modal-dialog\"],[\"flush-element\"],[\"text\",\"\\n    \"],[\"open-element\",\"div\",[]],[\"static-attr\",\"class\",\"modal-content\"],[\"flush-element\"],[\"text\",\"\\n      \"],[\"open-element\",\"div\",[]],[\"static-attr\",\"class\",\"modal-header\"],[\"flush-element\"],[\"text\",\"\\n        \"],[\"open-element\",\"button\",[]],[\"static-attr\",\"type\",\"button\"],[\"static-attr\",\"class\",\"close\"],[\"static-attr\",\"data-dismiss\",\"modal\"],[\"static-attr\",\"aria-hidden\",\"true\"],[\"flush-element\"],[\"text\",\"×\"],[\"close-element\"],[\"text\",\"\\n        \"],[\"open-element\",\"h4\",[]],[\"static-attr\",\"class\",\"modal-title\"],[\"flush-element\"],[\"append\",[\"unknown\",[\"title\"]],false],[\"close-element\"],[\"text\",\"\\n      \"],[\"close-element\"],[\"text\",\"\\n      \"],[\"open-element\",\"div\",[]],[\"static-attr\",\"class\",\"modal-body\"],[\"flush-element\"],[\"text\",\"\\n        \"],[\"yield\",\"default\"],[\"text\",\"\\n      \"],[\"close-element\"],[\"text\",\"\\n      \"],[\"open-element\",\"div\",[]],[\"static-attr\",\"class\",\"modal-footer\"],[\"flush-element\"],[\"text\",\"\\n        \"],[\"open-element\",\"button\",[]],[\"static-attr\",\"type\",\"button\"],[\"static-attr\",\"class\",\"btn btn-default\"],[\"static-attr\",\"data-dismiss\",\"modal\"],[\"flush-element\"],[\"text\",\"Close\"],[\"close-element\"],[\"text\",\"\\n        \"],[\"open-element\",\"button\",[]],[\"static-attr\",\"type\",\"button\"],[\"static-attr\",\"class\",\"btn btn-primary\"],[\"modifier\",[\"action\"],[[\"get\",[null]],\"ok\"]],[\"flush-element\"],[\"text\",\"OK\"],[\"close-element\"],[\"text\",\"\\n      \"],[\"close-element\"],[\"text\",\"\\n    \"],[\"close-element\"],[\"text\",\"\\n  \"],[\"close-element\"],[\"text\",\"\\n\"],[\"close-element\"]],\"locals\":[],\"named\":[],\"yields\":[\"default\"],\"blocks\":[],\"hasPartials\":false}", "meta": { "moduleName": "ticket-system/templates/components/my-modal.hbs" } });
 });
 define("ticket-system/templates/components/nav-bar", ["exports"], function (exports) {
-  exports["default"] = Ember.HTMLBars.template({ "id": "RyxSaSAs", "block": "{\"statements\":[[\"open-element\",\"nav\",[]],[\"static-attr\",\"class\",\"navbar navbar-light bg-light\"],[\"flush-element\"],[\"text\",\"\\n  \"],[\"open-element\",\"a\",[]],[\"static-attr\",\"class\",\"navbar-brand\"],[\"static-attr\",\"href\",\"#\"],[\"flush-element\"],[\"text\",\"Navbar\"],[\"close-element\"],[\"text\",\"\\n\"],[\"close-element\"],[\"text\",\"\\n\"]],\"locals\":[],\"named\":[],\"yields\":[],\"blocks\":[],\"hasPartials\":false}", "meta": { "moduleName": "ticket-system/templates/components/nav-bar.hbs" } });
+  exports["default"] = Ember.HTMLBars.template({ "id": "fPBU2gg4", "block": "{\"statements\":[[\"block\",[\"paper-toolbar\"],null,null,2],[\"text\",\"\\n\"]],\"locals\":[],\"named\":[],\"yields\":[],\"blocks\":[{\"statements\":[[\"text\",\"      \"],[\"append\",[\"helper\",[\"paper-icon\"],[\"check-circle\"],null],false],[\"text\",\"\\n\"]],\"locals\":[]},{\"statements\":[[\"text\",\"    \"],[\"open-element\",\"h2\",[]],[\"flush-element\"],[\"text\",\"Ticketing System\"],[\"close-element\"],[\"text\",\"\\n    \"],[\"open-element\",\"span\",[]],[\"static-attr\",\"class\",\"flex\"],[\"flush-element\"],[\"close-element\"],[\"text\",\"\\n\"],[\"block\",[\"paper-button\"],null,[[\"iconButton\"],[true]],0]],\"locals\":[]},{\"statements\":[[\"block\",[\"paper-toolbar-tools\"],null,null,1]],\"locals\":[]}],\"hasPartials\":false}", "meta": { "moduleName": "ticket-system/templates/components/nav-bar.hbs" } });
 });
 define("ticket-system/templates/components/project-component", ["exports"], function (exports) {
   exports["default"] = Ember.HTMLBars.template({ "id": "HGaBWEFK", "block": "{\"statements\":[[\"text\",\"\\n\\n\"],[\"append\",[\"unknown\",[\"name\"]],false],[\"text\",\"\\n\"],[\"open-element\",\"span\",[]],[\"static-attr\",\"class\",\"glyphicon glyphicon-menu-right update-button\"],[\"modifier\",[\"action\"],[[\"get\",[null]],\"jumpToIssue\",[\"get\",[\"project_id\"]]]],[\"flush-element\"],[\"close-element\"]],\"locals\":[],\"named\":[],\"yields\":[],\"blocks\":[],\"hasPartials\":false}", "meta": { "moduleName": "ticket-system/templates/components/project-component.hbs" } });
 });
 define("ticket-system/templates/components/project-list", ["exports"], function (exports) {
-  exports["default"] = Ember.HTMLBars.template({ "id": "Vba+6X0I", "block": "{\"statements\":[[\"open-element\",\"ul\",[]],[\"static-attr\",\"class\",\"list-group\"],[\"flush-element\"],[\"text\",\"\\n\"],[\"block\",[\"each\"],[[\"get\",[\"projects\"]]],null,0],[\"close-element\"],[\"text\",\"\\n\"]],\"locals\":[],\"named\":[],\"yields\":[],\"blocks\":[{\"statements\":[[\"append\",[\"helper\",[\"log\"],[[\"get\",[\"project\",\"issues\",\"length\"]]],null],false],[\"text\",\"\\n\\t  \"],[\"open-element\",\"li\",[]],[\"static-attr\",\"class\",\"list-group-item\"],[\"modifier\",[\"action\"],[[\"get\",[null]],\"setProject\",[\"get\",[\"project\"]]]],[\"flush-element\"],[\"append\",[\"unknown\",[\"project\",\"projects\"]],false],[\"close-element\"],[\"text\",\"\\n\"]],\"locals\":[\"project\"]}],\"hasPartials\":false}", "meta": { "moduleName": "ticket-system/templates/components/project-list.hbs" } });
+  exports["default"] = Ember.HTMLBars.template({ "id": "AJbA7s83", "block": "{\"statements\":[[\"open-element\",\"form\",[]],[\"modifier\",[\"action\"],[[\"get\",[null]],\"submitProject\"],[[\"on\"],[\"submit\"]]],[\"flush-element\"],[\"text\",\"\\n\\t\"],[\"append\",[\"helper\",[\"paper-input\"],null,[[\"class\",\"label\",\"placeholder\",\"value\",\"onChange\"],[\"flex-30\",\"Add Project\",\"Projects\",[\"get\",[\"project\"]],[\"helper\",[\"action\"],[[\"get\",[null]],[\"helper\",[\"mut\"],[[\"get\",[\"project\"]]],null]],null]]]],false],[\"text\",\"\\n\"],[\"close-element\"],[\"text\",\"\\n\\n\"],[\"block\",[\"each\"],[[\"get\",[\"projects\"]]],null,2],[\"text\",\"\\n\"]],\"locals\":[],\"named\":[],\"yields\":[],\"blocks\":[{\"statements\":[[\"text\",\"\\t\\t\"],[\"append\",[\"helper\",[\"paper-icon\"],[\"delete\"],null],false],[\"text\",\" DELETE\\n\"]],\"locals\":[]},{\"statements\":[[\"text\",\"      \"],[\"open-element\",\"div\",[]],[\"static-attr\",\"class\",\"md-list-item-text\"],[\"modifier\",[\"action\"],[[\"get\",[null]],\"setProject\",[\"get\",[\"project\"]]]],[\"flush-element\"],[\"text\",\"\\n        \"],[\"open-element\",\"h3\",[]],[\"flush-element\"],[\"append\",[\"unknown\",[\"project\",\"projects\"]],false],[\"close-element\"],[\"text\",\"\\n        \"],[\"open-element\",\"h4\",[]],[\"flush-element\"],[\"append\",[\"unknown\",[\"project\",\"date_modified\"]],false],[\"close-element\"],[\"text\",\"\\n\"],[\"block\",[\"paper-button\"],null,[[\"onClick\"],[[\"helper\",[\"action\"],[[\"get\",[null]],\"deleteProject\",[\"get\",[\"project\"]]],null]]],0],[\"text\",\"\\n      \"],[\"close-element\"],[\"text\",\"\\n      \"],[\"append\",[\"unknown\",[\"paper-divider\"]],false],[\"text\",\"\\n\"]],\"locals\":[]},{\"statements\":[[\"block\",[\"paper-item\"],null,[[\"class\"],[\"md-3-line project-tile\"]],1]],\"locals\":[\"project\"]}],\"hasPartials\":false}", "meta": { "moduleName": "ticket-system/templates/components/project-list.hbs" } });
 });
 define("ticket-system/templates/components/show-alert", ["exports"], function (exports) {
   exports["default"] = Ember.HTMLBars.template({ "id": "c6Id1CSV", "block": "{\"statements\":[[\"open-element\",\"div\",[]],[\"static-attr\",\"class\",\"modal fade\"],[\"flush-element\"],[\"text\",\"\\n  \"],[\"open-element\",\"div\",[]],[\"static-attr\",\"class\",\"modal-dialog\"],[\"flush-element\"],[\"text\",\"\\n    \"],[\"open-element\",\"div\",[]],[\"static-attr\",\"class\",\"modal-content\"],[\"flush-element\"],[\"text\",\"\\n      \"],[\"open-element\",\"div\",[]],[\"static-attr\",\"class\",\"modal-header\"],[\"flush-element\"],[\"text\",\"\\n        \"],[\"open-element\",\"button\",[]],[\"static-attr\",\"type\",\"button\"],[\"static-attr\",\"class\",\"close\"],[\"static-attr\",\"data-dismiss\",\"modal\"],[\"static-attr\",\"aria-hidden\",\"true\"],[\"flush-element\"],[\"text\",\"×\"],[\"close-element\"],[\"text\",\"\\n        \"],[\"open-element\",\"h4\",[]],[\"static-attr\",\"class\",\"modal-title\"],[\"flush-element\"],[\"append\",[\"unknown\",[\"title\"]],false],[\"close-element\"],[\"text\",\"\\n      \"],[\"close-element\"],[\"text\",\"\\n      \"],[\"open-element\",\"div\",[]],[\"static-attr\",\"class\",\"modal-body\"],[\"flush-element\"],[\"text\",\"\\n       \"],[\"append\",[\"helper\",[\"submit-issue\"],null,[[\"issue\",\"post\",\"submit\"],[[\"get\",[\"issue\"]],[\"get\",[\"pos\"]],[\"helper\",[\"action\"],[[\"get\",[null]],\"submit\"],null]]]],false],[\"text\",\"       \\n      \"],[\"close-element\"],[\"text\",\"\\n      \\n    \"],[\"close-element\"],[\"text\",\"\\n  \"],[\"close-element\"],[\"text\",\"\\n\"],[\"close-element\"]],\"locals\":[],\"named\":[],\"yields\":[],\"blocks\":[],\"hasPartials\":false}", "meta": { "moduleName": "ticket-system/templates/components/show-alert.hbs" } });
@@ -653,18 +1761,18 @@ define("ticket-system/templates/submit", ["exports"], function (exports) {
 define("ticket-system/templates/test", ["exports"], function (exports) {
   exports["default"] = Ember.HTMLBars.template({ "id": "4pOJwapV", "block": "{\"statements\":[[\"append\",[\"unknown\",[\"outlet\"]],false],[\"text\",\"\\n\"],[\"open-element\",\"h1\",[]],[\"flush-element\"],[\"text\",\"\\nsdfkkdshfjdkshfkhfks\\n\"],[\"close-element\"]],\"locals\":[],\"named\":[],\"yields\":[],\"blocks\":[],\"hasPartials\":false}", "meta": { "moduleName": "ticket-system/templates/test.hbs" } });
 });
-/* jshint ignore:start */
+define('ticket-system/utils/clamp', ['exports', 'ember-paper/utils/clamp'], function (exports, _emberPaperUtilsClamp) {
+  Object.defineProperty(exports, 'default', {
+    enumerable: true,
+    get: function get() {
+      return _emberPaperUtilsClamp['default'];
+    }
+  });
+});
 
-
-
-/* jshint ignore:end */
-
-/* jshint ignore:start */
 
 define('ticket-system/config/environment', ['ember'], function(Ember) {
   var prefix = 'ticket-system';
-/* jshint ignore:start */
-
 try {
   var metaName = prefix + '/config/environment';
   var rawConfig = document.querySelector('meta[name="' + metaName + '"]').getAttribute('content');
@@ -680,17 +1788,9 @@ catch(err) {
   throw new Error('Could not read config from meta tag with name "' + metaName + '".');
 }
 
-/* jshint ignore:end */
-
 });
 
-/* jshint ignore:end */
-
-/* jshint ignore:start */
-
 if (!runningTests) {
-  require("ticket-system/app")["default"].create({"name":"ticket-system","version":"0.0.0+1a9207d0"});
+  require("ticket-system/app")["default"].create({"name":"ticket-system","version":"0.0.0+956245c8"});
 }
-
-/* jshint ignore:end */
 //# sourceMappingURL=ticket-system.map

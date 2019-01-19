@@ -1,8 +1,4 @@
-/* jshint ignore:start */
 
-
-
-/* jshint ignore:end */
 
 ;(function() {
 /*!
@@ -9253,6 +9249,110 @@ QUnit.notifications = function( options ) {
 
 })();
 
+define("ember-basic-dropdown/test-support/helpers", ["exports", "@ember/test-helpers"], function (_exports, _testHelpers) {
+  "use strict";
+
+  Object.defineProperty(_exports, "__esModule", {
+    value: true
+  });
+  _exports.nativeTap = nativeTap;
+  _exports.clickTrigger = clickTrigger;
+  _exports.tapTrigger = tapTrigger;
+  _exports.fireKeydown = fireKeydown;
+  _exports.default = _default;
+
+  function nativeTap(selector) {
+    var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+    var touchStartEvent = new window.Event('touchstart', {
+      bubbles: true,
+      cancelable: true,
+      view: window
+    });
+    Object.keys(options).forEach(function (key) {
+      return touchStartEvent[key] = options[key];
+    });
+    Ember.run(function () {
+      return document.querySelector(selector).dispatchEvent(touchStartEvent);
+    });
+    var touchEndEvent = new window.Event('touchend', {
+      bubbles: true,
+      cancelable: true,
+      view: window
+    });
+    Object.keys(options).forEach(function (key) {
+      return touchEndEvent[key] = options[key];
+    });
+    Ember.run(function () {
+      return document.querySelector(selector).dispatchEvent(touchEndEvent);
+    });
+  }
+
+  function clickTrigger(scope) {
+    var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+    var selector = '.ember-basic-dropdown-trigger';
+
+    if (scope) {
+      var element = document.querySelector(scope);
+
+      if (element.classList.contains('ember-basic-dropdown-trigger')) {
+        selector = scope;
+      } else {
+        selector = scope + ' ' + selector;
+      }
+    }
+
+    (0, _testHelpers.click)(selector, options);
+    return (0, _testHelpers.settled)();
+  }
+
+  function tapTrigger(scope) {
+    var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+    var selector = '.ember-basic-dropdown-trigger';
+
+    if (scope) {
+      selector = scope + ' ' + selector;
+    }
+
+    nativeTap(selector, options);
+  }
+
+  function fireKeydown(selector, k) {
+    var oEvent = document.createEvent('Events');
+    oEvent.initEvent('keydown', true, true);
+    Ember.merge(oEvent, {
+      view: window,
+      ctrlKey: false,
+      altKey: false,
+      shiftKey: false,
+      metaKey: false,
+      keyCode: k,
+      charCode: k
+    });
+    Ember.run(function () {
+      return document.querySelector(selector).dispatchEvent(oEvent);
+    });
+  } // acceptance helpers
+
+
+  function _default() {
+    Ember.Test.registerAsyncHelper('clickDropdown', function (app, cssPath) {
+      var options = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
+      (true && !(false) && Ember.deprecate('Using the global `clickDropdown` acceptance helper from ember-basic-dropdown is deprecated. Please, explicitly import the `clickTrigger` or just use `click` helper from `@ember/test-helpers`.', false, {
+        until: '1.0.0',
+        id: 'ember-basic-dropdown-click-dropdown'
+      }));
+      clickTrigger(cssPath, options);
+    });
+    Ember.Test.registerAsyncHelper('tapDropdown', function (app, cssPath) {
+      var options = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
+      (true && !(false) && Ember.deprecate('Using the global `tapDropdown` acceptance helper from ember-basic-dropdown is deprecated. Please, explicitly import the `tapTrigger` or just use `tap` helper from `@ember/test-helpers`.', false, {
+        until: '1.0.0',
+        id: 'ember-basic-dropdown-click-dropdown'
+      }));
+      tapTrigger(cssPath, options);
+    });
+  }
+});
 define('ember-cli-test-loader/test-support/index', ['exports'], function (exports) {
   /* globals requirejs, require */
   "use strict";
@@ -9288,6 +9388,7 @@ define('ember-cli-test-loader/test-support/index', ['exports'], function (export
 
     return false;
   }
+
   function TestLoader() {
     this._didLogMissingUnsee = false;
   }
@@ -9362,9 +9463,729 @@ define('ember-cli-test-loader/test-support/index', ['exports'], function (export
     new TestLoader().loadModules();
   };
 });
-define('ember-qunit', ['exports', 'ember-qunit/module-for', 'ember-qunit/module-for-component', 'ember-qunit/module-for-model', 'ember-qunit/adapter', 'ember-test-helpers', 'qunit'], function (exports, _emberQunitModuleFor, _emberQunitModuleForComponent, _emberQunitModuleForModel, _emberQunitAdapter, _emberTestHelpers, _qunit) {
+define('ember-power-select/test-support/helpers', ['exports', '@ember/test-helpers', 'ember-power-select/test-support/index'], function (exports, _testHelpers, _index) {
   'use strict';
 
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  exports.clearSelected = exports.removeMultipleOption = exports.selectSearch = exports.selectChoose = exports.touchTrigger = exports.nativeTouch = exports.clickTrigger = exports.triggerKeydown = exports.nativeMouseUp = exports.nativeMouseDown = undefined;
+  exports.findContains = findContains;
+  exports.typeInSearch = typeInSearch;
+
+  exports.default = function () {
+    Ember.Test.registerAsyncHelper('selectChoose', function (_, cssPathOrTrigger, valueOrSelector, optionIndex) {
+      (true && !(true) && Ember.deprecate('Using the implicit global async helper `selectChoose` is deprecated. Please, import it explicitly with `import { selectChoose } from "ember-power-select/test-support"`', true, { id: 'ember-power-select-global-select-choose', until: '2.0.0' }));
+
+      return (0, _index.selectChoose)(cssPathOrTrigger, valueOrSelector, optionIndex);
+    });
+
+    Ember.Test.registerAsyncHelper('selectSearch', function () {
+      var _ref11 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee11(app, cssPathOrTrigger, value) {
+        return regeneratorRuntime.wrap(function _callee11$(_context11) {
+          while (1) {
+            switch (_context11.prev = _context11.next) {
+              case 0:
+                (true && !(true) && Ember.deprecate('Using the implicit global async helper `selectSearch` is deprecated. Please, import it explicitly with `import { selectSearch } from "ember-power-select/test-support"`', true, { id: 'ember-power-select-global-select-search', until: '2.0.0' }));
+                return _context11.abrupt('return', (0, _index.selectSearch)(cssPathOrTrigger, value));
+
+              case 2:
+              case 'end':
+                return _context11.stop();
+            }
+          }
+        }, _callee11, this);
+      }));
+
+      return function (_x18, _x19, _x20) {
+        return _ref11.apply(this, arguments);
+      };
+    }());
+
+    Ember.Test.registerAsyncHelper('removeMultipleOption', function () {
+      var _ref12 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee12(app, cssPath, value) {
+        return regeneratorRuntime.wrap(function _callee12$(_context12) {
+          while (1) {
+            switch (_context12.prev = _context12.next) {
+              case 0:
+                (true && !(true) && Ember.deprecate('Using the implicit global async helper `removeMultipleOption` is deprecated. Please, import it explicitly with `import { removeMultipleOption } from "ember-power-select/test-support"`', true, { id: 'ember-power-select-global-remove-multiple-option', until: '2.0.0' }));
+                return _context12.abrupt('return', (0, _index.removeMultipleOption)(cssPath, value));
+
+              case 2:
+              case 'end':
+                return _context12.stop();
+            }
+          }
+        }, _callee12, this);
+      }));
+
+      return function (_x21, _x22, _x23) {
+        return _ref12.apply(this, arguments);
+      };
+    }());
+
+    Ember.Test.registerAsyncHelper('clearSelected', function () {
+      var _ref13 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee13(app, cssPath) {
+        return regeneratorRuntime.wrap(function _callee13$(_context13) {
+          while (1) {
+            switch (_context13.prev = _context13.next) {
+              case 0:
+                (true && !(true) && Ember.deprecate('Using the implicit global async helper `clearSelected` is deprecated. Please, import it explicitly with `import { clearSelected } from "ember-power-select/test-support"`', true, { id: 'ember-power-select-global-clear-selected', until: '2.0.0' }));
+                return _context13.abrupt('return', (0, _index.clearSelected)(cssPath));
+
+              case 2:
+              case 'end':
+                return _context13.stop();
+            }
+          }
+        }, _callee13, this);
+      }));
+
+      return function (_x24, _x25) {
+        return _ref13.apply(this, arguments);
+      };
+    }());
+  };
+
+  function _asyncToGenerator(fn) {
+    return function () {
+      var gen = fn.apply(this, arguments);
+      return new Promise(function (resolve, reject) {
+        function step(key, arg) {
+          try {
+            var info = gen[key](arg);
+            var value = info.value;
+          } catch (error) {
+            reject(error);
+            return;
+          }
+
+          if (info.done) {
+            resolve(value);
+          } else {
+            return Promise.resolve(value).then(function (value) {
+              step("next", value);
+            }, function (err) {
+              step("throw", err);
+            });
+          }
+        }
+
+        return step("next");
+      });
+    };
+  }
+
+  /**
+   * @private
+   * @param {String} selector CSS3 selector of the elements to check the content
+   * @param {String} text Substring that the selected element must contain
+   * @returns HTMLElement The first element that maches the given selector and contains the
+   *                      given text
+   */
+  function findContains(selector, text) {
+    return [].slice.apply(document.querySelectorAll(selector)).filter(function (e) {
+      return e.textContent.trim().indexOf(text) > -1;
+    })[0];
+  }
+
+  var nativeMouseDown = exports.nativeMouseDown = function () {
+    var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(selectorOrDomElement, options) {
+      return regeneratorRuntime.wrap(function _callee$(_context) {
+        while (1) {
+          switch (_context.prev = _context.next) {
+            case 0:
+              return _context.abrupt('return', (0, _testHelpers.triggerEvent)(selectorOrDomElement, 'mousedown', options));
+
+            case 1:
+            case 'end':
+              return _context.stop();
+          }
+        }
+      }, _callee, this);
+    }));
+
+    return function nativeMouseDown(_x, _x2) {
+      return _ref.apply(this, arguments);
+    };
+  }();
+
+  var nativeMouseUp = exports.nativeMouseUp = function () {
+    var _ref2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2(selectorOrDomElement, options) {
+      return regeneratorRuntime.wrap(function _callee2$(_context2) {
+        while (1) {
+          switch (_context2.prev = _context2.next) {
+            case 0:
+              return _context2.abrupt('return', (0, _testHelpers.triggerEvent)(selectorOrDomElement, 'mouseup', options));
+
+            case 1:
+            case 'end':
+              return _context2.stop();
+          }
+        }
+      }, _callee2, this);
+    }));
+
+    return function nativeMouseUp(_x3, _x4) {
+      return _ref2.apply(this, arguments);
+    };
+  }();
+
+  var triggerKeydown = exports.triggerKeydown = function () {
+    var _ref3 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3(domElement, k) {
+      return regeneratorRuntime.wrap(function _callee3$(_context3) {
+        while (1) {
+          switch (_context3.prev = _context3.next) {
+            case 0:
+              return _context3.abrupt('return', (0, _testHelpers.triggerKeyEvent)(domElement, 'keydown', k));
+
+            case 1:
+            case 'end':
+              return _context3.stop();
+          }
+        }
+      }, _callee3, this);
+    }));
+
+    return function triggerKeydown(_x5, _x6) {
+      return _ref3.apply(this, arguments);
+    };
+  }();
+
+  function typeInSearch(scopeOrText, text) {
+    var scope = '';
+
+    if (typeof text === 'undefined') {
+      text = scopeOrText;
+    } else {
+      scope = scopeOrText;
+    }
+
+    var selectors = ['.ember-power-select-search-input', '.ember-power-select-search input', '.ember-power-select-trigger-multiple-input', 'input[type="search"]'].map(function (selector) {
+      return scope + ' ' + selector;
+    }).join(', ');
+
+    return (0, _testHelpers.fillIn)(selectors, text);
+  }
+
+  var clickTrigger = exports.clickTrigger = function () {
+    var _ref4 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4(scope) {
+      var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+      var selector;
+      return regeneratorRuntime.wrap(function _callee4$(_context4) {
+        while (1) {
+          switch (_context4.prev = _context4.next) {
+            case 0:
+              selector = '.ember-power-select-trigger';
+
+              if (scope) {
+                selector = scope + ' ' + selector;
+              }
+              return _context4.abrupt('return', (0, _testHelpers.click)(selector, options));
+
+            case 3:
+            case 'end':
+              return _context4.stop();
+          }
+        }
+      }, _callee4, this);
+    }));
+
+    return function clickTrigger(_x8) {
+      return _ref4.apply(this, arguments);
+    };
+  }();
+
+  var nativeTouch = exports.nativeTouch = function () {
+    var _ref5 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee5(selectorOrDomElement) {
+      return regeneratorRuntime.wrap(function _callee5$(_context5) {
+        while (1) {
+          switch (_context5.prev = _context5.next) {
+            case 0:
+              (0, _testHelpers.triggerEvent)(selectorOrDomElement, 'touchstart');
+              return _context5.abrupt('return', (0, _testHelpers.triggerEvent)(selectorOrDomElement, 'touchend'));
+
+            case 2:
+            case 'end':
+              return _context5.stop();
+          }
+        }
+      }, _callee5, this);
+    }));
+
+    return function nativeTouch(_x9) {
+      return _ref5.apply(this, arguments);
+    };
+  }();
+
+  var touchTrigger = exports.touchTrigger = function () {
+    var _ref6 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee6() {
+      return regeneratorRuntime.wrap(function _callee6$(_context6) {
+        while (1) {
+          switch (_context6.prev = _context6.next) {
+            case 0:
+              return _context6.abrupt('return', nativeTouch('.ember-power-select-trigger'));
+
+            case 1:
+            case 'end':
+              return _context6.stop();
+          }
+        }
+      }, _callee6, this);
+    }));
+
+    return function touchTrigger() {
+      return _ref6.apply(this, arguments);
+    };
+  }();
+
+  var selectChoose = exports.selectChoose = function () {
+    var _ref7 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee7(cssPathOrTrigger, valueOrSelector, optionIndex) {
+      return regeneratorRuntime.wrap(function _callee7$(_context7) {
+        while (1) {
+          switch (_context7.prev = _context7.next) {
+            case 0:
+              return _context7.abrupt('return', (0, _index.selectChoose)(cssPathOrTrigger, valueOrSelector, optionIndex));
+
+            case 1:
+            case 'end':
+              return _context7.stop();
+          }
+        }
+      }, _callee7, this);
+    }));
+
+    return function selectChoose(_x10, _x11, _x12) {
+      return _ref7.apply(this, arguments);
+    };
+  }();
+
+  var selectSearch = exports.selectSearch = function () {
+    var _ref8 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee8(cssPathOrTrigger, value) {
+      return regeneratorRuntime.wrap(function _callee8$(_context8) {
+        while (1) {
+          switch (_context8.prev = _context8.next) {
+            case 0:
+              return _context8.abrupt('return', (0, _index.selectSearch)(cssPathOrTrigger, value));
+
+            case 1:
+            case 'end':
+              return _context8.stop();
+          }
+        }
+      }, _callee8, this);
+    }));
+
+    return function selectSearch(_x13, _x14) {
+      return _ref8.apply(this, arguments);
+    };
+  }();
+
+  var removeMultipleOption = exports.removeMultipleOption = function () {
+    var _ref9 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee9(cssPath, value) {
+      return regeneratorRuntime.wrap(function _callee9$(_context9) {
+        while (1) {
+          switch (_context9.prev = _context9.next) {
+            case 0:
+              return _context9.abrupt('return', (0, _index.removeMultipleOption)(cssPath, value));
+
+            case 1:
+            case 'end':
+              return _context9.stop();
+          }
+        }
+      }, _callee9, this);
+    }));
+
+    return function removeMultipleOption(_x15, _x16) {
+      return _ref9.apply(this, arguments);
+    };
+  }();
+
+  var clearSelected = exports.clearSelected = function () {
+    var _ref10 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee10(cssPath) {
+      return regeneratorRuntime.wrap(function _callee10$(_context10) {
+        while (1) {
+          switch (_context10.prev = _context10.next) {
+            case 0:
+              return _context10.abrupt('return', (0, _index.clearSelected)(cssPath));
+
+            case 1:
+            case 'end':
+              return _context10.stop();
+          }
+        }
+      }, _callee10, this);
+    }));
+
+    return function clearSelected(_x17) {
+      return _ref10.apply(this, arguments);
+    };
+  }();
+});
+define('ember-power-select/test-support/index', ['exports', '@ember/test-helpers'], function (exports, _testHelpers) {
+  'use strict';
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  exports.clearSelected = exports.removeMultipleOption = exports.selectSearch = exports.selectChoose = undefined;
+
+  function _asyncToGenerator(fn) {
+    return function () {
+      var gen = fn.apply(this, arguments);
+      return new Promise(function (resolve, reject) {
+        function step(key, arg) {
+          try {
+            var info = gen[key](arg);
+            var value = info.value;
+          } catch (error) {
+            reject(error);
+            return;
+          }
+
+          if (info.done) {
+            resolve(value);
+          } else {
+            return Promise.resolve(value).then(function (value) {
+              step("next", value);
+            }, function (err) {
+              step("throw", err);
+            });
+          }
+        }
+
+        return step("next");
+      });
+    };
+  }
+
+  var openIfClosedAndGetContentId = function () {
+    var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(trigger) {
+      var contentId, content;
+      return regeneratorRuntime.wrap(function _callee$(_context) {
+        while (1) {
+          switch (_context.prev = _context.next) {
+            case 0:
+              contentId = trigger.attributes['aria-owns'] && '' + trigger.attributes['aria-owns'].value;
+              content = contentId ? document.querySelector('#' + contentId) : undefined;
+              // If the dropdown is closed, open it
+
+              if (!(!content || content.classList.contains('ember-basic-dropdown-content-placeholder'))) {
+                _context.next = 8;
+                break;
+              }
+
+              _context.next = 5;
+              return (0, _testHelpers.click)(trigger);
+
+            case 5:
+              _context.next = 7;
+              return (0, _testHelpers.settled)();
+
+            case 7:
+              contentId = '' + trigger.attributes['aria-owns'].value;
+
+            case 8:
+              return _context.abrupt('return', contentId);
+
+            case 9:
+            case 'end':
+              return _context.stop();
+          }
+        }
+      }, _callee, this);
+    }));
+
+    return function openIfClosedAndGetContentId(_x) {
+      return _ref.apply(this, arguments);
+    };
+  }();
+
+  var selectChoose = exports.selectChoose = function () {
+    var _ref2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2(cssPathOrTrigger, valueOrSelector, optionIndex) {
+      var trigger, target, contentId, options, potentialTargets, filteredTargets;
+      return regeneratorRuntime.wrap(function _callee2$(_context2) {
+        while (1) {
+          switch (_context2.prev = _context2.next) {
+            case 0:
+              trigger = void 0, target = void 0;
+
+              if (!(cssPathOrTrigger instanceof HTMLElement)) {
+                _context2.next = 5;
+                break;
+              }
+
+              if (cssPathOrTrigger.classList.contains('ember-power-select-trigger')) {
+                trigger = cssPathOrTrigger;
+              } else {
+                trigger = cssPathOrTrigger.querySelector('.ember-power-select-trigger');
+              }
+              _context2.next = 9;
+              break;
+
+            case 5:
+              trigger = document.querySelector(cssPathOrTrigger + ' .ember-power-select-trigger');
+
+              if (!trigger) {
+                trigger = document.querySelector(cssPathOrTrigger);
+              }
+
+              if (trigger) {
+                _context2.next = 9;
+                break;
+              }
+
+              throw new Error('You called "selectChoose(\'' + cssPathOrTrigger + '\', \'' + valueOrSelector + '\')" but no select was found using selector "' + cssPathOrTrigger + '"');
+
+            case 9:
+
+              if (trigger.scrollIntoView) {
+                trigger.scrollIntoView();
+              }
+
+              _context2.next = 12;
+              return openIfClosedAndGetContentId(trigger);
+
+            case 12:
+              contentId = _context2.sent;
+
+              // Select the option with the given text
+              options = document.querySelectorAll('#' + contentId + ' .ember-power-select-option');
+              potentialTargets = [].slice.apply(options).filter(function (opt) {
+                return opt.textContent.indexOf(valueOrSelector) > -1;
+              });
+
+              if (potentialTargets.length === 0) {
+                potentialTargets = document.querySelectorAll('#' + contentId + ' ' + valueOrSelector);
+              }
+              if (potentialTargets.length > 1) {
+                filteredTargets = [].slice.apply(potentialTargets).filter(function (t) {
+                  return t.textContent.trim() === valueOrSelector;
+                });
+
+                if (optionIndex === undefined) {
+                  target = filteredTargets[0] || potentialTargets[0];
+                } else {
+                  target = filteredTargets[optionIndex] || potentialTargets[optionIndex];
+                }
+              } else {
+                target = potentialTargets[0];
+              }
+
+              if (target) {
+                _context2.next = 19;
+                break;
+              }
+
+              throw new Error('You called "selectChoose(\'' + cssPathOrTrigger + '\', \'' + valueOrSelector + '\')" but "' + valueOrSelector + '" didn\'t match any option');
+
+            case 19:
+              _context2.next = 21;
+              return (0, _testHelpers.click)(target);
+
+            case 21:
+              return _context2.abrupt('return', (0, _testHelpers.settled)());
+
+            case 22:
+            case 'end':
+              return _context2.stop();
+          }
+        }
+      }, _callee2, this);
+    }));
+
+    return function selectChoose(_x2, _x3, _x4) {
+      return _ref2.apply(this, arguments);
+    };
+  }();
+
+  var selectSearch = exports.selectSearch = function () {
+    var _ref3 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3(cssPathOrTrigger, value) {
+      var trigger, triggerPath, isMultipleSelect, contentId, isDefaultSingleSelect, inputIsInTrigger;
+      return regeneratorRuntime.wrap(function _callee3$(_context3) {
+        while (1) {
+          switch (_context3.prev = _context3.next) {
+            case 0:
+              trigger = void 0;
+
+              if (!(cssPathOrTrigger instanceof HTMLElement)) {
+                _context3.next = 5;
+                break;
+              }
+
+              trigger = cssPathOrTrigger;
+              _context3.next = 10;
+              break;
+
+            case 5:
+              triggerPath = cssPathOrTrigger + ' .ember-power-select-trigger';
+
+              trigger = document.querySelector(triggerPath);
+              if (!trigger) {
+                triggerPath = cssPathOrTrigger;
+                trigger = document.querySelector(triggerPath);
+              }
+
+              if (trigger) {
+                _context3.next = 10;
+                break;
+              }
+
+              throw new Error('You called "selectSearch(\'' + cssPathOrTrigger + '\', \'' + value + '\')" but no select was found using selector "' + cssPathOrTrigger + '"');
+
+            case 10:
+
+              if (trigger.scrollIntoView) {
+                trigger.scrollIntoView();
+              }
+
+              isMultipleSelect = !!trigger.querySelector('.ember-power-select-trigger-multiple-input');
+              _context3.next = 14;
+              return openIfClosedAndGetContentId(trigger);
+
+            case 14:
+              contentId = _context3.sent;
+              isDefaultSingleSelect = !!document.querySelector('.ember-power-select-search-input');
+
+              if (!isMultipleSelect) {
+                _context3.next = 21;
+                break;
+              }
+
+              _context3.next = 19;
+              return (0, _testHelpers.fillIn)(trigger.querySelector('.ember-power-select-trigger-multiple-input'), value);
+
+            case 19:
+              _context3.next = 34;
+              break;
+
+            case 21:
+              if (!isDefaultSingleSelect) {
+                _context3.next = 26;
+                break;
+              }
+
+              _context3.next = 24;
+              return (0, _testHelpers.fillIn)('.ember-power-select-search-input', value);
+
+            case 24:
+              _context3.next = 34;
+              break;
+
+            case 26:
+              // It's probably a customized version
+              inputIsInTrigger = !!trigger.querySelector('.ember-power-select-trigger input[type=search]');
+
+              if (!inputIsInTrigger) {
+                _context3.next = 32;
+                break;
+              }
+
+              _context3.next = 30;
+              return (0, _testHelpers.fillIn)(trigger.querySelector('input[type=search]'), value);
+
+            case 30:
+              _context3.next = 34;
+              break;
+
+            case 32:
+              _context3.next = 34;
+              return (0, _testHelpers.fillIn)('#' + contentId + ' .ember-power-select-search-input[type=search]', 'input');
+
+            case 34:
+              return _context3.abrupt('return', (0, _testHelpers.settled)());
+
+            case 35:
+            case 'end':
+              return _context3.stop();
+          }
+        }
+      }, _callee3, this);
+    }));
+
+    return function selectSearch(_x5, _x6) {
+      return _ref3.apply(this, arguments);
+    };
+  }();
+
+  var removeMultipleOption = exports.removeMultipleOption = function () {
+    var _ref4 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4(cssPath, value) {
+      var elem, items, item;
+      return regeneratorRuntime.wrap(function _callee4$(_context4) {
+        while (1) {
+          switch (_context4.prev = _context4.next) {
+            case 0:
+              elem = void 0;
+              items = document.querySelectorAll(cssPath + ' .ember-power-select-multiple-options > li');
+              item = [].slice.apply(items).find(function (el) {
+                return el.textContent.indexOf(value) > -1;
+              });
+
+              if (item) {
+                elem = item.querySelector('.ember-power-select-multiple-remove-btn');
+              }
+              _context4.prev = 4;
+              _context4.next = 7;
+              return (0, _testHelpers.click)(elem);
+
+            case 7:
+              return _context4.abrupt('return', (0, _testHelpers.settled)());
+
+            case 10:
+              _context4.prev = 10;
+              _context4.t0 = _context4['catch'](4);
+              (true && Ember.warn('css path to remove btn not found'));
+              throw _context4.t0;
+
+            case 14:
+            case 'end':
+              return _context4.stop();
+          }
+        }
+      }, _callee4, this, [[4, 10]]);
+    }));
+
+    return function removeMultipleOption(_x7, _x8) {
+      return _ref4.apply(this, arguments);
+    };
+  }();
+
+  var clearSelected = exports.clearSelected = function () {
+    var _ref5 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee5(cssPath) {
+      var elem;
+      return regeneratorRuntime.wrap(function _callee5$(_context5) {
+        while (1) {
+          switch (_context5.prev = _context5.next) {
+            case 0:
+              elem = document.querySelector(cssPath + ' .ember-power-select-clear-btn');
+              _context5.prev = 1;
+              _context5.next = 4;
+              return (0, _testHelpers.click)(elem);
+
+            case 4:
+              return _context5.abrupt('return', (0, _testHelpers.settled)());
+
+            case 7:
+              _context5.prev = 7;
+              _context5.t0 = _context5['catch'](1);
+              (true && Ember.warn('css path to clear btn not found'));
+              throw _context5.t0;
+
+            case 11:
+            case 'end':
+              return _context5.stop();
+          }
+        }
+      }, _callee5, this, [[1, 7]]);
+    }));
+
+    return function clearSelected(_x9) {
+      return _ref5.apply(this, arguments);
+    };
+  }();
+});
+define('ember-qunit', ['exports', 'ember-qunit/module-for', 'ember-qunit/module-for-component', 'ember-qunit/module-for-model', 'ember-qunit/adapter', 'ember-test-helpers', 'qunit'], function (exports, _emberQunitModuleFor, _emberQunitModuleForComponent, _emberQunitModuleForModel, _emberQunitAdapter, _emberTestHelpers, _qunit) {
   Object.defineProperty(exports, 'module', {
     enumerable: true,
     get: function get() {
@@ -9402,7 +10223,6 @@ define('ember-qunit', ['exports', 'ember-qunit/module-for', 'ember-qunit/module-
   exports.QUnitAdapter = _emberQunitAdapter['default'];
 });
 define('ember-qunit/adapter', ['exports', 'ember', 'qunit'], function (exports, _ember, _qunit) {
-  'use strict';
 
   function unhandledRejectionAssertion(current, error) {
     var message = undefined,
@@ -9451,8 +10271,6 @@ define('ember-qunit/adapter', ['exports', 'ember', 'qunit'], function (exports, 
   });
 });
 define('ember-qunit/module-for-component', ['exports', 'ember-qunit/qunit-module', 'ember-test-helpers'], function (exports, _emberQunitQunitModule, _emberTestHelpers) {
-  'use strict';
-
   exports['default'] = moduleForComponent;
 
   function moduleForComponent(name, description, callbacks) {
@@ -9460,8 +10278,6 @@ define('ember-qunit/module-for-component', ['exports', 'ember-qunit/qunit-module
   }
 });
 define('ember-qunit/module-for-model', ['exports', 'ember-qunit/qunit-module', 'ember-test-helpers'], function (exports, _emberQunitQunitModule, _emberTestHelpers) {
-  'use strict';
-
   exports['default'] = moduleForModel;
 
   function moduleForModel(name, description, callbacks) {
@@ -9469,8 +10285,6 @@ define('ember-qunit/module-for-model', ['exports', 'ember-qunit/qunit-module', '
   }
 });
 define('ember-qunit/module-for', ['exports', 'ember-qunit/qunit-module', 'ember-test-helpers'], function (exports, _emberQunitQunitModule, _emberTestHelpers) {
-  'use strict';
-
   exports['default'] = moduleFor;
 
   function moduleFor(name, description, callbacks) {
@@ -9478,8 +10292,6 @@ define('ember-qunit/module-for', ['exports', 'ember-qunit/qunit-module', 'ember-
   }
 });
 define('ember-qunit/qunit-module', ['exports', 'ember', 'qunit'], function (exports, _ember, _qunit) {
-  'use strict';
-
   exports.createModule = createModule;
 
   function noop() {}
@@ -9559,7 +10371,6 @@ define('ember-qunit/qunit-module', ['exports', 'ember', 'qunit'], function (expo
   }
 });
 define('ember-test-helpers', ['exports', 'ember', 'ember-test-helpers/test-module', 'ember-test-helpers/test-module-for-acceptance', 'ember-test-helpers/test-module-for-integration', 'ember-test-helpers/test-module-for-component', 'ember-test-helpers/test-module-for-model', 'ember-test-helpers/test-context', 'ember-test-helpers/test-resolver'], function (exports, _ember, _emberTestHelpersTestModule, _emberTestHelpersTestModuleForAcceptance, _emberTestHelpersTestModuleForIntegration, _emberTestHelpersTestModuleForComponent, _emberTestHelpersTestModuleForModel, _emberTestHelpersTestContext, _emberTestHelpersTestResolver) {
-  'use strict';
 
   _ember['default'].testing = true;
 
@@ -9574,8 +10385,6 @@ define('ember-test-helpers', ['exports', 'ember', 'ember-test-helpers/test-modul
   exports.setResolver = _emberTestHelpersTestResolver.setResolver;
 });
 define('ember-test-helpers/-legacy-overrides', ['exports', 'ember', 'ember-test-helpers/has-ember-version'], function (exports, _ember, _emberTestHelpersHasEmberVersion) {
-  'use strict';
-
   exports.preGlimmerSetupIntegrationForComponent = preGlimmerSetupIntegrationForComponent;
 
   function preGlimmerSetupIntegrationForComponent() {
@@ -9668,8 +10477,6 @@ define('ember-test-helpers/-legacy-overrides', ['exports', 'ember', 'ember-test-
   }
 });
 define('ember-test-helpers/abstract-test-module', ['exports', 'ember-test-helpers/wait', 'ember-test-helpers/test-context', 'ember'], function (exports, _emberTestHelpersWait, _emberTestHelpersTestContext, _ember) {
-  'use strict';
-
   var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
 
   function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
@@ -9874,9 +10681,6 @@ define('ember-test-helpers/abstract-test-module', ['exports', 'ember-test-helper
   exports['default'] = _default;
 });
 define('ember-test-helpers/build-registry', ['exports', 'require', 'ember'], function (exports, _require, _ember) {
-  /* globals global, self, requirejs */
-
-  'use strict';
 
   function exposeRegistryMethodsWithoutDeprecations(container) {
     var methods = ['register', 'unregister', 'resolve', 'normalize', 'typeInjection', 'injection', 'factoryInjection', 'factoryTypeInjection', 'has', 'options', 'optionsForType'];
@@ -9997,9 +10801,8 @@ define('ember-test-helpers/build-registry', ['exports', 'require', 'ember'], fun
     };
   };
 });
+/* globals global, self, requirejs */
 define('ember-test-helpers/has-ember-version', ['exports', 'ember'], function (exports, _ember) {
-  'use strict';
-
   exports['default'] = hasEmberVersion;
 
   function hasEmberVersion(major, minor) {
@@ -10010,8 +10813,6 @@ define('ember-test-helpers/has-ember-version', ['exports', 'ember'], function (e
   }
 });
 define("ember-test-helpers/test-context", ["exports"], function (exports) {
-  "use strict";
-
   exports.setContext = setContext;
   exports.getContext = getContext;
   exports.unsetContext = unsetContext;
@@ -10030,8 +10831,6 @@ define("ember-test-helpers/test-context", ["exports"], function (exports) {
   }
 });
 define('ember-test-helpers/test-module-for-acceptance', ['exports', 'ember-test-helpers/abstract-test-module', 'ember', 'ember-test-helpers/test-context'], function (exports, _emberTestHelpersAbstractTestModule, _ember, _emberTestHelpersTestContext) {
-  'use strict';
-
   var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
 
   var _get = function get(_x, _x2, _x3) { var _again = true; _function: while (_again) { var object = _x, property = _x2, receiver = _x3; _again = false; if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x = parent; _x2 = property; _x3 = receiver; _again = true; desc = parent = undefined; continue _function; } } else if ('value' in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
@@ -10088,8 +10887,6 @@ define('ember-test-helpers/test-module-for-acceptance', ['exports', 'ember-test-
   exports['default'] = _default;
 });
 define('ember-test-helpers/test-module-for-component', ['exports', 'ember-test-helpers/test-module', 'ember', 'ember-test-helpers/has-ember-version', 'ember-test-helpers/-legacy-overrides'], function (exports, _emberTestHelpersTestModule, _ember, _emberTestHelpersHasEmberVersion, _emberTestHelpersLegacyOverrides) {
-  'use strict';
-
   var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
 
   var _get = function get(_x, _x2, _x3) { var _again = true; _function: while (_again) { var object = _x, property = _x2, receiver = _x3; _again = false; if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x = parent; _x2 = property; _x3 = receiver; _again = true; desc = parent = undefined; continue _function; } } else if ('value' in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
@@ -10422,8 +11219,6 @@ define('ember-test-helpers/test-module-for-component', ['exports', 'ember-test-h
   }
 });
 define('ember-test-helpers/test-module-for-integration', ['exports', 'ember', 'ember-test-helpers/abstract-test-module', 'ember-test-helpers/test-resolver', 'ember-test-helpers/build-registry', 'ember-test-helpers/has-ember-version', 'ember-test-helpers/-legacy-overrides', 'ember-test-helpers/test-module-for-component'], function (exports, _ember, _emberTestHelpersAbstractTestModule, _emberTestHelpersTestResolver, _emberTestHelpersBuildRegistry, _emberTestHelpersHasEmberVersion, _emberTestHelpersLegacyOverrides, _emberTestHelpersTestModuleForComponent) {
-  'use strict';
-
   var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
 
   var _get = function get(_x, _x2, _x3) { var _again = true; _function: while (_again) { var object = _x, property = _x2, receiver = _x3; _again = false; if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x = parent; _x2 = property; _x3 = receiver; _again = true; desc = parent = undefined; continue _function; } } else if ('value' in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
@@ -10647,10 +11442,6 @@ define('ember-test-helpers/test-module-for-integration', ['exports', 'ember', 'e
   exports['default'] = _default;
 });
 define('ember-test-helpers/test-module-for-model', ['exports', 'require', 'ember-test-helpers/test-module', 'ember'], function (exports, _require, _emberTestHelpersTestModule, _ember) {
-  /* global DS, requirejs */ // added here to prevent an import from erroring when ED is not present
-
-  'use strict';
-
   var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
 
   var _get = function get(_x, _x2, _x3) { var _again = true; _function: while (_again) { var object = _x, property = _x2, receiver = _x3; _again = false; if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x = parent; _x2 = property; _x3 = receiver; _again = true; desc = parent = undefined; continue _function; } } else if ('value' in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
@@ -10721,9 +11512,8 @@ define('ember-test-helpers/test-module-for-model', ['exports', 'require', 'ember
 
   exports['default'] = _default;
 });
+/* global DS, requirejs */ // added here to prevent an import from erroring when ED is not present
 define('ember-test-helpers/test-module', ['exports', 'ember', 'ember-test-helpers/abstract-test-module', 'ember-test-helpers/test-resolver', 'ember-test-helpers/build-registry', 'ember-test-helpers/has-ember-version'], function (exports, _ember, _emberTestHelpersAbstractTestModule, _emberTestHelpersTestResolver, _emberTestHelpersBuildRegistry, _emberTestHelpersHasEmberVersion) {
-  'use strict';
-
   var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
 
   var _get = function get(_x, _x2, _x3) { var _again = true; _function: while (_again) { var object = _x, property = _x2, receiver = _x3; _again = false; if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x = parent; _x2 = property; _x3 = receiver; _again = true; desc = parent = undefined; continue _function; } } else if ('value' in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
@@ -11034,8 +11824,6 @@ define('ember-test-helpers/test-module', ['exports', 'ember', 'ember-test-helper
   exports['default'] = _default;
 });
 define('ember-test-helpers/test-resolver', ['exports'], function (exports) {
-  'use strict';
-
   exports.setResolver = setResolver;
   exports.getResolver = getResolver;
   var __resolver__;
@@ -11053,10 +11841,6 @@ define('ember-test-helpers/test-resolver', ['exports'], function (exports) {
   }
 });
 define('ember-test-helpers/wait', ['exports', 'ember'], function (exports, _ember) {
-  /* globals self */
-
-  'use strict';
-
   var _slicedToArray = (function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i['return']) _i['return'](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError('Invalid attempt to destructure non-iterable instance'); } }; })();
 
   exports._teardownAJAXHooks = _teardownAJAXHooks;
@@ -11150,10 +11934,9 @@ define('ember-test-helpers/wait', ['exports', 'ember'], function (exports, _embe
     });
   }
 });
+/* globals self */
 define("qunit", ["exports"], function (exports) {
   /* globals QUnit */
-
-  "use strict";
 
   var _module = QUnit.module;
   exports.module = _module;
@@ -11168,8 +11951,6 @@ define("qunit", ["exports"], function (exports) {
   exports.todo = todo;
   exports["default"] = QUnit;
 });
-/* jshint ignore:start */
-
 runningTests = true;
 
 if (window.Testem) {
@@ -11177,6 +11958,127 @@ if (window.Testem) {
 }
 
 
+;
+var __ember_auto_import__ =
+/******/ (function(modules) { // webpackBootstrap
+/******/ 	// The module cache
+/******/ 	var installedModules = {};
+/******/
+/******/ 	// The require function
+/******/ 	function __webpack_require__(moduleId) {
+/******/
+/******/ 		// Check if module is in cache
+/******/ 		if(installedModules[moduleId]) {
+/******/ 			return installedModules[moduleId].exports;
+/******/ 		}
+/******/ 		// Create a new module (and put it into the cache)
+/******/ 		var module = installedModules[moduleId] = {
+/******/ 			i: moduleId,
+/******/ 			l: false,
+/******/ 			exports: {}
+/******/ 		};
+/******/
+/******/ 		// Execute the module function
+/******/ 		modules[moduleId].call(module.exports, module, module.exports, __webpack_require__);
+/******/
+/******/ 		// Flag the module as loaded
+/******/ 		module.l = true;
+/******/
+/******/ 		// Return the exports of the module
+/******/ 		return module.exports;
+/******/ 	}
+/******/
+/******/
+/******/ 	// expose the modules object (__webpack_modules__)
+/******/ 	__webpack_require__.m = modules;
+/******/
+/******/ 	// expose the module cache
+/******/ 	__webpack_require__.c = installedModules;
+/******/
+/******/ 	// define getter function for harmony exports
+/******/ 	__webpack_require__.d = function(exports, name, getter) {
+/******/ 		if(!__webpack_require__.o(exports, name)) {
+/******/ 			Object.defineProperty(exports, name, { enumerable: true, get: getter });
+/******/ 		}
+/******/ 	};
+/******/
+/******/ 	// define __esModule on exports
+/******/ 	__webpack_require__.r = function(exports) {
+/******/ 		if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
+/******/ 			Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
+/******/ 		}
+/******/ 		Object.defineProperty(exports, '__esModule', { value: true });
+/******/ 	};
+/******/
+/******/ 	// create a fake namespace object
+/******/ 	// mode & 1: value is a module id, require it
+/******/ 	// mode & 2: merge all properties of value into the ns
+/******/ 	// mode & 4: return value when already ns object
+/******/ 	// mode & 8|1: behave like require
+/******/ 	__webpack_require__.t = function(value, mode) {
+/******/ 		if(mode & 1) value = __webpack_require__(value);
+/******/ 		if(mode & 8) return value;
+/******/ 		if((mode & 4) && typeof value === 'object' && value && value.__esModule) return value;
+/******/ 		var ns = Object.create(null);
+/******/ 		__webpack_require__.r(ns);
+/******/ 		Object.defineProperty(ns, 'default', { enumerable: true, value: value });
+/******/ 		if(mode & 2 && typeof value != 'string') for(var key in value) __webpack_require__.d(ns, key, function(key) { return value[key]; }.bind(null, key));
+/******/ 		return ns;
+/******/ 	};
+/******/
+/******/ 	// getDefaultExport function for compatibility with non-harmony modules
+/******/ 	__webpack_require__.n = function(module) {
+/******/ 		var getter = module && module.__esModule ?
+/******/ 			function getDefault() { return module['default']; } :
+/******/ 			function getModuleExports() { return module; };
+/******/ 		__webpack_require__.d(getter, 'a', getter);
+/******/ 		return getter;
+/******/ 	};
+/******/
+/******/ 	// Object.prototype.hasOwnProperty.call
+/******/ 	__webpack_require__.o = function(object, property) { return Object.prototype.hasOwnProperty.call(object, property); };
+/******/
+/******/ 	// __webpack_public_path__
+/******/ 	__webpack_require__.p = "";
+/******/
+/******/
+/******/ 	// Load entry module and return exports
+/******/ 	return __webpack_require__(__webpack_require__.s = 1);
+/******/ })
+/************************************************************************/
+/******/ ({
 
-/* jshint ignore:end */
-//# sourceMappingURL=test-support.map
+/***/ "./tmp/bundler-cache_path-mvskyB9z.tmp/staging/l.js":
+/*!**********************************************************!*\
+  !*** ./tmp/bundler-cache_path-mvskyB9z.tmp/staging/l.js ***!
+  \**********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+eval("\nwindow._eai_r = require;\nwindow._eai_d = define;\n\n\n//# sourceURL=webpack://__ember_auto_import__/./tmp/bundler-cache_path-mvskyB9z.tmp/staging/l.js?");
+
+/***/ }),
+
+/***/ "./tmp/bundler-cache_path-mvskyB9z.tmp/staging/tests.js":
+/*!**************************************************************!*\
+  !*** ./tmp/bundler-cache_path-mvskyB9z.tmp/staging/tests.js ***!
+  \**************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+eval("\nif (typeof document !== 'undefined') {\n  __webpack_require__.p = (function(){\n    var scripts = document.querySelectorAll('script');\n    return scripts[scripts.length - 1].src.replace(/\\/[^/]*$/, '/');\n  })();\n}\n\nmodule.exports = (function(){\n  var d = _eai_d;\n  var r = _eai_r;\n  window.emberAutoImportDynamic = function(specifier) {\n    return r('_eai_dyn_' + specifier);\n  };\n})();\n\n\n//# sourceURL=webpack://__ember_auto_import__/./tmp/bundler-cache_path-mvskyB9z.tmp/staging/tests.js?");
+
+/***/ }),
+
+/***/ 1:
+/*!***********************************************************************************************************************!*\
+  !*** multi ./tmp/bundler-cache_path-mvskyB9z.tmp/staging/l.js ./tmp/bundler-cache_path-mvskyB9z.tmp/staging/tests.js ***!
+  \***********************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+eval("__webpack_require__(/*! /Users/abdullahrahmn/Desktop/old-projects/TicketingSystem-/frontend/templates/frontend/tmp/bundler-cache_path-mvskyB9z.tmp/staging/l.js */\"./tmp/bundler-cache_path-mvskyB9z.tmp/staging/l.js\");\nmodule.exports = __webpack_require__(/*! /Users/abdullahrahmn/Desktop/old-projects/TicketingSystem-/frontend/templates/frontend/tmp/bundler-cache_path-mvskyB9z.tmp/staging/tests.js */\"./tmp/bundler-cache_path-mvskyB9z.tmp/staging/tests.js\");\n\n\n//# sourceURL=webpack://__ember_auto_import__/multi_./tmp/bundler-cache_path-mvskyB9z.tmp/staging/l.js_./tmp/bundler-cache_path-mvskyB9z.tmp/staging/tests.js?");
+
+/***/ })
+
+/******/ });//# sourceMappingURL=test-support.map

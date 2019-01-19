@@ -1,6 +1,6 @@
 'use strict';
 
-define('ticket-system/tests/adapters/application.jshint.lint-test', ['exports'], function (exports) {
+define('ticket-system/tests/adapters/application.jshint.lint-test', [], function () {
   'use strict';
 
   QUnit.module('JSHint | adapters/application.js');
@@ -9,7 +9,7 @@ define('ticket-system/tests/adapters/application.jshint.lint-test', ['exports'],
     assert.ok(true, 'adapters/application.js should pass jshint.');
   });
 });
-define('ticket-system/tests/adapters/issue.jshint.lint-test', ['exports'], function (exports) {
+define('ticket-system/tests/adapters/issue.jshint.lint-test', [], function () {
   'use strict';
 
   QUnit.module('JSHint | adapters/issue.js');
@@ -18,7 +18,7 @@ define('ticket-system/tests/adapters/issue.jshint.lint-test', ['exports'], funct
     assert.ok(true, 'adapters/issue.js should pass jshint.');
   });
 });
-define('ticket-system/tests/adapters/project.jshint.lint-test', ['exports'], function (exports) {
+define('ticket-system/tests/adapters/project.jshint.lint-test', [], function () {
   'use strict';
 
   QUnit.module('JSHint | adapters/project.js');
@@ -27,7 +27,7 @@ define('ticket-system/tests/adapters/project.jshint.lint-test', ['exports'], fun
     assert.ok(true, 'adapters/project.js should pass jshint.');
   });
 });
-define('ticket-system/tests/app.jshint.lint-test', ['exports'], function (exports) {
+define('ticket-system/tests/app.jshint.lint-test', [], function () {
   'use strict';
 
   QUnit.module('JSHint | app.js');
@@ -36,7 +36,7 @@ define('ticket-system/tests/app.jshint.lint-test', ['exports'], function (export
     assert.ok(true, 'app.js should pass jshint.');
   });
 });
-define('ticket-system/tests/authenticators/token.jshint.lint-test', ['exports'], function (exports) {
+define('ticket-system/tests/authenticators/token.jshint.lint-test', [], function () {
   'use strict';
 
   QUnit.module('JSHint | authenticators/token.js');
@@ -45,7 +45,7 @@ define('ticket-system/tests/authenticators/token.jshint.lint-test', ['exports'],
     assert.ok(true, 'authenticators/token.js should pass jshint.');
   });
 });
-define('ticket-system/tests/authorizers/token.jshint.lint-test', ['exports'], function (exports) {
+define('ticket-system/tests/authorizers/token.jshint.lint-test', [], function () {
   'use strict';
 
   QUnit.module('JSHint | authorizers/token.js');
@@ -54,7 +54,7 @@ define('ticket-system/tests/authorizers/token.jshint.lint-test', ['exports'], fu
     assert.ok(true, 'authorizers/token.js should pass jshint.');
   });
 });
-define('ticket-system/tests/components/dashboard-view.jshint.lint-test', ['exports'], function (exports) {
+define('ticket-system/tests/components/dashboard-view.jshint.lint-test', [], function () {
   'use strict';
 
   QUnit.module('JSHint | components/dashboard-view.js');
@@ -63,7 +63,7 @@ define('ticket-system/tests/components/dashboard-view.jshint.lint-test', ['expor
     assert.ok(true, 'components/dashboard-view.js should pass jshint.');
   });
 });
-define('ticket-system/tests/components/issue-card.jshint.lint-test', ['exports'], function (exports) {
+define('ticket-system/tests/components/issue-card.jshint.lint-test', [], function () {
   'use strict';
 
   QUnit.module('JSHint | components/issue-card.js');
@@ -72,7 +72,7 @@ define('ticket-system/tests/components/issue-card.jshint.lint-test', ['exports']
     assert.ok(false, 'components/issue-card.js should pass jshint.\ncomponents/issue-card.js: line 26, col 19, Missing semicolon.\n\n1 error');
   });
 });
-define('ticket-system/tests/components/issue-list.jshint.lint-test', ['exports'], function (exports) {
+define('ticket-system/tests/components/issue-list.jshint.lint-test', [], function () {
   'use strict';
 
   QUnit.module('JSHint | components/issue-list.js');
@@ -81,7 +81,7 @@ define('ticket-system/tests/components/issue-list.jshint.lint-test', ['exports']
     assert.ok(true, 'components/issue-list.js should pass jshint.');
   });
 });
-define('ticket-system/tests/components/my-modal.jshint.lint-test', ['exports'], function (exports) {
+define('ticket-system/tests/components/my-modal.jshint.lint-test', [], function () {
   'use strict';
 
   QUnit.module('JSHint | components/my-modal.js');
@@ -90,7 +90,7 @@ define('ticket-system/tests/components/my-modal.jshint.lint-test', ['exports'], 
     assert.ok(true, 'components/my-modal.js should pass jshint.');
   });
 });
-define('ticket-system/tests/components/nav-bar.jshint.lint-test', ['exports'], function (exports) {
+define('ticket-system/tests/components/nav-bar.jshint.lint-test', [], function () {
   'use strict';
 
   QUnit.module('JSHint | components/nav-bar.js');
@@ -99,7 +99,7 @@ define('ticket-system/tests/components/nav-bar.jshint.lint-test', ['exports'], f
     assert.ok(true, 'components/nav-bar.js should pass jshint.');
   });
 });
-define('ticket-system/tests/components/project-component.jshint.lint-test', ['exports'], function (exports) {
+define('ticket-system/tests/components/project-component.jshint.lint-test', [], function () {
   'use strict';
 
   QUnit.module('JSHint | components/project-component.js');
@@ -108,7 +108,7 @@ define('ticket-system/tests/components/project-component.jshint.lint-test', ['ex
     assert.ok(true, 'components/project-component.js should pass jshint.');
   });
 });
-define('ticket-system/tests/components/project-list.jshint.lint-test', ['exports'], function (exports) {
+define('ticket-system/tests/components/project-list.jshint.lint-test', [], function () {
   'use strict';
 
   QUnit.module('JSHint | components/project-list.js');
@@ -117,7 +117,7 @@ define('ticket-system/tests/components/project-list.jshint.lint-test', ['exports
     assert.ok(true, 'components/project-list.js should pass jshint.');
   });
 });
-define('ticket-system/tests/components/show-alert.jshint.lint-test', ['exports'], function (exports) {
+define('ticket-system/tests/components/show-alert.jshint.lint-test', [], function () {
   'use strict';
 
   QUnit.module('JSHint | components/show-alert.js');
@@ -126,7 +126,7 @@ define('ticket-system/tests/components/show-alert.jshint.lint-test', ['exports']
     assert.ok(true, 'components/show-alert.js should pass jshint.');
   });
 });
-define('ticket-system/tests/components/submit-issue.jshint.lint-test', ['exports'], function (exports) {
+define('ticket-system/tests/components/submit-issue.jshint.lint-test', [], function () {
   'use strict';
 
   QUnit.module('JSHint | components/submit-issue.js');
@@ -135,7 +135,7 @@ define('ticket-system/tests/components/submit-issue.jshint.lint-test', ['exports
     assert.ok(true, 'components/submit-issue.js should pass jshint.');
   });
 });
-define('ticket-system/tests/helpers/compare-string.jshint.lint-test', ['exports'], function (exports) {
+define('ticket-system/tests/helpers/compare-string.jshint.lint-test', [], function () {
   'use strict';
 
   QUnit.module('JSHint | helpers/compare-string.js');
@@ -151,7 +151,7 @@ define('ticket-system/tests/helpers/destroy-app', ['exports', 'ember'], function
     _ember['default'].run(application, 'destroy');
   }
 });
-define('ticket-system/tests/helpers/destroy-app.jshint.lint-test', ['exports'], function (exports) {
+define('ticket-system/tests/helpers/destroy-app.jshint.lint-test', [], function () {
   'use strict';
 
   QUnit.module('JSHint | helpers/destroy-app.js');
@@ -159,6 +159,41 @@ define('ticket-system/tests/helpers/destroy-app.jshint.lint-test', ['exports'], 
     assert.expect(1);
     assert.ok(true, 'helpers/destroy-app.js should pass jshint.');
   });
+});
+define('ticket-system/tests/helpers/ember-power-select', ['exports', '@ember/debug', 'ember-power-select/test-support/helpers'], function (exports, _emberDebug, _emberPowerSelectTestSupportHelpers) {
+  exports['default'] = deprecatedRegisterHelpers;
+
+  function deprecateHelper(fn, name) {
+    return function () {
+      (0, _emberDebug.deprecate)('DEPRECATED `import { ' + name + ' } from \'../../tests/helpers/ember-power-select\';` is deprecated. Please, replace it with `import { ' + name + ' } from \'ember-power-select/test-support/helpers\';`', false, { until: '1.11.0', id: 'ember-power-select-test-support-' + name });
+      return fn.apply(undefined, arguments);
+    };
+  }
+
+  var findContains = deprecateHelper(_emberPowerSelectTestSupportHelpers.findContains, 'findContains');
+  var nativeMouseDown = deprecateHelper(_emberPowerSelectTestSupportHelpers.nativeMouseDown, 'nativeMouseDown');
+  var nativeMouseUp = deprecateHelper(_emberPowerSelectTestSupportHelpers.nativeMouseUp, 'nativeMouseUp');
+  var triggerKeydown = deprecateHelper(_emberPowerSelectTestSupportHelpers.triggerKeydown, 'triggerKeydown');
+  var typeInSearch = deprecateHelper(_emberPowerSelectTestSupportHelpers.typeInSearch, 'typeInSearch');
+  var clickTrigger = deprecateHelper(_emberPowerSelectTestSupportHelpers.clickTrigger, 'clickTrigger');
+  var nativeTouch = deprecateHelper(_emberPowerSelectTestSupportHelpers.nativeTouch, 'nativeTouch');
+  var touchTrigger = deprecateHelper(_emberPowerSelectTestSupportHelpers.touchTrigger, 'touchTrigger');
+  var selectChoose = deprecateHelper(_emberPowerSelectTestSupportHelpers.selectChoose, 'selectChoose');
+
+  function deprecatedRegisterHelpers() {
+    (0, _emberDebug.deprecate)("DEPRECATED `import registerPowerSelectHelpers from '../../tests/helpers/ember-power-select';` is deprecated. Please, replace it with `import registerPowerSelectHelpers from 'ember-power-select/test-support/helpers';`", false, { until: '1.11.0', id: 'ember-power-select-test-support-register-helpers' });
+    return (0, _emberPowerSelectTestSupportHelpers['default'])();
+  }
+
+  exports.findContains = findContains;
+  exports.nativeMouseDown = nativeMouseDown;
+  exports.nativeMouseUp = nativeMouseUp;
+  exports.triggerKeydown = triggerKeydown;
+  exports.typeInSearch = typeInSearch;
+  exports.clickTrigger = clickTrigger;
+  exports.nativeTouch = nativeTouch;
+  exports.touchTrigger = touchTrigger;
+  exports.selectChoose = selectChoose;
 });
 define('ticket-system/tests/helpers/ember-simple-auth', ['exports', 'ember-simple-auth/authenticators/test'], function (exports, _emberSimpleAuthAuthenticatorsTest) {
   exports.authenticateSession = authenticateSession;
@@ -222,7 +257,7 @@ define('ticket-system/tests/helpers/module-for-acceptance', ['exports', 'qunit',
     });
   };
 });
-define('ticket-system/tests/helpers/module-for-acceptance.jshint.lint-test', ['exports'], function (exports) {
+define('ticket-system/tests/helpers/module-for-acceptance.jshint.lint-test', [], function () {
   'use strict';
 
   QUnit.module('JSHint | helpers/module-for-acceptance.js');
@@ -242,7 +277,7 @@ define('ticket-system/tests/helpers/resolver', ['exports', 'ticket-system/resolv
 
   exports['default'] = resolver;
 });
-define('ticket-system/tests/helpers/resolver.jshint.lint-test', ['exports'], function (exports) {
+define('ticket-system/tests/helpers/resolver.jshint.lint-test', [], function () {
   'use strict';
 
   QUnit.module('JSHint | helpers/resolver.js');
@@ -269,7 +304,7 @@ define('ticket-system/tests/helpers/start-app', ['exports', 'ember', 'ticket-sys
     return application;
   }
 });
-define('ticket-system/tests/helpers/start-app.jshint.lint-test', ['exports'], function (exports) {
+define('ticket-system/tests/helpers/start-app.jshint.lint-test', [], function () {
   'use strict';
 
   QUnit.module('JSHint | helpers/start-app.js');
@@ -307,7 +342,7 @@ define('ticket-system/tests/integration/components/dashboard-view-test', ['expor
     assert.equal(this.$().text().trim(), 'template block text');
   });
 });
-define('ticket-system/tests/integration/components/dashboard-view-test.jshint.lint-test', ['exports'], function (exports) {
+define('ticket-system/tests/integration/components/dashboard-view-test.jshint.lint-test', [], function () {
   'use strict';
 
   QUnit.module('JSHint | integration/components/dashboard-view-test.js');
@@ -345,7 +380,7 @@ define('ticket-system/tests/integration/components/issue-card-test', ['exports',
     assert.equal(this.$().text().trim(), 'template block text');
   });
 });
-define('ticket-system/tests/integration/components/issue-card-test.jshint.lint-test', ['exports'], function (exports) {
+define('ticket-system/tests/integration/components/issue-card-test.jshint.lint-test', [], function () {
   'use strict';
 
   QUnit.module('JSHint | integration/components/issue-card-test.js');
@@ -383,7 +418,7 @@ define('ticket-system/tests/integration/components/issue-list-test', ['exports',
     assert.equal(this.$().text().trim(), 'template block text');
   });
 });
-define('ticket-system/tests/integration/components/issue-list-test.jshint.lint-test', ['exports'], function (exports) {
+define('ticket-system/tests/integration/components/issue-list-test.jshint.lint-test', [], function () {
   'use strict';
 
   QUnit.module('JSHint | integration/components/issue-list-test.js');
@@ -421,7 +456,7 @@ define('ticket-system/tests/integration/components/my-modal-test', ['exports', '
     assert.equal(this.$().text().trim(), 'template block text');
   });
 });
-define('ticket-system/tests/integration/components/my-modal-test.jshint.lint-test', ['exports'], function (exports) {
+define('ticket-system/tests/integration/components/my-modal-test.jshint.lint-test', [], function () {
   'use strict';
 
   QUnit.module('JSHint | integration/components/my-modal-test.js');
@@ -459,7 +494,7 @@ define('ticket-system/tests/integration/components/nav-bar-test', ['exports', 'e
     assert.equal(this.$().text().trim(), 'template block text');
   });
 });
-define('ticket-system/tests/integration/components/nav-bar-test.jshint.lint-test', ['exports'], function (exports) {
+define('ticket-system/tests/integration/components/nav-bar-test.jshint.lint-test', [], function () {
   'use strict';
 
   QUnit.module('JSHint | integration/components/nav-bar-test.js');
@@ -497,7 +532,7 @@ define('ticket-system/tests/integration/components/project-component-test', ['ex
     assert.equal(this.$().text().trim(), 'template block text');
   });
 });
-define('ticket-system/tests/integration/components/project-component-test.jshint.lint-test', ['exports'], function (exports) {
+define('ticket-system/tests/integration/components/project-component-test.jshint.lint-test', [], function () {
   'use strict';
 
   QUnit.module('JSHint | integration/components/project-component-test.js');
@@ -535,7 +570,7 @@ define('ticket-system/tests/integration/components/project-list-test', ['exports
     assert.equal(this.$().text().trim(), 'template block text');
   });
 });
-define('ticket-system/tests/integration/components/project-list-test.jshint.lint-test', ['exports'], function (exports) {
+define('ticket-system/tests/integration/components/project-list-test.jshint.lint-test', [], function () {
   'use strict';
 
   QUnit.module('JSHint | integration/components/project-list-test.js');
@@ -573,7 +608,7 @@ define('ticket-system/tests/integration/components/show-alert-test', ['exports',
     assert.equal(this.$().text().trim(), 'template block text');
   });
 });
-define('ticket-system/tests/integration/components/show-alert-test.jshint.lint-test', ['exports'], function (exports) {
+define('ticket-system/tests/integration/components/show-alert-test.jshint.lint-test', [], function () {
   'use strict';
 
   QUnit.module('JSHint | integration/components/show-alert-test.js');
@@ -611,7 +646,7 @@ define('ticket-system/tests/integration/components/submit-issue-test', ['exports
     assert.equal(this.$().text().trim(), 'template block text');
   });
 });
-define('ticket-system/tests/integration/components/submit-issue-test.jshint.lint-test', ['exports'], function (exports) {
+define('ticket-system/tests/integration/components/submit-issue-test.jshint.lint-test', [], function () {
   'use strict';
 
   QUnit.module('JSHint | integration/components/submit-issue-test.js');
@@ -620,7 +655,7 @@ define('ticket-system/tests/integration/components/submit-issue-test.jshint.lint
     assert.ok(true, 'integration/components/submit-issue-test.js should pass jshint.');
   });
 });
-define('ticket-system/tests/models/issue.jshint.lint-test', ['exports'], function (exports) {
+define('ticket-system/tests/models/issue.jshint.lint-test', [], function () {
   'use strict';
 
   QUnit.module('JSHint | models/issue.js');
@@ -629,7 +664,7 @@ define('ticket-system/tests/models/issue.jshint.lint-test', ['exports'], functio
     assert.ok(true, 'models/issue.js should pass jshint.');
   });
 });
-define('ticket-system/tests/models/project.jshint.lint-test', ['exports'], function (exports) {
+define('ticket-system/tests/models/project.jshint.lint-test', [], function () {
   'use strict';
 
   QUnit.module('JSHint | models/project.js');
@@ -638,7 +673,7 @@ define('ticket-system/tests/models/project.jshint.lint-test', ['exports'], funct
     assert.ok(true, 'models/project.js should pass jshint.');
   });
 });
-define('ticket-system/tests/models/test.jshint.lint-test', ['exports'], function (exports) {
+define('ticket-system/tests/models/test.jshint.lint-test', [], function () {
   'use strict';
 
   QUnit.module('JSHint | models/test.js');
@@ -647,7 +682,7 @@ define('ticket-system/tests/models/test.jshint.lint-test', ['exports'], function
     assert.ok(true, 'models/test.js should pass jshint.');
   });
 });
-define('ticket-system/tests/resolver.jshint.lint-test', ['exports'], function (exports) {
+define('ticket-system/tests/resolver.jshint.lint-test', [], function () {
   'use strict';
 
   QUnit.module('JSHint | resolver.js');
@@ -656,7 +691,7 @@ define('ticket-system/tests/resolver.jshint.lint-test', ['exports'], function (e
     assert.ok(true, 'resolver.js should pass jshint.');
   });
 });
-define('ticket-system/tests/router.jshint.lint-test', ['exports'], function (exports) {
+define('ticket-system/tests/router.jshint.lint-test', [], function () {
   'use strict';
 
   QUnit.module('JSHint | router.js');
@@ -665,7 +700,7 @@ define('ticket-system/tests/router.jshint.lint-test', ['exports'], function (exp
     assert.ok(true, 'router.js should pass jshint.');
   });
 });
-define('ticket-system/tests/routes/index.jshint.lint-test', ['exports'], function (exports) {
+define('ticket-system/tests/routes/index.jshint.lint-test', [], function () {
   'use strict';
 
   QUnit.module('JSHint | routes/index.js');
@@ -674,7 +709,7 @@ define('ticket-system/tests/routes/index.jshint.lint-test', ['exports'], functio
     assert.ok(true, 'routes/index.js should pass jshint.');
   });
 });
-define('ticket-system/tests/routes/issues.jshint.lint-test', ['exports'], function (exports) {
+define('ticket-system/tests/routes/issues.jshint.lint-test', [], function () {
   'use strict';
 
   QUnit.module('JSHint | routes/issues.js');
@@ -683,7 +718,7 @@ define('ticket-system/tests/routes/issues.jshint.lint-test', ['exports'], functi
     assert.ok(true, 'routes/issues.js should pass jshint.');
   });
 });
-define('ticket-system/tests/routes/login.jshint.lint-test', ['exports'], function (exports) {
+define('ticket-system/tests/routes/login.jshint.lint-test', [], function () {
   'use strict';
 
   QUnit.module('JSHint | routes/login.js');
@@ -692,7 +727,7 @@ define('ticket-system/tests/routes/login.jshint.lint-test', ['exports'], functio
     assert.ok(true, 'routes/login.js should pass jshint.');
   });
 });
-define('ticket-system/tests/routes/projects.jshint.lint-test', ['exports'], function (exports) {
+define('ticket-system/tests/routes/projects.jshint.lint-test', [], function () {
   'use strict';
 
   QUnit.module('JSHint | routes/projects.js');
@@ -701,7 +736,7 @@ define('ticket-system/tests/routes/projects.jshint.lint-test', ['exports'], func
     assert.ok(true, 'routes/projects.js should pass jshint.');
   });
 });
-define('ticket-system/tests/routes/submit.jshint.lint-test', ['exports'], function (exports) {
+define('ticket-system/tests/routes/submit.jshint.lint-test', [], function () {
   'use strict';
 
   QUnit.module('JSHint | routes/submit.js');
@@ -710,7 +745,7 @@ define('ticket-system/tests/routes/submit.jshint.lint-test', ['exports'], functi
     assert.ok(true, 'routes/submit.js should pass jshint.');
   });
 });
-define('ticket-system/tests/routes/test.jshint.lint-test', ['exports'], function (exports) {
+define('ticket-system/tests/routes/test.jshint.lint-test', [], function () {
   'use strict';
 
   QUnit.module('JSHint | routes/test.js');
@@ -719,16 +754,16 @@ define('ticket-system/tests/routes/test.jshint.lint-test', ['exports'], function
     assert.ok(true, 'routes/test.js should pass jshint.');
   });
 });
-define('ticket-system/tests/serializers/application.jshint.lint-test', ['exports'], function (exports) {
+define('ticket-system/tests/serializers/application.jshint.lint-test', [], function () {
   'use strict';
 
   QUnit.module('JSHint | serializers/application.js');
   QUnit.test('should pass jshint', function (assert) {
     assert.expect(1);
-    assert.ok(false, 'serializers/application.js should pass jshint.\nserializers/application.js: line 4, col 26, \'options\' is defined but never used.\nserializers/application.js: line 4, col 15, \'snapshot\' is defined but never used.\n\n2 errors');
+    assert.ok(true, 'serializers/application.js should pass jshint.');
   });
 });
-define('ticket-system/tests/serializers/issue.jshint.lint-test', ['exports'], function (exports) {
+define('ticket-system/tests/serializers/issue.jshint.lint-test', [], function () {
   'use strict';
 
   QUnit.module('JSHint | serializers/issue.js');
@@ -737,7 +772,7 @@ define('ticket-system/tests/serializers/issue.jshint.lint-test', ['exports'], fu
     assert.ok(false, 'serializers/issue.js should pass jshint.\nserializers/issue.js: line 8, col 38, Missing semicolon.\n\n1 error');
   });
 });
-define('ticket-system/tests/serializers/project.jshint.lint-test', ['exports'], function (exports) {
+define('ticket-system/tests/serializers/project.jshint.lint-test', [], function () {
   'use strict';
 
   QUnit.module('JSHint | serializers/project.js');
@@ -746,7 +781,7 @@ define('ticket-system/tests/serializers/project.jshint.lint-test', ['exports'], 
     assert.ok(false, 'serializers/project.js should pass jshint.\nserializers/project.js: line 8, col 38, Missing semicolon.\n\n1 error');
   });
 });
-define('ticket-system/tests/serializers/test.jshint.lint-test', ['exports'], function (exports) {
+define('ticket-system/tests/serializers/test.jshint.lint-test', [], function () {
   'use strict';
 
   QUnit.module('JSHint | serializers/test.js');
@@ -759,7 +794,7 @@ define('ticket-system/tests/test-helper', ['exports', 'ticket-system/tests/helpe
 
   (0, _emberQunit.setResolver)(_ticketSystemTestsHelpersResolver['default']);
 });
-define('ticket-system/tests/test-helper.jshint.lint-test', ['exports'], function (exports) {
+define('ticket-system/tests/test-helper.jshint.lint-test', [], function () {
   'use strict';
 
   QUnit.module('JSHint | test-helper.js');
@@ -781,7 +816,7 @@ define('ticket-system/tests/unit/adapters/application-test', ['exports', 'ember-
     assert.ok(adapter);
   });
 });
-define('ticket-system/tests/unit/adapters/application-test.jshint.lint-test', ['exports'], function (exports) {
+define('ticket-system/tests/unit/adapters/application-test.jshint.lint-test', [], function () {
   'use strict';
 
   QUnit.module('JSHint | unit/adapters/application-test.js');
@@ -803,7 +838,7 @@ define('ticket-system/tests/unit/adapters/issue-test', ['exports', 'ember-qunit'
     assert.ok(adapter);
   });
 });
-define('ticket-system/tests/unit/adapters/issue-test.jshint.lint-test', ['exports'], function (exports) {
+define('ticket-system/tests/unit/adapters/issue-test.jshint.lint-test', [], function () {
   'use strict';
 
   QUnit.module('JSHint | unit/adapters/issue-test.js');
@@ -825,7 +860,7 @@ define('ticket-system/tests/unit/adapters/project-test', ['exports', 'ember-quni
     assert.ok(adapter);
   });
 });
-define('ticket-system/tests/unit/adapters/project-test.jshint.lint-test', ['exports'], function (exports) {
+define('ticket-system/tests/unit/adapters/project-test.jshint.lint-test', [], function () {
   'use strict';
 
   QUnit.module('JSHint | unit/adapters/project-test.js');
@@ -844,7 +879,7 @@ define('ticket-system/tests/unit/helpers/compare-string-test', ['exports', 'tick
     assert.ok(result);
   });
 });
-define('ticket-system/tests/unit/helpers/compare-string-test.jshint.lint-test', ['exports'], function (exports) {
+define('ticket-system/tests/unit/helpers/compare-string-test.jshint.lint-test', [], function () {
   'use strict';
 
   QUnit.module('JSHint | unit/helpers/compare-string-test.js');
@@ -866,7 +901,7 @@ define('ticket-system/tests/unit/models/issue-test', ['exports', 'ember-qunit'],
     assert.ok(!!model);
   });
 });
-define('ticket-system/tests/unit/models/issue-test.jshint.lint-test', ['exports'], function (exports) {
+define('ticket-system/tests/unit/models/issue-test.jshint.lint-test', [], function () {
   'use strict';
 
   QUnit.module('JSHint | unit/models/issue-test.js');
@@ -888,7 +923,7 @@ define('ticket-system/tests/unit/models/posts-test', ['exports', 'ember-qunit'],
     assert.ok(!!model);
   });
 });
-define('ticket-system/tests/unit/models/posts-test.jshint.lint-test', ['exports'], function (exports) {
+define('ticket-system/tests/unit/models/posts-test.jshint.lint-test', [], function () {
   'use strict';
 
   QUnit.module('JSHint | unit/models/posts-test.js');
@@ -910,7 +945,7 @@ define('ticket-system/tests/unit/models/project-test', ['exports', 'ember-qunit'
     assert.ok(!!model);
   });
 });
-define('ticket-system/tests/unit/models/project-test.jshint.lint-test', ['exports'], function (exports) {
+define('ticket-system/tests/unit/models/project-test.jshint.lint-test', [], function () {
   'use strict';
 
   QUnit.module('JSHint | unit/models/project-test.js');
@@ -932,7 +967,7 @@ define('ticket-system/tests/unit/models/test-test', ['exports', 'ember-qunit'], 
     assert.ok(!!model);
   });
 });
-define('ticket-system/tests/unit/models/test-test.jshint.lint-test', ['exports'], function (exports) {
+define('ticket-system/tests/unit/models/test-test.jshint.lint-test', [], function () {
   'use strict';
 
   QUnit.module('JSHint | unit/models/test-test.js');
@@ -953,7 +988,7 @@ define('ticket-system/tests/unit/routes/index-test', ['exports', 'ember-qunit'],
     assert.ok(route);
   });
 });
-define('ticket-system/tests/unit/routes/index-test.jshint.lint-test', ['exports'], function (exports) {
+define('ticket-system/tests/unit/routes/index-test.jshint.lint-test', [], function () {
   'use strict';
 
   QUnit.module('JSHint | unit/routes/index-test.js');
@@ -974,7 +1009,7 @@ define('ticket-system/tests/unit/routes/issues-test', ['exports', 'ember-qunit']
     assert.ok(route);
   });
 });
-define('ticket-system/tests/unit/routes/issues-test.jshint.lint-test', ['exports'], function (exports) {
+define('ticket-system/tests/unit/routes/issues-test.jshint.lint-test', [], function () {
   'use strict';
 
   QUnit.module('JSHint | unit/routes/issues-test.js');
@@ -995,7 +1030,7 @@ define('ticket-system/tests/unit/routes/login-test', ['exports', 'ember-qunit'],
     assert.ok(route);
   });
 });
-define('ticket-system/tests/unit/routes/login-test.jshint.lint-test', ['exports'], function (exports) {
+define('ticket-system/tests/unit/routes/login-test.jshint.lint-test', [], function () {
   'use strict';
 
   QUnit.module('JSHint | unit/routes/login-test.js');
@@ -1016,7 +1051,7 @@ define('ticket-system/tests/unit/routes/projects-test', ['exports', 'ember-qunit
     assert.ok(route);
   });
 });
-define('ticket-system/tests/unit/routes/projects-test.jshint.lint-test', ['exports'], function (exports) {
+define('ticket-system/tests/unit/routes/projects-test.jshint.lint-test', [], function () {
   'use strict';
 
   QUnit.module('JSHint | unit/routes/projects-test.js');
@@ -1037,7 +1072,7 @@ define('ticket-system/tests/unit/routes/submit-test', ['exports', 'ember-qunit']
     assert.ok(route);
   });
 });
-define('ticket-system/tests/unit/routes/submit-test.jshint.lint-test', ['exports'], function (exports) {
+define('ticket-system/tests/unit/routes/submit-test.jshint.lint-test', [], function () {
   'use strict';
 
   QUnit.module('JSHint | unit/routes/submit-test.js');
@@ -1058,7 +1093,7 @@ define('ticket-system/tests/unit/routes/test-test', ['exports', 'ember-qunit'], 
     assert.ok(route);
   });
 });
-define('ticket-system/tests/unit/routes/test-test.jshint.lint-test', ['exports'], function (exports) {
+define('ticket-system/tests/unit/routes/test-test.jshint.lint-test', [], function () {
   'use strict';
 
   QUnit.module('JSHint | unit/routes/test-test.js');
@@ -1083,7 +1118,7 @@ define('ticket-system/tests/unit/serializers/application-test', ['exports', 'emb
     assert.ok(serializedRecord);
   });
 });
-define('ticket-system/tests/unit/serializers/application-test.jshint.lint-test', ['exports'], function (exports) {
+define('ticket-system/tests/unit/serializers/application-test.jshint.lint-test', [], function () {
   'use strict';
 
   QUnit.module('JSHint | unit/serializers/application-test.js');
@@ -1108,7 +1143,7 @@ define('ticket-system/tests/unit/serializers/issue-test', ['exports', 'ember-qun
     assert.ok(serializedRecord);
   });
 });
-define('ticket-system/tests/unit/serializers/issue-test.jshint.lint-test', ['exports'], function (exports) {
+define('ticket-system/tests/unit/serializers/issue-test.jshint.lint-test', [], function () {
   'use strict';
 
   QUnit.module('JSHint | unit/serializers/issue-test.js');
@@ -1133,7 +1168,7 @@ define('ticket-system/tests/unit/serializers/project-test', ['exports', 'ember-q
     assert.ok(serializedRecord);
   });
 });
-define('ticket-system/tests/unit/serializers/project-test.jshint.lint-test', ['exports'], function (exports) {
+define('ticket-system/tests/unit/serializers/project-test.jshint.lint-test', [], function () {
   'use strict';
 
   QUnit.module('JSHint | unit/serializers/project-test.js');
@@ -1158,7 +1193,7 @@ define('ticket-system/tests/unit/serializers/test-test', ['exports', 'ember-quni
     assert.ok(serializedRecord);
   });
 });
-define('ticket-system/tests/unit/serializers/test-test.jshint.lint-test', ['exports'], function (exports) {
+define('ticket-system/tests/unit/serializers/test-test.jshint.lint-test', [], function () {
   'use strict';
 
   QUnit.module('JSHint | unit/serializers/test-test.js');
@@ -1167,10 +1202,6 @@ define('ticket-system/tests/unit/serializers/test-test.jshint.lint-test', ['expo
     assert.ok(true, 'unit/serializers/test-test.js should pass jshint.');
   });
 });
-/* jshint ignore:start */
-
 require('ticket-system/tests/test-helper');
 EmberENV.TESTS_FILE_LOADED = true;
-
-/* jshint ignore:end */
 //# sourceMappingURL=tests.map
