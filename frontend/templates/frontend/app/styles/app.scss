@@ -1,7 +1,18 @@
 @import 'ember-paper';
 
+.project-bg{
+	background: #f3f3f3;
+}
+
 
 .project-tile{
 	background-color: #f1eeee;
 	border-right: solid 1px;
+}
+
+
+form{
+	md-input-container{
+		margin-bottom: -15px;
+	}
 }
