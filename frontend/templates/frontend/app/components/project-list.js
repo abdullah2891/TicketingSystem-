@@ -15,9 +15,9 @@ export default Ember.Component.extend({
 			if(!project){
 				return false;
 			}
-			this.set('newProject.projects', project);
+			project.set('projects', this.get('project'));
 
-			this.get('newProject').save()
+			project.save()
 				.then(console.log)
 				.catch(console.error);
 		},

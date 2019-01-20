@@ -12,10 +12,11 @@ export default Ember.Component.extend({
 			if(!issue){
 				return false;
 			}
-			this.set('newIssue.title' , issue);
-			this.get('issues').pushObject(this.get('newIssue'));
+			issue.set('title' , this.get('issueTitle'));
+			issue.set('description' , this.get('issueTitle'));
+			this.get('issues').pushObject(issue);
 
-			this.get('newIssue').save()
+			issue.save()
 				.then(console.log)
 				.catch(console.warn);
 			
