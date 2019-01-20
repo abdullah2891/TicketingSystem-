@@ -20,7 +20,7 @@ class ProjectModel(models.Model):
 		return "{}".format(self.projects)
 
 class IssueModel(models.Model):
-	title = models.CharField(max_length = 200, blank = False , unique = True)
+	title = models.CharField(max_length = 200, blank = False)
 	description =  models.CharField(max_length = 300)
 	status  = models.CharField(max_length = 20, blank = False)
 	
