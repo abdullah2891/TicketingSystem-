@@ -95,21 +95,16 @@ WSGI_APPLICATION = 'ticket_viewer.wsgi.application'
 #os env 
 user = os.environ.get('user')
 password = os.environ.get('password')
-name    = os.environ.get('name')
-port    = os.environ.get('port')
-host    = os.environ.get('host')
+port    = os.environ.get('PORT')
+host    = os.environ.get('DATABASE_URL')
 
 
 
 DATABASES = {
     'default': {
        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': name,
-        'USER': user,
-        'PASSWORD': password,
-        'HOST': host,
         'PORT': port, 
-        
+        'HOST': host 
         }
 }
 
