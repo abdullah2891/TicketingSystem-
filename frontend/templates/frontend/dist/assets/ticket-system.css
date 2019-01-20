@@ -19697,17 +19697,16 @@ md-menu-content.md-dense md-menu-item {
   border-left: solid 1px #e8dfdf;
 }
 
+.border-right {
+  border-right: solid 1px #e8dfdf;
+}
+
 .border-top {
   border-top: solid 1px #e8dfdf;
 }
 
 .pointer {
   cursor: pointer;
-}
-
-.project-bg {
-  background: #f3f3f3;
-  border-right: solid 1px;
 }
 
 .project-tile {

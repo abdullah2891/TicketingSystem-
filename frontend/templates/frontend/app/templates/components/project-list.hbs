@@ -14,7 +14,10 @@
         <h3>{{project.projects}}</h3>
         <h4>{{project.date_modified}}</h4>
 	  {{#paper-button onClick=(action "deleteProject" project)}}
-		{{paper-icon "delete"}} DELETE
+		{{paper-icon "delete"}}
+		{{#paper-tooltip position=true}}
+		    Delete Project
+		 {{/paper-tooltip}}
 	  {{/paper-button}}
 
       </div>
