@@ -9,7 +9,8 @@ https://docs.djangoproject.com/en/1.11/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/1.11/ref/settings/
 """
-
+from decouple import config
+import dj_database_url
 import os
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -92,23 +93,9 @@ WSGI_APPLICATION = 'ticket_viewer.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/1.11/ref/settings/#databases
 
-#os env 
-user = os.environ.get('user')
-password = os.environ.get('password')
-port    = os.environ.get('PORT')
-host    = os.environ.get('host')
-name    = os.environ.get('name')
-
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': name,
-        'USER':  user,
-        'PASSWORD': password,
-        'HOST': host,
-        'PORT': port,
-        }
+    'default': dj_database_url.config(default=config('DATABASE_URL') ) 
 }
 
 
