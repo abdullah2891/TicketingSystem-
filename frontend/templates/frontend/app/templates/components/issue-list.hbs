@@ -1,23 +1,36 @@
-{{#if projectId}}
-	<form {{action 'submitIssue' on="submit"}}>
-		{{paper-input 
-			class="flex-30" 
-			label="Issue" 
-			placeholder="Issues" 
-			value=issue 
-			onChange=(action (mut issue))
-		}}
-	</form>
-{{/if}}
-
-{{#paper-list}}
-  {{#each issues as |issue|}}
-    {{#paper-item class="md-3-line"}}
-      <div class="md-list-item-text">
-        <h3>{{issue.title}}</h3>
-        <h4>{{issue.description}}</h4>
-      </div>
-      {{paper-divider}}
-    {{/paper-item}}
-  {{/each}}
-{{/paper-list}}
+<div class="padding-left-10">
+	{{#if projectId}}
+		<form {{action 'submitIssue' on="submit"}}>
+			{{paper-input 
+				class="flex-30" 
+				label="Issue" 
+				placeholder="Issues" 
+				value=issue 
+				onChange=(action (mut issue))
+			}}
+		</form>
+	{{/if}}
+	<div class="layout-row flex">
+		<div class="flex-{{if selectIssue '80' '100'}}">
+			{{#paper-list}}
+			  {{#each issues as |issue|}}
+			    {{#paper-item class="md-3-line"}}
+			      <div {{action 'selectIssue' issue}} class="md-list-item-text pointer">
+				<h3>{{issue.title}}</h3>
+				<h4>{{issue.description}}</h4>
+			      </div>
+			      {{paper-divider}}
+			    {{/paper-item}}
+			  {{/each}}
+			{{/paper-list}}
+		</div>
+		
+		{{#if selectIssue}}
+			<div class="flex-20">
+				{{issue/advanced-view
+					selectIssue = selectIssue
+				}}
+			</div>
+		{{/if}}
+	</div>
+</div>

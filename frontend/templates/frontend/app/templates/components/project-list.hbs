@@ -9,7 +9,7 @@
 </form>
 
 {{#each projects as |project|}}
-    {{#paper-item class="md-3-line project-tile"}}
+    {{#paper-item class="md-3-line project-tile pointer"}}
       <div {{action "setProject" project}} class="md-list-item-text">
         <h3>{{project.projects}}</h3>
         <h4>{{project.date_modified}}</h4>

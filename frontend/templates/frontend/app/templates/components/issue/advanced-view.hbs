@@ -1,0 +1,43 @@
+{{#paper-form
+	class="border-left padding-left-10 project-tile"
+	 onSubmit=(action "submitIssue") as |form|}}
+      {{form.input 
+	label="Title" 
+	value= selectIssue.title 
+	onChange=(action (mut selectIssue.title)) 
+	required=true}}
+
+      {{form.input 
+	label="Description" 
+	value= selectIssue.description 
+	onChange=(action (mut selectIssue.description))
+	}}
+
+
+	<div class="layout-row float-right">
+		{{#paper-button 
+			onClick=(action "submitIssue")
+			 iconButton=true raised=true}}
+
+			{{paper-icon   "update"}}
+
+			{{#paper-tooltip position=position}}
+			    Update
+			 {{/paper-tooltip}}
+
+		{{/paper-button}}
+
+		{{#paper-button 
+			onClick=(action "cancel")
+			 iconButton=true raised=true}}
+
+			{{paper-icon   "cancel"}}
+
+			{{#paper-tooltip position=position}}
+			    Cancel
+			 {{/paper-tooltip}}
+
+		{{/paper-button}}
+	</div>
+
+{{/paper-form}}

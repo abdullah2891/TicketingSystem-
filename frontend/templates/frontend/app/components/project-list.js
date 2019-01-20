@@ -3,18 +3,15 @@ const {inject} = Ember;
 
 export default Ember.Component.extend({
 	store: inject.service(),
-	init(){
-		this._super(...arguments);
-		this.set('newProject', this.get('store').createRecord('project',{
-			status: 'open'
-		}));
-	},
+
 	actions:{
 		setProject(project){
 			this.sendAction('setProject',project);
 		},
 		submitProject(){
-			const project = this.get('project');
+			const project = this.get('store').createRecord('project',{
+				status: 'open'
+			});
 			if(!project){
 				return false;
 			}
