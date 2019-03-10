@@ -1,0 +1,21 @@
+
+{
+  "ecmaVersion": 6,
+  "libs": [
+    "browser",
+    "jquery"
+  ],
+  "loadEagerly": [
+    "./app/**/*.js",
+    "./bower_components/ember/ember.js",
+    "./node_modules/ember-data/addon/**/*.js"
+  ],
+  "plugins": {
+    "complete_strings": {},
+    "modules": {},
+    "es_modules": {},
+    "doc_comment": {
+      "fullDocs": true
+    }
+  }
+}

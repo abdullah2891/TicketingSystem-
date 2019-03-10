@@ -3,9 +3,22 @@ const {inject} = Ember;
 
 export default Ember.Component.extend({
 	store: inject.service(),
+	init(){
+		this._super(...arguments);
+
+		this.sendAction('setProject' , this.get('projects.firstObject'));
+
+	},
 
 	actions:{
 		setProject(project){
+			this.get('projects').forEach(proj=>{
+				if(proj.get('id') === project.get('id')){
+					project.set('show', true);
+				}else{
+					proj.set('show',false);
+				}
+			});
 			this.sendAction('setProject',project);
 		},
 		submitProject(){
@@ -18,7 +31,9 @@ export default Ember.Component.extend({
 			project.set('projects', this.get('project'));
 
 			project.save()
-				.then(console.log)
+				.then(()=>{
+					this.set('project', null);
+				})
 				.catch(console.error);
 		},
 		deleteProject(project){

@@ -771,12 +771,26 @@ define('ticket-system/components/project-list', ['exports', 'ember'], function (
 	var inject = _ember['default'].inject;
 	exports['default'] = _ember['default'].Component.extend({
 		store: inject.service(),
+		init: function init() {
+			this._super.apply(this, arguments);
+
+			this.sendAction('setProject', this.get('projects.firstObject'));
+		},
 
 		actions: {
 			setProject: function setProject(project) {
+				this.get('projects').forEach(function (proj) {
+					if (proj.get('id') === project.get('id')) {
+						project.set('show', true);
+					} else {
+						proj.set('show', false);
+					}
+				});
 				this.sendAction('setProject', project);
 			},
 			submitProject: function submitProject() {
+				var _this = this;
+
 				var project = this.get('store').createRecord('project', {
 					status: 'open'
 				});
@@ -785,7 +799,9 @@ define('ticket-system/components/project-list', ['exports', 'ember'], function (
 				}
 				project.set('projects', this.get('project'));
 
-				project.save().then(console.log)['catch'](console.error);
+				project.save().then(function () {
+					_this.set('project', null);
+				})['catch'](console.error);
 			},
 			deleteProject: function deleteProject(project) {
 				project.deleteRecord();
@@ -1748,7 +1764,7 @@ define("ticket-system/templates/components/project-component", ["exports"], func
   exports["default"] = Ember.HTMLBars.template({ "id": "HGaBWEFK", "block": "{\"statements\":[[\"text\",\"\\n\\n\"],[\"append\",[\"unknown\",[\"name\"]],false],[\"text\",\"\\n\"],[\"open-element\",\"span\",[]],[\"static-attr\",\"class\",\"glyphicon glyphicon-menu-right update-button\"],[\"modifier\",[\"action\"],[[\"get\",[null]],\"jumpToIssue\",[\"get\",[\"project_id\"]]]],[\"flush-element\"],[\"close-element\"]],\"locals\":[],\"named\":[],\"yields\":[],\"blocks\":[],\"hasPartials\":false}", "meta": { "moduleName": "ticket-system/templates/components/project-component.hbs" } });
 });
 define("ticket-system/templates/components/project-list", ["exports"], function (exports) {
-  exports["default"] = Ember.HTMLBars.template({ "id": "SJHNsu3M", "block": "{\"statements\":[[\"open-element\",\"form\",[]],[\"modifier\",[\"action\"],[[\"get\",[null]],\"submitProject\"],[[\"on\"],[\"submit\"]]],[\"flush-element\"],[\"text\",\"\\n\\t\"],[\"append\",[\"helper\",[\"paper-input\"],null,[[\"class\",\"label\",\"placeholder\",\"value\",\"onChange\"],[\"flex-30\",\"Add Project\",\"Projects\",[\"get\",[\"project\"]],[\"helper\",[\"action\"],[[\"get\",[null]],[\"helper\",[\"mut\"],[[\"get\",[\"project\"]]],null]],null]]]],false],[\"text\",\"\\n\"],[\"close-element\"],[\"text\",\"\\n\\n\"],[\"block\",[\"each\"],[[\"get\",[\"projects\"]]],null,3],[\"text\",\"\\n\"]],\"locals\":[],\"named\":[],\"yields\":[],\"blocks\":[{\"statements\":[[\"text\",\"\\t\\t    Delete Project\\n\"]],\"locals\":[]},{\"statements\":[[\"text\",\"\\t\\t\"],[\"append\",[\"helper\",[\"paper-icon\"],[\"delete\"],null],false],[\"text\",\"\\n\"],[\"block\",[\"paper-tooltip\"],null,[[\"position\"],[true]],0]],\"locals\":[]},{\"statements\":[[\"text\",\"      \"],[\"open-element\",\"div\",[]],[\"static-attr\",\"class\",\"md-list-item-text\"],[\"modifier\",[\"action\"],[[\"get\",[null]],\"setProject\",[\"get\",[\"project\"]]]],[\"flush-element\"],[\"text\",\"\\n        \"],[\"open-element\",\"h3\",[]],[\"flush-element\"],[\"append\",[\"unknown\",[\"project\",\"projects\"]],false],[\"close-element\"],[\"text\",\"\\n        \"],[\"open-element\",\"h4\",[]],[\"flush-element\"],[\"append\",[\"unknown\",[\"project\",\"date_modified\"]],false],[\"close-element\"],[\"text\",\"\\n\"],[\"block\",[\"paper-button\"],null,[[\"onClick\"],[[\"helper\",[\"action\"],[[\"get\",[null]],\"deleteProject\",[\"get\",[\"project\"]]],null]]],1],[\"text\",\"\\n      \"],[\"close-element\"],[\"text\",\"\\n      \"],[\"append\",[\"unknown\",[\"paper-divider\"]],false],[\"text\",\"\\n\"]],\"locals\":[]},{\"statements\":[[\"block\",[\"paper-item\"],null,[[\"class\"],[\"md-3-line project-tile pointer\"]],2]],\"locals\":[\"project\"]}],\"hasPartials\":false}", "meta": { "moduleName": "ticket-system/templates/components/project-list.hbs" } });
+  exports["default"] = Ember.HTMLBars.template({ "id": "nuXONIgL", "block": "{\"statements\":[[\"open-element\",\"form\",[]],[\"modifier\",[\"action\"],[[\"get\",[null]],\"submitProject\"],[[\"on\"],[\"submit\"]]],[\"flush-element\"],[\"text\",\"\\n\\t\"],[\"append\",[\"helper\",[\"paper-input\"],null,[[\"class\",\"label\",\"placeholder\",\"value\",\"onChange\"],[\"flex-30\",\"Add Project\",\"Projects\",[\"get\",[\"project\"]],[\"helper\",[\"action\"],[[\"get\",[null]],[\"helper\",[\"mut\"],[[\"get\",[\"project\"]]],null]],null]]]],false],[\"text\",\"\\n\"],[\"close-element\"],[\"text\",\"\\n\\n\"],[\"block\",[\"each\"],[[\"get\",[\"projects\"]]],null,4],[\"text\",\"\\n\"]],\"locals\":[],\"named\":[],\"yields\":[],\"blocks\":[{\"statements\":[[\"text\",\"\\t\\t\\t\\t    Delete Project\\n\"]],\"locals\":[]},{\"statements\":[[\"text\",\"\\t\\t\\t\\t\"],[\"append\",[\"helper\",[\"paper-icon\"],[\"delete\"],null],false],[\"text\",\"\\n\"],[\"block\",[\"paper-tooltip\"],null,[[\"position\"],[true]],0]],\"locals\":[]},{\"statements\":[[\"block\",[\"paper-button\"],null,[[\"onClick\"],[[\"helper\",[\"action\"],[[\"get\",[null]],\"deleteProject\",[\"get\",[\"project\"]]],null]]],1]],\"locals\":[]},{\"statements\":[[\"text\",\"      \"],[\"open-element\",\"div\",[]],[\"static-attr\",\"class\",\"md-list-item-text\"],[\"modifier\",[\"action\"],[[\"get\",[null]],\"setProject\",[\"get\",[\"project\"]]]],[\"flush-element\"],[\"text\",\"\\n        \"],[\"open-element\",\"h3\",[]],[\"flush-element\"],[\"text\",\"\\n\\t\\t\"],[\"append\",[\"unknown\",[\"project\",\"projects\"]],false],[\"text\",\"\\n\"],[\"block\",[\"if\"],[[\"get\",[\"project\",\"show\"]]],null,2],[\"text\",\"\\t\"],[\"close-element\"],[\"text\",\"\\n\\n      \"],[\"close-element\"],[\"text\",\"\\n      \"],[\"append\",[\"unknown\",[\"paper-divider\"]],false],[\"text\",\"\\n\"]],\"locals\":[]},{\"statements\":[[\"block\",[\"paper-item\"],null,[[\"class\"],[\"md-3-line project-tile pointer\"]],3]],\"locals\":[\"project\"]}],\"hasPartials\":false}", "meta": { "moduleName": "ticket-system/templates/components/project-list.hbs" } });
 });
 define("ticket-system/templates/components/show-alert", ["exports"], function (exports) {
   exports["default"] = Ember.HTMLBars.template({ "id": "c6Id1CSV", "block": "{\"statements\":[[\"open-element\",\"div\",[]],[\"static-attr\",\"class\",\"modal fade\"],[\"flush-element\"],[\"text\",\"\\n  \"],[\"open-element\",\"div\",[]],[\"static-attr\",\"class\",\"modal-dialog\"],[\"flush-element\"],[\"text\",\"\\n    \"],[\"open-element\",\"div\",[]],[\"static-attr\",\"class\",\"modal-content\"],[\"flush-element\"],[\"text\",\"\\n      \"],[\"open-element\",\"div\",[]],[\"static-attr\",\"class\",\"modal-header\"],[\"flush-element\"],[\"text\",\"\\n        \"],[\"open-element\",\"button\",[]],[\"static-attr\",\"type\",\"button\"],[\"static-attr\",\"class\",\"close\"],[\"static-attr\",\"data-dismiss\",\"modal\"],[\"static-attr\",\"aria-hidden\",\"true\"],[\"flush-element\"],[\"text\",\"×\"],[\"close-element\"],[\"text\",\"\\n        \"],[\"open-element\",\"h4\",[]],[\"static-attr\",\"class\",\"modal-title\"],[\"flush-element\"],[\"append\",[\"unknown\",[\"title\"]],false],[\"close-element\"],[\"text\",\"\\n      \"],[\"close-element\"],[\"text\",\"\\n      \"],[\"open-element\",\"div\",[]],[\"static-attr\",\"class\",\"modal-body\"],[\"flush-element\"],[\"text\",\"\\n       \"],[\"append\",[\"helper\",[\"submit-issue\"],null,[[\"issue\",\"post\",\"submit\"],[[\"get\",[\"issue\"]],[\"get\",[\"pos\"]],[\"helper\",[\"action\"],[[\"get\",[null]],\"submit\"],null]]]],false],[\"text\",\"       \\n      \"],[\"close-element\"],[\"text\",\"\\n      \\n    \"],[\"close-element\"],[\"text\",\"\\n  \"],[\"close-element\"],[\"text\",\"\\n\"],[\"close-element\"]],\"locals\":[],\"named\":[],\"yields\":[],\"blocks\":[],\"hasPartials\":false}", "meta": { "moduleName": "ticket-system/templates/components/show-alert.hbs" } });
@@ -1804,6 +1820,6 @@ catch(err) {
 });
 
 if (!runningTests) {
-  require("ticket-system/app")["default"].create({"name":"ticket-system","version":"0.0.0+2c05ae67"});
+  require("ticket-system/app")["default"].create({"name":"ticket-system","version":"0.0.0+1f2006fb"});
 }
 //# sourceMappingURL=ticket-system.map
