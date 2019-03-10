@@ -11,7 +11,7 @@ urlpatterns  = {
 
 	url(r'^projects$' , CreateView.as_view() , name = 'create'), 
 	url(r'^issues$' , IssueView.as_view() , name = 'create'), 
-	url(r'^projects(?P<pk>[0-9]+)/$' ,DetailsView.as_view() , name = "update"), 
+	url(r'^projects/(?P<pk>[0-9]+)/$' ,DetailsView.as_view() , name = "update"), 
 	url(r'^issues/(?P<pk>[0-9]+)$' , IssueUpdateView.as_view() , name = 'update'), 
 
 	url(r'^accounts', UserView.as_view() , name = 'user creation'),
