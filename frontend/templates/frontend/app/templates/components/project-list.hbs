@@ -11,14 +11,17 @@
 {{#each projects as |project|}}
     {{#paper-item class="md-3-line project-tile pointer"}}
       <div {{action "setProject" project}} class="md-list-item-text">
-        <h3>{{project.projects}}</h3>
-        <h4>{{project.date_modified}}</h4>
-	  {{#paper-button onClick=(action "deleteProject" project)}}
-		{{paper-icon "delete"}}
-		{{#paper-tooltip position=true}}
-		    Delete Project
-		 {{/paper-tooltip}}
-	  {{/paper-button}}
+        <h3>
+		{{project.projects}}
+		{{#if project.show}}
+			  {{#paper-button onClick=(action "deleteProject" project)}}
+				{{paper-icon "delete"}}
+				{{#paper-tooltip position=true}}
+				    Delete Project
+				 {{/paper-tooltip}}
+			  {{/paper-button}}
+		{{/if}}
+	</h3>
 
       </div>
       {{paper-divider}}

@@ -19709,6 +19709,10 @@ md-menu-content.md-dense md-menu-item {
   cursor: pointer;
 }
 
+#login-box {
+  margin-top: 20vh;
+}
+
 .project-tile {
   padding: 10px;
 }
