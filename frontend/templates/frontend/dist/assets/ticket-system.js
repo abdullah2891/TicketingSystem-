@@ -1804,6 +1804,6 @@ catch(err) {
 });
 
 if (!runningTests) {
-  require("ticket-system/app")["default"].create({"name":"ticket-system","version":"0.0.0+2c05ae67"});
+  require("ticket-system/app")["default"].create({"name":"ticket-system","version":"0.0.0+f80a55d9"});
 }
 //# sourceMappingURL=ticket-system.map
