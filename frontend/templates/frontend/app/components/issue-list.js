@@ -6,7 +6,8 @@ export default Ember.Component.extend({
 	actions:{
 		submitIssue(){
 			const issue = this.get('store').createRecord('issue',{
-				status: 'open'
+				status: 'open',
+				owner: this.get('owner')
 			});
 
 			if(!issue){

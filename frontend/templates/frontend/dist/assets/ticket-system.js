@@ -91,9 +91,10 @@ define('ticket-system/components/dashboard-view', ['exports', 'ember'], function
 	exports['default'] = _ember['default'].Component.extend({
 		actions: {
 			setProject: function setProject(project) {
-				if (project.get('issues')) {
+				if (project && project.get('issues')) {
 					this.set('selected_issues', project.get('issues'));
 					this.set('select_project_id', project.get('id'));
+					this.set('owner', project.get('owner'));
 				}
 			}
 		}
@@ -154,7 +155,8 @@ define('ticket-system/components/issue-list', ['exports', 'ember'], function (ex
 		actions: {
 			submitIssue: function submitIssue() {
 				var issue = this.get('store').createRecord('issue', {
-					status: 'open'
+					status: 'open',
+					owner: this.get('owner')
 				});
 
 				if (!issue) {
@@ -1493,7 +1495,7 @@ define('ticket-system/models/auth', ['exports', 'ember-data'], function (exports
 define('ticket-system/models/issue', ['exports', 'ember-data'], function (exports, _emberData) {
     exports['default'] = _emberData['default'].Model.extend({
         description: _emberData['default'].attr(),
-        owner: _emberData['default'].attr(),
+        owner: _emberData['default'].attr('string'),
         status: _emberData['default'].attr(),
         title: _emberData['default'].attr(),
         projects: _emberData['default'].belongsTo('project')
@@ -1868,7 +1870,7 @@ define("ticket-system/templates/application", ["exports"], function (exports) {
   exports["default"] = Ember.HTMLBars.template({ "id": "psK0Ernf", "block": "{\"statements\":[[\"append\",[\"unknown\",[\"outlet\"]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"blocks\":[],\"hasPartials\":false}", "meta": { "moduleName": "ticket-system/templates/application.hbs" } });
 });
 define("ticket-system/templates/components/dashboard-view", ["exports"], function (exports) {
-  exports["default"] = Ember.HTMLBars.template({ "id": "hm6fC277", "block": "{\"statements\":[[\"open-element\",\"div\",[]],[\"static-attr\",\"class\",\"layout-row flex\"],[\"flush-element\"],[\"text\",\"\\n  \"],[\"open-element\",\"div\",[]],[\"static-attr\",\"class\",\"flex-20\"],[\"flush-element\"],[\"text\",\"\\n\\t  \"],[\"append\",[\"helper\",[\"project-list\"],null,[[\"projects\",\"setProject\"],[[\"get\",[\"model\",\"projects\"]],[\"helper\",[\"action\"],[[\"get\",[null]],\"setProject\"],null]]]],false],[\"text\",\"\\n  \"],[\"close-element\"],[\"text\",\"\\n  \"],[\"open-element\",\"div\",[]],[\"static-attr\",\"class\",\"flex-80\"],[\"flush-element\"],[\"text\",\"\\n\\t\"],[\"append\",[\"helper\",[\"issue-list\"],null,[[\"issues\",\"projectId\"],[[\"get\",[\"selected_issues\"]],[\"get\",[\"select_project_id\"]]]]],false],[\"text\",\"\\n  \"],[\"close-element\"],[\"text\",\"\\n\"],[\"close-element\"],[\"text\",\"\\n\"]],\"locals\":[],\"named\":[],\"yields\":[],\"blocks\":[],\"hasPartials\":false}", "meta": { "moduleName": "ticket-system/templates/components/dashboard-view.hbs" } });
+  exports["default"] = Ember.HTMLBars.template({ "id": "tuOH27Ik", "block": "{\"statements\":[[\"open-element\",\"div\",[]],[\"static-attr\",\"class\",\"layout-row flex\"],[\"flush-element\"],[\"text\",\"\\n  \"],[\"open-element\",\"div\",[]],[\"static-attr\",\"class\",\"flex-20\"],[\"flush-element\"],[\"text\",\"\\n\\t  \"],[\"append\",[\"helper\",[\"project-list\"],null,[[\"projects\",\"setProject\"],[[\"get\",[\"model\",\"projects\"]],[\"helper\",[\"action\"],[[\"get\",[null]],\"setProject\"],null]]]],false],[\"text\",\"\\n  \"],[\"close-element\"],[\"text\",\"\\n  \"],[\"open-element\",\"div\",[]],[\"static-attr\",\"class\",\"flex-80\"],[\"flush-element\"],[\"text\",\"\\n\\t\"],[\"append\",[\"helper\",[\"issue-list\"],null,[[\"issues\",\"projectId\",\"owner\"],[[\"get\",[\"selected_issues\"]],[\"get\",[\"select_project_id\"]],[\"get\",[\"owner\"]]]]],false],[\"text\",\"\\n  \"],[\"close-element\"],[\"text\",\"\\n\"],[\"close-element\"],[\"text\",\"\\n\"]],\"locals\":[],\"named\":[],\"yields\":[],\"blocks\":[],\"hasPartials\":false}", "meta": { "moduleName": "ticket-system/templates/components/dashboard-view.hbs" } });
 });
 define("ticket-system/templates/components/issue-card", ["exports"], function (exports) {
   exports["default"] = Ember.HTMLBars.template({ "id": "634hTBfL", "block": "{\"statements\":[[\"text\",\"\\n    \"],[\"open-element\",\"ul\",[]],[\"static-attr\",\"class\",\"list-group issue\"],[\"flush-element\"],[\"text\",\"\\n        \"],[\"open-element\",\"li\",[]],[\"static-attr\",\"class\",\"list-group-item\"],[\"flush-element\"],[\"append\",[\"unknown\",[\"post\",\"title\"]],false],[\"text\",\"\\n\\n            \"],[\"open-element\",\"span\",[]],[\"static-attr\",\"class\",\"glyphicon glyphicon-ok-sign update-button\"],[\"modifier\",[\"action\"],[[\"get\",[null]],\"updateIssue\",[\"get\",[\"post\",\"id\"]]]],[\"flush-element\"],[\"close-element\"],[\"text\",\"\\n            \"],[\"open-element\",\"span\",[]],[\"static-attr\",\"class\",\"glyphicon glyphicon-remove-sign update-button\"],[\"modifier\",[\"action\"],[[\"get\",[null]],\"deleteIssue\",[\"get\",[\"post\",\"id\"]]]],[\"flush-element\"],[\"close-element\"],[\"text\",\"        \\n        \"],[\"close-element\"],[\"text\",\"\\n\"],[\"block\",[\"if\"],[[\"helper\",[\"compare_string\"],[[\"get\",[\"post\",\"status\"]],\"closed\",\"not_equal\"],null]],null,0],[\"text\",\"    \"],[\"close-element\"],[\"text\",\"\\n    \\n    \\n    \\n\\n    \\n\"]],\"locals\":[],\"named\":[],\"yields\":[],\"blocks\":[{\"statements\":[[\"text\",\"            \"],[\"open-element\",\"li\",[]],[\"static-attr\",\"class\",\"list-group-item\"],[\"flush-element\"],[\"append\",[\"unknown\",[\"post\",\"description\"]],false],[\"close-element\"],[\"text\",\"\\n            \"],[\"open-element\",\"li\",[]],[\"static-attr\",\"class\",\"list-group-item\"],[\"flush-element\"],[\"append\",[\"unknown\",[\"post\",\"status\"]],false],[\"close-element\"],[\"text\",\"\\n\"]],\"locals\":[]}],\"hasPartials\":false}", "meta": { "moduleName": "ticket-system/templates/components/issue-card.hbs" } });

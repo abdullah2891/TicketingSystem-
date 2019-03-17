@@ -29,6 +29,7 @@ class IssueModel(models.Model):
 	date_created = models.DateTimeField(auto_now_add = True)
 	date_modified = models.DateTimeField(auto_now = True)
 
+	owner =  models.ForeignKey('auth.User', related_name= 'issuemodel' , on_delete = models.CASCADE)
 
 	def __str__(self):
 		return "{}".format(self.title)

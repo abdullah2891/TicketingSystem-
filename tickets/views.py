@@ -30,6 +30,10 @@ class CreateView(generics.ListCreateAPIView):
 	def perform_create(self,  serializers): 
 		serializers.save(owner = self.request.user )
 
+	def filter_queryset(self,queryset):
+		return queryset.filter(owner = self.request.user)
+
+
 
 
 class DetailsView(generics.RetrieveUpdateDestroyAPIView): 
@@ -38,15 +42,16 @@ class DetailsView(generics.RetrieveUpdateDestroyAPIView):
 	permission_classes =  (permissions.IsAuthenticated,IsOwner)
 
 
-
 class IssueView(generics.ListCreateAPIView): 
 	queryset = IssueModel.objects.all()
 	serializer_class =  IssueModelSerializer
 	permission_classes =  (permissions.IsAuthenticated,)
 
 	def perform_create(self, serializers):
-		serializers.save()
-
+		serializers.save(owner = self.request.user )
+	
+	def filter_queryset(self,queryset):
+		return queryset.filter(owner = self.request.user)
 
 class IssueUpdateView(generics.RetrieveUpdateDestroyAPIView):
 	queryset =  IssueModel.objects.all()
@@ -60,7 +65,6 @@ class UserView(generics.CreateAPIView):
 	permission_classes = (permissions.AllowAny,)
 
 	def perform_create(self, serializers): 
-		pprint(serializers.data)
 		# creating the user  
 		data = serializers.data 
 		user =  User.objects.create_user(data['username'] , data['email'] , data['password'] )
