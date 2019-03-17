@@ -15,9 +15,14 @@ export default DS.RESTAdapter.extend({
 
     ajaxOptions(url,type,options){
         console.log(this.get('authService.token'));
-        options.headers = Object.assign({
-            Authorization: `Token ${this.get('authService.token')}`
-        },options.headers);
+
+        options = Object.assign({
+                headers : {
+                    Authorization: `Token ${this.get('authService.token')}`
+                }
+        },options);
+
+
         return this._super(url, type, options);
     }
     

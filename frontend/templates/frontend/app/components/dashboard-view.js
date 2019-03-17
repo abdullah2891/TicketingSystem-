@@ -5,6 +5,7 @@ export default Ember.Component.extend({
 	    setProject(project){
 		    if(project && project.get('issues')){
 			    this.set('selected_issues', project.get('issues'));
+				this.set('selectIssue',null);
 			    this.set('select_project_id', project.get('id'));
 			    this.set('owner', project.get('owner'));
 		    }	

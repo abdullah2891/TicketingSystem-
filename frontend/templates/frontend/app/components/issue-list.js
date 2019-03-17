@@ -18,7 +18,9 @@ export default Ember.Component.extend({
 			this.get('issues').pushObject(issue);
 
 			issue.save()
-				.then(console.log)
+				.then(()=>{
+					this.set('issueTitle',null);
+				})
 				.catch(console.warn);
 			
 		},

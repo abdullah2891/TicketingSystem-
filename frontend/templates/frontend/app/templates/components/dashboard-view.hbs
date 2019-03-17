@@ -1,5 +1,5 @@
 <div class="layout-row flex">
-  <div class="flex-20">
+  <div class="flex-20 table-divider">
 	  {{project-list
 		projects= model.projects
 		setProject = (action 'setProject')
@@ -9,6 +9,7 @@
 	{{issue-list
 		issues = selected_issues
 		projectId = select_project_id
+		selectIssue = selectIssue
 		owner=owner
 	 }}
   </div>
