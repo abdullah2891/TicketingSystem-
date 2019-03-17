@@ -914,24 +914,45 @@ define('ticket-system/controllers/application', ['exports', 'ember'], function (
   exports['default'] = _ember['default'].Controller.extend({});
 });
 define('ticket-system/controllers/login', ['exports', 'ember'], function (exports, _ember) {
-				var inject = _ember['default'].inject;
-				exports['default'] = _ember['default'].Controller.extend({
-								authService: inject.service(),
+	var inject = _ember['default'].inject;
+	exports['default'] = _ember['default'].Controller.extend({
+		authService: inject.service(),
+		showRegister: false,
 
-								actions: {
-												loginAction: function loginAction() {
-																var _this = this;
+		actions: {
+			loginAction: function loginAction() {
+				var _this = this;
 
-																console.warn("login");
-																var username = this.get('username');
-																var password = this.get('password');
+				console.warn("login");
+				var username = this.get('username');
+				var password = this.get('password');
 
-																this.get("authService").authenticate(username, password).then(function () {
-																				_this.transitionToRoute('index');
-																});
-												}
-								}
+				this.get("authService").authenticate(username, password).then(function () {
+					_this.transitionToRoute('index');
 				});
+			},
+			register: function register() {
+				var _this2 = this;
+
+				var showRegister = this.get('showRegister');
+
+				if (showRegister) {
+					var _getProperties = this.getProperties('username', 'password', 'email');
+
+					var username = _getProperties.username;
+					var password = _getProperties.password;
+					var email = _getProperties.email;
+
+					this.get('authService').register(username, password, email).then(function () {
+						_this2.transitionToRoute('index');
+					});
+				} else {
+					this.set('showRegister', true);
+				}
+			}
+		}
+
+	});
 });
 define('ticket-system/helpers/-paper-underscore', ['exports', 'ember-paper/helpers/underscore'], function (exports, _emberPaperHelpersUnderscore) {
   Object.defineProperty(exports, 'default', {
@@ -1625,27 +1646,38 @@ define('ticket-system/services/ajax', ['exports', 'ember-ajax/services/ajax'], f
 define('ticket-system/services/auth-service', ['exports', 'ember'], function (exports, _ember) {
 	exports['default'] = _ember['default'].Service.extend({
 		token: null,
+
+		ajaxAction: function ajaxAction(url, data) {
+			return new Promise(function (resolve, reject) {
+				$.ajax({
+					url: url,
+					method: 'POST',
+					data: JSON.stringify(data),
+					contentType: "application/json;charset=utf-8"
+				}).done(function (response) {
+					resolve(response);
+				}).fail(function (error) {
+					reject(error);
+				});
+			});
+		},
+
 		authenticate: function authenticate(username, password) {
 			var _this = this;
 
-			return new Promise(function (resolve, reject) {
-				$.ajax({
-					url: '/api/token/',
-					method: 'POST',
-					data: JSON.stringify({
-						username: username,
-						password: password
-					}),
-					contentType: "application/json;charset=utf-8"
+			return this.ajaxAction('api/token/', { username: username, password: password }).then(function (response) {
+				console.log(response.token, "test");
+				_this.set('token', response.token);
+			})['catch'](function (error) {
+				console.log(error);
+			});
+		},
 
-				}).done(function (response) {
-					console.log(response.token, "test");
-					_this.set('token', response.token);
-					resolve();
-				}).fail(function (error) {
-					console.log(error);
-					reject();
-				});
+		register: function register(username, password, email) {
+			var _this2 = this;
+
+			return this.ajaxAction('api/accounts', { username: username, password: password, email: email }).then(function (response) {
+				return _this2.authenticate(response.username, response.password);
 			});
 		}
 	});
@@ -1875,7 +1907,7 @@ define("ticket-system/templates/issues", ["exports"], function (exports) {
   exports["default"] = Ember.HTMLBars.template({ "id": "HO31xKGw", "block": "{\"statements\":[[\"append\",[\"unknown\",[\"nav-bar\"]],false],[\"text\",\"\\n\"],[\"open-element\",\"div\",[]],[\"static-attr\",\"class\",\"container-fluid \"],[\"flush-element\"],[\"text\",\"\\n    \"],[\"append\",[\"helper\",[\"dashboard-view\"],null,[[\"model\"],[[\"get\",[\"model\"]]]]],false],[\"text\",\" \\n\"],[\"close-element\"],[\"text\",\"\\n\"]],\"locals\":[],\"named\":[],\"yields\":[],\"blocks\":[],\"hasPartials\":false}", "meta": { "moduleName": "ticket-system/templates/issues.hbs" } });
 });
 define("ticket-system/templates/login", ["exports"], function (exports) {
-  exports["default"] = Ember.HTMLBars.template({ "id": "gZr8EKNZ", "block": "{\"statements\":[[\"open-element\",\"div\",[]],[\"static-attr\",\"class\",\"container-fluid\"],[\"static-attr\",\"id\",\"login-box\"],[\"flush-element\"],[\"text\",\"\\n    \"],[\"open-element\",\"div\",[]],[\"static-attr\",\"class\",\"layout-row flex\"],[\"flush-element\"],[\"text\",\"\\n        \"],[\"open-element\",\"div\",[]],[\"static-attr\",\"class\",\"flex-30\"],[\"flush-element\"],[\"text\",\"\\n        \"],[\"close-element\"],[\"text\",\"\\n        \"],[\"open-element\",\"div\",[]],[\"static-attr\",\"class\",\"flex-60\"],[\"flush-element\"],[\"text\",\"\\n\"],[\"block\",[\"paper-form\"],null,[[\"onSubmit\"],[[\"helper\",[\"action\"],[[\"get\",[null]],\"loginAction\"],null]]],1],[\"text\",\"            \\n        \"],[\"close-element\"],[\"text\",\"\\n        \\n    \"],[\"close-element\"],[\"text\",\"\\n\"],[\"close-element\"],[\"text\",\"\\n\"]],\"locals\":[],\"named\":[],\"yields\":[],\"blocks\":[{\"statements\":[[\"text\",\"Submit\"]],\"locals\":[]},{\"statements\":[[\"text\",\"              \"],[\"open-element\",\"div\",[]],[\"static-attr\",\"class\",\"layout-row\"],[\"flush-element\"],[\"text\",\"\\n                \"],[\"open-element\",\"div\",[]],[\"static-attr\",\"class\",\"layout-column flex-50\"],[\"flush-element\"],[\"text\",\"\\n                  \"],[\"append\",[\"helper\",[\"form\",\"input\"],null,[[\"label\",\"value\",\"onChange\",\"required\"],[\"Username\",[\"get\",[\"username\"]],[\"helper\",[\"action\"],[[\"get\",[null]],[\"helper\",[\"mut\"],[[\"get\",[\"username\"]]],null]],null],true]]],false],[\"text\",\"\\n                  \"],[\"append\",[\"helper\",[\"form\",\"input\"],null,[[\"label\",\"value\",\"onChange\"],[\"Password\",[\"get\",[\"password\"]],[\"helper\",[\"action\"],[[\"get\",[null]],[\"helper\",[\"mut\"],[[\"get\",[\"password\"]]],null]],null]]]],false],[\"text\",\"\\n                \"],[\"close-element\"],[\"text\",\"\\n              \"],[\"close-element\"],[\"text\",\"\\n              \"],[\"open-element\",\"div\",[]],[\"static-attr\",\"class\",\"layout-row\"],[\"flush-element\"],[\"text\",\"\\n                \"],[\"block\",[\"form\",\"submit-button\"],null,[[\"raised\",\"primary\"],[true,true]],0],[\"text\",\"\\n              \"],[\"close-element\"],[\"text\",\"\\n\"]],\"locals\":[\"form\"]}],\"hasPartials\":false}", "meta": { "moduleName": "ticket-system/templates/login.hbs" } });
+  exports["default"] = Ember.HTMLBars.template({ "id": "lVyd0NaY", "block": "{\"statements\":[[\"open-element\",\"div\",[]],[\"static-attr\",\"class\",\"container-fluid\"],[\"static-attr\",\"id\",\"login-box\"],[\"flush-element\"],[\"text\",\"\\n    \"],[\"open-element\",\"div\",[]],[\"static-attr\",\"class\",\"layout-row flex\"],[\"flush-element\"],[\"text\",\"\\n        \"],[\"open-element\",\"div\",[]],[\"static-attr\",\"class\",\"flex-30\"],[\"flush-element\"],[\"text\",\"\\n        \"],[\"close-element\"],[\"text\",\"\\n\"],[\"block\",[\"unless\"],[[\"get\",[\"showRegister\"]]],null,6,2],[\"text\",\"        \\n    \"],[\"close-element\"],[\"text\",\"\\n\"],[\"close-element\"],[\"text\",\"\\n\"]],\"locals\":[],\"named\":[],\"yields\":[],\"blocks\":[{\"statements\":[[\"text\",\"Register\"]],\"locals\":[]},{\"statements\":[[\"text\",\"                  \"],[\"open-element\",\"div\",[]],[\"static-attr\",\"class\",\"layout-row\"],[\"flush-element\"],[\"text\",\"\\n                    \"],[\"open-element\",\"div\",[]],[\"static-attr\",\"class\",\"layout-column flex-100\"],[\"flush-element\"],[\"text\",\"\\n                      \"],[\"append\",[\"helper\",[\"form\",\"input\"],null,[[\"label\",\"value\",\"onChange\",\"required\"],[\"Username\",[\"get\",[\"username\"]],[\"helper\",[\"action\"],[[\"get\",[null]],[\"helper\",[\"mut\"],[[\"get\",[\"username\"]]],null]],null],true]]],false],[\"text\",\"\\n                      \"],[\"append\",[\"helper\",[\"form\",\"input\"],null,[[\"label\",\"value\",\"onChange\"],[\"Password\",[\"get\",[\"password\"]],[\"helper\",[\"action\"],[[\"get\",[null]],[\"helper\",[\"mut\"],[[\"get\",[\"password\"]]],null]],null]]]],false],[\"text\",\"\\n\\n                      \"],[\"append\",[\"helper\",[\"form\",\"input\"],null,[[\"label\",\"value\",\"onChange\"],[\"Email\",[\"get\",[\"email\"]],[\"helper\",[\"action\"],[[\"get\",[null]],[\"helper\",[\"mut\"],[[\"get\",[\"email\"]]],null]],null]]]],false],[\"text\",\"\\n                    \"],[\"close-element\"],[\"text\",\"\\n                  \"],[\"close-element\"],[\"text\",\"\\n                  \"],[\"open-element\",\"div\",[]],[\"static-attr\",\"class\",\"layout-row\"],[\"flush-element\"],[\"text\",\"\\n                    \"],[\"block\",[\"form\",\"submit-button\"],null,[[\"raised\",\"primary\"],[true,true]],0],[\"text\",\"\\n                  \"],[\"close-element\"],[\"text\",\"\\n\"]],\"locals\":[\"form\"]},{\"statements\":[[\"text\",\"            \"],[\"open-element\",\"div\",[]],[\"static-attr\",\"class\",\"flex-30 form\"],[\"flush-element\"],[\"text\",\"\\n\"],[\"block\",[\"paper-form\"],null,[[\"onSubmit\"],[[\"helper\",[\"action\"],[[\"get\",[null]],\"register\"],null]]],1],[\"text\",\"            \"],[\"close-element\"],[\"text\",\"\\n\"]],\"locals\":[]},{\"statements\":[[\"text\",\"Register\"]],\"locals\":[]},{\"statements\":[[\"text\",\"Submit\"]],\"locals\":[]},{\"statements\":[[\"text\",\"                  \"],[\"open-element\",\"div\",[]],[\"static-attr\",\"class\",\"layout-row\"],[\"flush-element\"],[\"text\",\"\\n                    \"],[\"open-element\",\"div\",[]],[\"static-attr\",\"class\",\"layout-column flex-100\"],[\"flush-element\"],[\"text\",\"\\n                      \"],[\"append\",[\"helper\",[\"form\",\"input\"],null,[[\"label\",\"value\",\"onChange\",\"required\"],[\"Username\",[\"get\",[\"username\"]],[\"helper\",[\"action\"],[[\"get\",[null]],[\"helper\",[\"mut\"],[[\"get\",[\"username\"]]],null]],null],true]]],false],[\"text\",\"\\n                      \"],[\"append\",[\"helper\",[\"form\",\"input\"],null,[[\"label\",\"value\",\"onChange\"],[\"Password\",[\"get\",[\"password\"]],[\"helper\",[\"action\"],[[\"get\",[null]],[\"helper\",[\"mut\"],[[\"get\",[\"password\"]]],null]],null]]]],false],[\"text\",\"\\n                    \"],[\"close-element\"],[\"text\",\"\\n                  \"],[\"close-element\"],[\"text\",\"\\n                  \"],[\"open-element\",\"div\",[]],[\"static-attr\",\"class\",\"layout-row\"],[\"flush-element\"],[\"text\",\"\\n                    \"],[\"block\",[\"form\",\"submit-button\"],null,[[\"raised\",\"primary\"],[true,true]],4],[\"text\",\"\\n                    \"],[\"block\",[\"form\",\"submit-button\"],null,[[\"raised\",\"onClick\",\"primary\"],[true,[\"helper\",[\"action\"],[[\"get\",[null]],\"register\"],null],true]],3],[\"text\",\"\\n                  \"],[\"close-element\"],[\"text\",\"\\n\"]],\"locals\":[\"form\"]},{\"statements\":[[\"text\",\"            \"],[\"open-element\",\"div\",[]],[\"static-attr\",\"class\",\"flex-30 form\"],[\"flush-element\"],[\"text\",\"\\n\"],[\"block\",[\"paper-form\"],null,[[\"onSubmit\"],[[\"helper\",[\"action\"],[[\"get\",[null]],\"loginAction\"],null]]],5],[\"text\",\"                \\n            \"],[\"close-element\"],[\"text\",\"\\n\"]],\"locals\":[]}],\"hasPartials\":false}", "meta": { "moduleName": "ticket-system/templates/login.hbs" } });
 });
 define("ticket-system/templates/projects", ["exports"], function (exports) {
   exports["default"] = Ember.HTMLBars.template({ "id": "Bj5cqgur", "block": "{\"statements\":[[\"text\",\"\\n\"],[\"open-element\",\"ul\",[]],[\"static-attr\",\"class\",\"list-group\"],[\"flush-element\"],[\"text\",\"\\n\"],[\"block\",[\"each\"],[[\"get\",[\"model\"]]],null,0],[\"text\",\"\\n\"],[\"close-element\"]],\"locals\":[],\"named\":[],\"yields\":[],\"blocks\":[{\"statements\":[[\"text\",\"    \\n                \"],[\"append\",[\"helper\",[\"log\"],[[\"get\",[\"project\"]]],null],false],[\"text\",\"\\n                \"],[\"open-element\",\"li\",[]],[\"static-attr\",\"class\",\"list-group-item\"],[\"flush-element\"],[\"text\",\"\\n                    \"],[\"append\",[\"helper\",[\"project-component\"],null,[[\"name\",\"project_id\"],[[\"get\",[\"project\",\"Project\"]],[\"get\",[\"project\",\"id\"]]]]],false],[\"text\",\"\\n                \"],[\"close-element\"],[\"text\",\"\\n\"]],\"locals\":[\"project\"]}],\"hasPartials\":false}", "meta": { "moduleName": "ticket-system/templates/projects.hbs" } });
@@ -1916,6 +1948,6 @@ catch(err) {
 });
 
 if (!runningTests) {
-  require("ticket-system/app")["default"].create({"name":"ticket-system","version":"0.0.0+f80a55d9"});
+  require("ticket-system/app")["default"].create({"name":"ticket-system","version":"0.0.0+0e7a2eaa"});
 }
 //# sourceMappingURL=ticket-system.map

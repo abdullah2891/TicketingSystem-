@@ -2,20 +2,39 @@
     <div class="layout-row flex">
         <div class="flex-30">
         </div>
-        <div class="flex-60">
-           {{#paper-form onSubmit=(action "loginAction") as |form|}}
-              <div class="layout-row">
-                <div class="layout-column flex-50">
-                  {{form.input label="Username" value=username onChange=(action (mut username)) required=true}}
-                  {{form.input label="Password" value=password onChange=(action (mut password))}}
-                </div>
-              </div>
-              <div class="layout-row">
-                {{#form.submit-button raised=true primary=true}}Submit{{/form.submit-button}}
-              </div>
-            {{/paper-form}} 
-            
-        </div>
+        {{#unless showRegister}}
+            <div class="flex-30 form">
+               {{#paper-form onSubmit=(action "loginAction") as |form|}}
+                  <div class="layout-row">
+                    <div class="layout-column flex-100">
+                      {{form.input label="Username" value=username onChange=(action (mut username)) required=true}}
+                      {{form.input label="Password" value=password onChange=(action (mut password))}}
+                    </div>
+                  </div>
+                  <div class="layout-row">
+                    {{#form.submit-button raised=true primary=true}}Submit{{/form.submit-button}}
+                    {{#form.submit-button raised=true onClick =(action 'register') primary=true}}Register{{/form.submit-button}}
+                  </div>
+                {{/paper-form}} 
+                
+            </div>
+        {{else}}
+            <div class="flex-30 form">
+               {{#paper-form onSubmit=(action "register") as |form|}}
+                  <div class="layout-row">
+                    <div class="layout-column flex-100">
+                      {{form.input label="Username" value=username onChange=(action (mut username)) required=true}}
+                      {{form.input label="Password" value=password onChange=(action (mut password))}}
+
+                      {{form.input label="Email" value=email onChange=(action (mut email))}}
+                    </div>
+                  </div>
+                  <div class="layout-row">
+                    {{#form.submit-button raised=true primary=true}}Register{{/form.submit-button}}
+                  </div>
+                {{/paper-form}} 
+            </div>
+        {{/unless}}
         
     </div>
 </div>

@@ -168,7 +168,7 @@ define('ticket-system/tests/controllers/login.jshint.lint-test', [], function ()
   QUnit.module('JSHint | controllers/login.js');
   QUnit.test('should pass jshint', function (assert) {
     assert.expect(1);
-    assert.ok(false, 'controllers/login.js should pass jshint.\ncontrollers/login.js: line 9, col 34, Missing semicolon.\n\n1 error');
+    assert.ok(false, 'controllers/login.js should pass jshint.\ncontrollers/login.js: line 10, col 34, Missing semicolon.\ncontrollers/login.js: line 28, col 23, Missing semicolon.\n\n2 errors');
   });
 });
 define('ticket-system/tests/helpers/compare-string.jshint.lint-test', [], function () {
@@ -461,44 +461,6 @@ define('ticket-system/tests/integration/components/issue-list-test.jshint.lint-t
   QUnit.test('should pass jshint', function (assert) {
     assert.expect(1);
     assert.ok(true, 'integration/components/issue-list-test.js should pass jshint.');
-  });
-});
-define('ticket-system/tests/integration/components/login-page-test', ['exports', 'ember-qunit'], function (exports, _emberQunit) {
-
-  (0, _emberQunit.moduleForComponent)('login-page', 'Integration | Component | login page', {
-    integration: true
-  });
-
-  (0, _emberQunit.test)('it renders', function (assert) {
-
-    // Set any properties with this.set('myProperty', 'value');
-    // Handle any actions with this.on('myAction', function(val) { ... });
-
-    this.render(Ember.HTMLBars.template({
-      'id': 'Z1wVPWAb',
-      'block': '{"statements":[["append",["unknown",["login-page"]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
-      'meta': {}
-    }));
-
-    assert.equal(this.$().text().trim(), '');
-
-    // Template block usage:
-    this.render(Ember.HTMLBars.template({
-      'id': 'RiSEie/P',
-      'block': '{"statements":[["text","\\n"],["block",["login-page"],null,null,0],["text","  "]],"locals":[],"named":[],"yields":[],"blocks":[{"statements":[["text","      template block text\\n"]],"locals":[]}],"hasPartials":false}',
-      'meta': {}
-    }));
-
-    assert.equal(this.$().text().trim(), 'template block text');
-  });
-});
-define('ticket-system/tests/integration/components/login-page-test.jshint.lint-test', [], function () {
-  'use strict';
-
-  QUnit.module('JSHint | integration/components/login-page-test.js');
-  QUnit.test('should pass jshint', function (assert) {
-    assert.expect(1);
-    assert.ok(true, 'integration/components/login-page-test.js should pass jshint.');
   });
 });
 define('ticket-system/tests/integration/components/my-modal-test', ['exports', 'ember-qunit'], function (exports, _emberQunit) {
@@ -888,7 +850,7 @@ define('ticket-system/tests/services/auth-service.jshint.lint-test', [], functio
   QUnit.module('JSHint | services/auth-service.js');
   QUnit.test('should pass jshint', function (assert) {
     assert.expect(1);
-    assert.ok(false, 'services/auth-service.js should pass jshint.\nservices/auth-service.js: line 17, col 56, Missing semicolon.\nservices/auth-service.js: line 21, col 39, Missing semicolon.\nservices/auth-service.js: line 6, col 25, \'Promise\' is not defined.\nservices/auth-service.js: line 7, col 17, \'$\' is not defined.\n\n4 errors');
+    assert.ok(false, 'services/auth-service.js should pass jshint.\nservices/auth-service.js: line 15, col 42, Missing semicolon.\nservices/auth-service.js: line 18, col 38, Missing semicolon.\nservices/auth-service.js: line 26, col 60, Missing semicolon.\nservices/auth-service.js: line 29, col 43, Missing semicolon.\nservices/auth-service.js: line 35, col 88, Missing semicolon.\nservices/auth-service.js: line 7, col 20, \'Promise\' is not defined.\nservices/auth-service.js: line 8, col 17, \'$\' is not defined.\n\n7 errors');
   });
 });
 define('ticket-system/tests/test-helper', ['exports', 'ticket-system/tests/helpers/resolver', 'ember-qunit'], function (exports, _ticketSystemTestsHelpersResolver, _emberQunit) {
@@ -970,50 +932,6 @@ define('ticket-system/tests/unit/adapters/project-test.jshint.lint-test', [], fu
     assert.ok(true, 'unit/adapters/project-test.js should pass jshint.');
   });
 });
-define('ticket-system/tests/unit/controllers/application-test', ['exports', 'ember-qunit'], function (exports, _emberQunit) {
-
-  (0, _emberQunit.moduleFor)('controller:application', 'Unit | Controller | application', {
-    // Specify the other units that are required for this test.
-    // needs: ['controller:foo']
-  });
-
-  // Replace this with your real tests.
-  (0, _emberQunit.test)('it exists', function (assert) {
-    var controller = this.subject();
-    assert.ok(controller);
-  });
-});
-define('ticket-system/tests/unit/controllers/application-test.jshint.lint-test', [], function () {
-  'use strict';
-
-  QUnit.module('JSHint | unit/controllers/application-test.js');
-  QUnit.test('should pass jshint', function (assert) {
-    assert.expect(1);
-    assert.ok(true, 'unit/controllers/application-test.js should pass jshint.');
-  });
-});
-define('ticket-system/tests/unit/controllers/login-test', ['exports', 'ember-qunit'], function (exports, _emberQunit) {
-
-  (0, _emberQunit.moduleFor)('controller:login', 'Unit | Controller | login', {
-    // Specify the other units that are required for this test.
-    // needs: ['controller:foo']
-  });
-
-  // Replace this with your real tests.
-  (0, _emberQunit.test)('it exists', function (assert) {
-    var controller = this.subject();
-    assert.ok(controller);
-  });
-});
-define('ticket-system/tests/unit/controllers/login-test.jshint.lint-test', [], function () {
-  'use strict';
-
-  QUnit.module('JSHint | unit/controllers/login-test.js');
-  QUnit.test('should pass jshint', function (assert) {
-    assert.expect(1);
-    assert.ok(true, 'unit/controllers/login-test.js should pass jshint.');
-  });
-});
 define('ticket-system/tests/unit/helpers/compare-string-test', ['exports', 'ticket-system/helpers/compare-string', 'qunit'], function (exports, _ticketSystemHelpersCompareString, _qunit) {
 
   (0, _qunit.module)('Unit | Helper | compare string');
@@ -1031,28 +949,6 @@ define('ticket-system/tests/unit/helpers/compare-string-test.jshint.lint-test', 
   QUnit.test('should pass jshint', function (assert) {
     assert.expect(1);
     assert.ok(true, 'unit/helpers/compare-string-test.js should pass jshint.');
-  });
-});
-define('ticket-system/tests/unit/models/auth-test', ['exports', 'ember-qunit'], function (exports, _emberQunit) {
-
-  (0, _emberQunit.moduleForModel)('auth', 'Unit | Model | auth', {
-    // Specify the other units that are required for this test.
-    needs: []
-  });
-
-  (0, _emberQunit.test)('it exists', function (assert) {
-    var model = this.subject();
-    // let store = this.store();
-    assert.ok(!!model);
-  });
-});
-define('ticket-system/tests/unit/models/auth-test.jshint.lint-test', [], function () {
-  'use strict';
-
-  QUnit.module('JSHint | unit/models/auth-test.js');
-  QUnit.test('should pass jshint', function (assert) {
-    assert.expect(1);
-    assert.ok(true, 'unit/models/auth-test.js should pass jshint.');
   });
 });
 define('ticket-system/tests/unit/models/issue-test', ['exports', 'ember-qunit'], function (exports, _emberQunit) {
@@ -1141,27 +1037,6 @@ define('ticket-system/tests/unit/models/test-test.jshint.lint-test', [], functio
   QUnit.test('should pass jshint', function (assert) {
     assert.expect(1);
     assert.ok(true, 'unit/models/test-test.js should pass jshint.');
-  });
-});
-define('ticket-system/tests/unit/routes/application-test', ['exports', 'ember-qunit'], function (exports, _emberQunit) {
-
-  (0, _emberQunit.moduleFor)('route:application', 'Unit | Route | application', {
-    // Specify the other units that are required for this test.
-    // needs: ['controller:foo']
-  });
-
-  (0, _emberQunit.test)('it exists', function (assert) {
-    var route = this.subject();
-    assert.ok(route);
-  });
-});
-define('ticket-system/tests/unit/routes/application-test.jshint.lint-test', [], function () {
-  'use strict';
-
-  QUnit.module('JSHint | unit/routes/application-test.js');
-  QUnit.test('should pass jshint', function (assert) {
-    assert.expect(1);
-    assert.ok(true, 'unit/routes/application-test.js should pass jshint.');
   });
 });
 define('ticket-system/tests/unit/routes/index-test', ['exports', 'ember-qunit'], function (exports, _emberQunit) {
@@ -1388,28 +1263,6 @@ define('ticket-system/tests/unit/serializers/test-test.jshint.lint-test', [], fu
   QUnit.test('should pass jshint', function (assert) {
     assert.expect(1);
     assert.ok(true, 'unit/serializers/test-test.js should pass jshint.');
-  });
-});
-define('ticket-system/tests/unit/services/auth-service-test', ['exports', 'ember-qunit'], function (exports, _emberQunit) {
-
-  (0, _emberQunit.moduleFor)('service:auth-service', 'Unit | Service | auth service', {
-    // Specify the other units that are required for this test.
-    // needs: ['service:foo']
-  });
-
-  // Replace this with your real tests.
-  (0, _emberQunit.test)('it exists', function (assert) {
-    var service = this.subject();
-    assert.ok(service);
-  });
-});
-define('ticket-system/tests/unit/services/auth-service-test.jshint.lint-test', [], function () {
-  'use strict';
-
-  QUnit.module('JSHint | unit/services/auth-service-test.js');
-  QUnit.test('should pass jshint', function (assert) {
-    assert.expect(1);
-    assert.ok(true, 'unit/services/auth-service-test.js should pass jshint.');
   });
 });
 require('ticket-system/tests/test-helper');

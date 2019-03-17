@@ -19685,6 +19685,14 @@ md-menu-content.md-dense md-menu-item {
   min-height: 32px;
 }
 
+#login-box {
+  margin-top: 20vh;
+}
+#login-box .form {
+  border: solid 0.1px #ece2e2;
+  padding: 20px;
+}
+
 .padding-left-10 {
   padding-left: 10px;
 }
@@ -19707,10 +19715,6 @@ md-menu-content.md-dense md-menu-item {
 
 .pointer {
   cursor: pointer;
-}
-
-#login-box {
-  margin-top: 20vh;
 }
 
 .project-tile {

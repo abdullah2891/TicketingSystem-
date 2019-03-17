@@ -3,6 +3,7 @@ const {inject} = Ember;
 
 export default Ember.Controller.extend({
     authService: inject.service(),
+	showRegister: false,
 
     actions:{
         loginAction(){
@@ -15,6 +16,22 @@ export default Ember.Controller.extend({
                         this.transitionToRoute('index');
 					});
 
-            }
+		},
+		register(){
+			const showRegister = this.get('showRegister');
+			
+			if(showRegister){
+				const {username, password, email} = this.getProperties('username', 'password','email');
+				this.get('authService').register(username, password, email)
+					.then(()=>{
+						this.transitionToRoute('index');
+					})
+
+			}else{
+				this.set('showRegister',true);
+			}
+		}
     }
+
+
 });
