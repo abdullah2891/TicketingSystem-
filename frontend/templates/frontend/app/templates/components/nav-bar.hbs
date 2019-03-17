@@ -2,8 +2,8 @@
   {{#paper-toolbar-tools}}
     <h2>Ticketing System</h2>
     <span class="flex"></span>
-    {{#paper-button iconButton=true}}
-      {{paper-icon "check-circle"}}
+    {{#paper-button  onClick=(action "logout") iconButton=true}}
+      {{paper-icon  "logout"}}
     {{/paper-button}}
   {{/paper-toolbar-tools}}
 {{/paper-toolbar}}

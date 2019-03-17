@@ -1,10 +1,13 @@
 import Ember from 'ember';
+const {inject } = Ember;
+
 
 export default Ember.Component.extend({
-    hideModal:false, 
+    authService: inject.service(),
     actions:{
-        showModal(){
-            this.toggleProperty('hideModal');
-        }
+       logout(){
+           this.get('authService').createCookie('token','');
+           window.open('/','_self');
+       }
     }
 });
